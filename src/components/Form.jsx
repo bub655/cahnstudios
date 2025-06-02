@@ -4,7 +4,7 @@ const Form = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    message: ''
+    phone: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState('');
@@ -22,35 +22,41 @@ const Form = () => {
     setSubmitStatus('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/contact', {
+      const response = await fetch('http://localhost:3001/api/contact', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData)
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
       });
 
       if (response.ok) {
-        setSubmitStatus('Message sent successfully!');
-        setFormData({ name: '', email: '', message: '' });
+        setSubmitStatus('We will send out the registration details shortly!');
+        setFormData({ name: '', email: '', phone: '' });
       } else {
-        setSubmitStatus('Failed to send message. Please try again.');
+        setSubmitStatus('Registration failed. Please try again.');
       }
     } catch (error) {
       console.error('Error:', error);
-      setSubmitStatus('Failed to send message. Please try again.');
+      setSubmitStatus('Registration failed. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <section className="contact-form">
-      <div className="container">
-        <h2>Contact Us</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="name">Name:</label>
+    <section
+      id="register-section"
+      className="py-16 bg-gray-50 flex justify-center"
+    >
+      <div className="w-full max-w-lg bg-white rounded-lg shadow-md p-8">
+        <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-8 text-center">
+          Register Now
+        </h2>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Name */}
+          <div className="flex flex-col">
+            <label htmlFor="name" className="text-gray-700 mb-1">
+              Name
+            </label>
             <input
               type="text"
               id="name"
@@ -58,11 +64,16 @@ const Form = () => {
               value={formData.name}
               onChange={handleChange}
               required
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+              placeholder="Your full name"
             />
           </div>
-          
-          <div className="form-group">
-            <label htmlFor="email">Email:</label>
+
+          {/* Email */}
+          <div className="flex flex-col">
+            <label htmlFor="email" className="text-gray-700 mb-1">
+              Email
+            </label>
             <input
               type="email"
               id="email"
@@ -70,29 +81,50 @@ const Form = () => {
               value={formData.email}
               onChange={handleChange}
               required
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+              placeholder="you@example.com"
             />
           </div>
-          
-          <div className="form-group">
-            <label htmlFor="message">Message:</label>
-            <textarea
-              id="message"
-              name="message"
-              value={formData.message}
+
+          {/* Phone */}
+          <div className="flex flex-col">
+            <label htmlFor="phone" className="text-gray-700 mb-1">
+              Phone
+            </label>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              value={formData.phone}
               onChange={handleChange}
-              rows="5"
               required
-            ></textarea>
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+              placeholder="+1 (555) 123-4567"
+            />
           </div>
-          
-          <button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? 'Sending...' : 'Send Message'}
+
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className={`w-full py-3 text-lg font-semibold rounded-md transition ${
+              isSubmitting
+                ? 'bg-gray-400 cursor-not-allowed text-gray-200'
+                : 'bg-blue-600 hover:bg-blue-700 text-white'
+            }`}
+          >
+            {isSubmitting ? 'Registering...' : 'Register for Webinar'}
           </button>
-          
+
           {submitStatus && (
-            <div className={`status-message ${submitStatus.includes('successfully') ? 'success' : 'error'}`}>
+            <p
+              className={`mt-4 text-center ${
+                submitStatus.includes('registration')
+                  ? 'text-green-600'
+                  : 'text-red-600'
+              }`}
+            >
               {submitStatus}
-            </div>
+            </p>
           )}
         </form>
       </div>

@@ -1,12 +1,19 @@
 import React from "react";
 
 export default function Showcase() {
+  const scrollToRegister = () => {
+    const el = document.getElementById("register-section");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <section className="relative w-full h-screen overflow-hidden flex items-center justify-center">
       {/* Video Background */}
       <video
         className="absolute top-0 left-0 w-full h-full object-cover"
-        src="./public/showcase.mp4" 
+        src="./public/showcase.mp4"
         autoPlay
         loop
         muted
@@ -23,10 +30,17 @@ export default function Showcase() {
           Unlock the power of AI in content creation and advertising
         </p>
         <p className="text-lg text-gray-300 mb-12 max-w-4xl mx-auto">
-          Join us for an immersive, hands-on webinar designed to help creators, marketers, and entrepreneurs elevate their content and ad strategies using cutting-edge AI tools. Whether you're a beginner or looking to scale your efforts, this session will walk you through practical workflows that save time, increase impact, and ignite creativity.
+          Join us for an immersive, hands-on webinar designed to help creators,
+          marketers, and entrepreneurs elevate their content and ad strategies
+          using cutting-edge AI tools. Whether you’re a beginner or looking to
+          scale your efforts, this session will walk you through practical
+          workflows that save time, increase impact, and ignite creativity.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <button className="px-8 py-4 bg-blue-600 text-white text-lg font-semibold rounded-full shadow-lg hover:bg-blue-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+          <button
+            onClick={scrollToRegister}
+            className="px-8 py-4 bg-blue-600 text-white text-lg font-semibold rounded-full shadow-lg hover:bg-blue-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+          >
             Register Now
           </button>
           <button className="px-8 py-4 bg-transparent border-2 border-blue-600 text-blue-600 text-lg font-semibold rounded-full hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
@@ -37,4 +51,3 @@ export default function Showcase() {
     </section>
   );
 }
-
