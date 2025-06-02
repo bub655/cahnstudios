@@ -36,8 +36,15 @@ function Navbar() {
 
 function Showcase() {
   return (
-    <section className="min-h-screen pt-16 w-full bg-gradient-to-br from-blue-50 via-white to-blue-100 flex items-center justify-center relative overflow-hidden">
-      {/* Background decoration */}
+    <section className="relative w-full min-h-screen pt-16 overflow-hidden">
+      <video
+        className="absolute top-0 left-0 w-full h-full object-cover"
+        src="./public/showcase.mp4"
+        autoPlay
+        loop
+        muted
+      />
+    
       <div className="absolute top-0 left-0 w-full h-full opacity-10">
         <div className="absolute top-20 left-10 w-72 h-72 bg-blue-300 rounded-full filter blur-3xl"></div>
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-300 rounded-full filter blur-3xl"></div>
@@ -54,7 +61,7 @@ function Showcase() {
           <button className="px-8 py-4 bg-blue-600 text-white text-lg font-semibold rounded-full shadow-lg hover:bg-blue-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
             Register Now
           </button>
-          <button className="px-8 py-4 bg-transparent border-2 border-blue-600 text-blue-600 text-lg font-semibold rounded-full hover:bg-blue-600 hover:text-white transition-all duration-300">
+          <button className="px-8 py-4 bg-transparent border-2 border-blue-600 text-blue-600 text-lg font-semibold rounded-full hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
             Learn More
           </button>
         </div>
