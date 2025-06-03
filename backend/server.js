@@ -83,7 +83,7 @@ const PORT = process.env.PORT || 3001;
 
 app.use(
   cors({
-    origin: process.env.FRONT_END_URL || 'http://localhost:5173',
+    origin: process.env.FRONT_END_URL || 'https://cahn-webinar-individual-ivi7.vercel.app' || 'http://localhost:5173',
     credentials: true,
   })
 );
@@ -142,35 +142,6 @@ app.post('/api/create-checkout-session', async (req, res) => {
     return res.status(500).json({ error: 'Unable to create checkout session.' });
   }
 });
-
-/* Webhook: on checkout.session.completed → send confirmation email */
-app.post(
-  '/api/webhook',
-  express.raw({ type: 'application/json' }),
-  async (req, res) => {
-    const sig = req.headers['stripe-signature'];
-    let event;
-
-    try {
-      event = stripe.webhooks.constructEvent(
-        req.body,
-        sig,
-        process.env.STRIPE_WEBHOOK_SECRET
-      );
-    } catch (err) {
-      console.log('Webhook signature verification failed.', err.message);
-      return res.status(400).send(`Webhook Error: ${err.message}`);
-    }
-
-    if (event.type === 'checkout.session.completed') {
-      console.log("WEBHOOK RECEIVED");
-      const session = event.data.object;
-      await handleSuccessfulPayment(session);
-    }
-
-    res.json({ received: true });
-  }
-);
 
 /* Fallback endpoint to send confirmation email */
 app.post('/api/send-confirmation', async (req, res) => {
