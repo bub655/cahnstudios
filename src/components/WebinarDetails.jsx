@@ -1,6 +1,7 @@
 // src/components/WebinarDetails.jsx
 import React from "react";
-import SegmentsCard from "./SegmentsCard";
+import Part1Card from "./Part1Card";
+import Part2Card from "./Part2Card";
 import AudienceCard from "./AudienceCard";
 import OutcomesCard from "./OutcomesCard";
 
@@ -12,8 +13,9 @@ export default function WebinarDetails() {
           🔍 What You’ll Learn
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <SegmentsCard />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <Part1Card />
+          <Part2Card />
           <AudienceCard />
           <OutcomesCard />
         </div>

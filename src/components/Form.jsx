@@ -1,3 +1,4 @@
+// src/Form.jsx
 import React, { useState } from 'react';
 
 const Form = () => {
@@ -22,22 +23,23 @@ const Form = () => {
     setSubmitStatus('');
 
     try {
-      const response = await fetch('http://localhost:3001/api/contact', {
+      const response = await fetch('http://localhost:3001/api/create-checkout-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
 
-      if (response.ok) {
-        setSubmitStatus('We will send out the registration details shortly!');
-        setFormData({ name: '', email: '', phone: '' });
+      const data = await response.json();
+      if (data.url) {
+        // Redirect to Stripe Checkout
+        window.location.href = data.url;
       } else {
-        setSubmitStatus('Registration failed. Please try again.');
+        setSubmitStatus('Failed to start payment. Please try again.');
+        setIsSubmitting(false);
       }
     } catch (error) {
       console.error('Error:', error);
       setSubmitStatus('Registration failed. Please try again.');
-    } finally {
       setIsSubmitting(false);
     }
   };
@@ -45,10 +47,10 @@ const Form = () => {
   return (
     <section
       id="register-section"
-      className="py-16 bg-gray-50 flex justify-center"
+      className="py-16 bg-white flex justify-center"
     >
       <div className="w-full max-w-lg bg-white rounded-lg shadow-md p-8">
-        <h2 className="text-4xl md:text-4xl font-bold text-gray-800 mb-8 text-center">
+        <h2 className="text-4xl font-bold text-gray-800 mb-8 text-center">
           Register Now
         </h2>
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -112,13 +114,13 @@ const Form = () => {
                 : 'bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 text-white hover:from-purple-500 hover:via-pink-500 hover:to-blue-500'
             }`}
           >
-            {isSubmitting ? 'Registering...' : 'Register for Webinar'}
+            {isSubmitting ? 'Processing Payment…' : 'Pay & Register'}
           </button>
 
           {submitStatus && (
             <p
               className={`mt-4 text-center ${
-                submitStatus.includes('Registration failed')
+                submitStatus.includes('failed')
                   ? 'text-red-600'
                   : 'text-green-600'
               }`}
