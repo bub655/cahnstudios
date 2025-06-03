@@ -163,6 +163,7 @@ app.post(
     }
 
     if (event.type === 'checkout.session.completed') {
+      console.log("WEBHOOK RECEIVED");
       const session = event.data.object;
       await handleSuccessfulPayment(session);
     }
@@ -171,13 +172,47 @@ app.post(
   }
 );
 
-async function handleSuccessfulPayment(session) {
-  // Retrieve our metadata fields from session
-  const name = session.metadata.name;
-  const email = session.metadata.email;
-  const phone = session.metadata.phone;
+/* Fallback endpoint to send confirmation email */
+app.post('/api/send-confirmation', async (req, res) => {
+  console.log("RECEIVED REQUEST FOR CONFIRMATION EMAIL");
+  try {
+    console.log("SENDING CONFIRMATION EMAIL");
+    const { session_id } = req.body;
+    
+    if (!session_id) {
+      return res.status(400).json({ error: 'Session ID is required' });
+    }
 
-  console.log(`Payment succeeded for ${name} (${email}, ${phone})`);
+    console.log('Fetching session details for:', session_id);
+    
+    // Retrieve the session from Stripe
+    const session = await stripe.checkout.sessions.retrieve(session_id);
+    
+    if (session.payment_status === 'paid') {
+      console.log('Payment confirmed, sending email...');
+      await handleSuccessfulPayment(session);
+      return res.json({ success: true, message: 'Confirmation email sent' });
+    } else {
+      return res.status(400).json({ error: 'Payment not completed' });
+    }
+  } catch (error) {
+    console.error('Error in send-confirmation:', error);
+    return res.status(500).json({ error: 'Failed to send confirmation email' });
+  }
+});
+
+async function handleSuccessfulPayment(session) {
+    // Retrieve our metadata fields from session
+    const name = session.metadata.name;
+    const email = session.metadata.email;
+    const phone = session.metadata.phone;
+
+    console.log(`Processing payment for ${name} (${email}, ${phone})`);
+
+    if (!email || !name) {
+      console.error('Missing required data:', { name, email, phone });
+      return;
+    }
 
   // Compose and send the confirmation email now that payment is done
   const webinarLink = 'https://www.cahnstudios.com';
