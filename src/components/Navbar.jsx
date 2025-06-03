@@ -6,7 +6,7 @@ export default function Navbar() {
     <nav className="w-full h-16 flex justify-between items-center px-6 bg-white shadow-lg fixed top-0 left-0 z-50 border-b border-gray-100">
       <div className="text-2xl font-bold text-gray-800">
         <a href="/">
-        <img src="/public/CAHN_Logo_Black_RGB.png" alt="Cahn Logo" className="h-8" />
+        <img src="/CAHN_Logo_Black_RGB.png" alt="Cahn Logo" className="h-8" />
         </a>
       </div>
       <ul className="flex space-x-8 text-gray-700 font-medium list-none">
