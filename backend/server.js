@@ -228,3 +228,22 @@ app.listen(PORT, () => {
   console.log(`Backend server running on port ${PORT}`);
   console.log(`Webhook endpoint: http://localhost:${PORT}/api/webhook`);
 });
+
+app.get('/', (req, res) => {
+  res.send(`
+    <html>
+      <head>
+        <title>Server Status</title>
+        <style>
+          body { background: #111; color: #fff; font-family: sans-serif; text-align: center; padding-top: 60px; }
+          .status { font-size: 2rem; margin-bottom: 1rem; }
+        </style>
+      </head>
+      <body>
+        <div class="status">✅ Backend server is running!</div>
+        <div>Environment: <b>${process.env.NODE_ENV || 'development'}</b></div>
+        <div>Port: <b>${PORT}</b></div>
+      </body>
+    </html>
+  `);
+});
