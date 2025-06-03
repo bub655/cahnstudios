@@ -10,15 +10,14 @@ export default function Showcase() {
 
   return (
     <section className="relative w-full h-screen overflow-hidden flex items-center justify-center">
-      {/* Video Background */}
+
       <video
         className="absolute top-0 left-0 w-full h-full object-cover"
         src="./public/showcase.mp4"
         autoPlay
         loop
       />
-
-      {/* Semi-transparent overlay to improve text contrast */}
+      
       <div className="absolute top-0 left-0 w-full h-full bg-black/40"></div>
 
       <div className="relative z-10 flex flex-col items-center justify-center px-6 text-center max-w-4xl mx-auto">

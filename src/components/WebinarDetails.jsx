@@ -1,4 +1,3 @@
-// src/components/WebinarDetails.jsx
 import React from "react";
 import Part1Card from "./Part1Card";
 import Part2Card from "./Part2Card";

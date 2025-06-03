@@ -1,11 +1,8 @@
-/* index.css */
-
 @import "tailwindcss";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Optional: Custom base styles */
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -17,7 +14,6 @@
     line-height: 1.6;
   }
 
-  /* Remove default margins and padding */
   * {
     margin: 0;
     padding: 0;
@@ -25,7 +21,6 @@
   }
 }
 
-/* Optional: Custom component styles */
 @layer components {
   .btn-primary {
     @apply px-6 py-3 bg-blue-600 text-white rounded-full shadow hover:bg-blue-700 transition-all duration-300;
@@ -35,7 +30,6 @@
     @apply px-6 py-3 bg-transparent border-2 border-blue-600 text-blue-600 rounded-full hover:bg-blue-600 hover:text-white transition-all duration-300;
   }
 
-  /* Navbar link styles */
   .nav-link {
     @apply text-black transition-colors duration-200 py-2 px-1 border-b-2 border-transparent;
   }
@@ -46,7 +40,6 @@
   }
 }
 
-/* Optional: Custom utilities */
 @layer utilities {
   .text-shadow {
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -57,7 +50,6 @@
   }
 }
 
-/* Contact Form Styles */
 .contact-form {
   padding: 60px 0;
   background-color: #f8f9fa;

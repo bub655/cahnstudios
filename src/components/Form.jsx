@@ -1,4 +1,3 @@
-// src/Form.jsx
 import React, { useState } from 'react';
 
 const Form = () => {
@@ -31,7 +30,7 @@ const Form = () => {
 
       const data = await response.json();
       if (data.url) {
-        // Redirect to Stripe Checkout
+        // Redirect to Stripe 
         window.location.href = data.url;
       } else {
         setSubmitStatus('Failed to start payment. Please try again.');
@@ -54,7 +53,7 @@ const Form = () => {
           Register Now
         </h2>
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Name */}
+          
           <div className="flex flex-col">
             <label htmlFor="name" className="text-gray-700 mb-1">
               Name
@@ -71,7 +70,6 @@ const Form = () => {
             />
           </div>
 
-          {/* Email */}
           <div className="flex flex-col">
             <label htmlFor="email" className="text-gray-700 mb-1">
               Email
@@ -88,7 +86,6 @@ const Form = () => {
             />
           </div>
 
-          {/* Phone */}
           <div className="flex flex-col">
             <label htmlFor="phone" className="text-gray-700 mb-1">
               Phone
