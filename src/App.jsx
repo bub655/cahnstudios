@@ -12,7 +12,7 @@ export default function App() {
     const checkBackend = async () => {
       try {
         console.log(import.meta.env.VITE_BACKEND_URL);
-        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/health`);
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/health`);
         if (res.ok) {
           const data = await res.json();
           console.log(`✅ Backend running (${data.status})`);

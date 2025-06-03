@@ -102,7 +102,7 @@ const transporter = nodemailer.createTransport({
 app.post('/api/create-checkout-session', async (req, res) => {
   try {
     const { name, email, phone } = req.body;
-    const amount = 11900; //monitary value
+    const amount = 1; //monitary value
 
     if (!name || !email || !phone) {
       return res.status(400).json({ error: 'Name, email, and phone are required.' });
