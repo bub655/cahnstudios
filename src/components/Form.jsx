@@ -48,7 +48,7 @@ const Form = () => {
       className="py-16 bg-gray-50 flex justify-center"
     >
       <div className="w-full max-w-lg bg-white rounded-lg shadow-md p-8">
-        <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-8 text-center">
+        <h2 className="text-4xl md:text-4xl font-bold text-gray-800 mb-8 text-center">
           Register Now
         </h2>
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -106,10 +106,10 @@ const Form = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className={`w-full py-3 text-lg font-semibold rounded-md transition ${
+            className={`w-full py-3 text-lg font-semibold transition rounded-full ${
               isSubmitting
                 ? 'bg-gray-400 cursor-not-allowed text-gray-200'
-                : 'bg-blue-600 hover:bg-blue-700 text-white'
+                : 'bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 text-white hover:from-purple-500 hover:via-pink-500 hover:to-blue-500'
             }`}
           >
             {isSubmitting ? 'Registering...' : 'Register for Webinar'}
@@ -118,9 +118,9 @@ const Form = () => {
           {submitStatus && (
             <p
               className={`mt-4 text-center ${
-                submitStatus.includes('registration')
-                  ? 'text-green-600'
-                  : 'text-red-600'
+                submitStatus.includes('Registration failed')
+                  ? 'text-red-600'
+                  : 'text-green-600'
               }`}
             >
               {submitStatus}

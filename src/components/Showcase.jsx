@@ -16,7 +16,6 @@ export default function Showcase() {
         src="./public/showcase.mp4"
         autoPlay
         loop
-        muted
       />
 
       {/* Semi-transparent overlay to improve text contrast */}
@@ -24,7 +23,10 @@ export default function Showcase() {
 
       <div className="relative z-10 flex flex-col items-center justify-center px-6 text-center max-w-4xl mx-auto">
         <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
-          AI for <span className="text-blue-400">Creatives</span>
+          AI for{" "}
+          <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
+            Creatives
+          </span>
         </h1>
         <p className="text-xl md:text-2xl text-gray-200 mb-8 max-w-3xl mx-auto leading-relaxed">
           Unlock the power of AI in content creation and advertising
@@ -39,12 +41,16 @@ export default function Showcase() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <button
             onClick={scrollToRegister}
-            className="px-8 py-4 bg-blue-600 text-white text-lg font-semibold rounded-full shadow-lg hover:bg-blue-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+            className="px-8 py-4 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
           >
-            Register Now
+            <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent font-semibold text-lg">
+              Register Now
+            </span>
           </button>
-          <button className="px-8 py-4 bg-transparent border-2 border-blue-600 text-blue-600 text-lg font-semibold rounded-full hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-            Learn More
+          <button className="px-8 py-4 bg-transparent border-2 border-white rounded-full hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+            <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent font-semibold text-lg">
+              Learn More
+            </span>
           </button>
         </div>
       </div>
