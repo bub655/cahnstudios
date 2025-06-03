@@ -32,7 +32,7 @@ export default function Showcase() {
         <video
           ref={videoRef}
           className="absolute top-0 left-0 w-full h-full object-cover"
-          src="./public/showcase.mp4"
+          src="/showcase.mp4"
           autoPlay
           loop
         />
