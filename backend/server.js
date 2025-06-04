@@ -198,17 +198,63 @@ app.post('/api/create-checkout-session', async (req, res) => {
 
 async function handleSuccessfulPayment(session) {
   console.log('📧 Starting email process...');
+  console.log('Full session object:', JSON.stringify(session, null, 2));
   
-  // Retrieve our metadata fields from session
-  const name = session.metadata?.name;
-  const email = session.metadata?.email;
-  const phone = session.metadata?.phone;
+  // Try multiple ways to get customer data
+  let name = session.metadata?.name;
+  let email = session.metadata?.email;
+  let phone = session.metadata?.phone;
 
-  console.log('Customer data:', { name, email, phone });
+  // Fallback: try customer_email field
+  if (!email && session.customer_email) {
+    email = session.customer_email;
+    console.log('Using customer_email as fallback:', email);
+  }
 
-  if (!email || !name) {
-    console.error('❌ Missing required customer data:', { name, email, phone });
+  // Fallback: try customer_details
+  if (!name && session.customer_details?.name) {
+    name = session.customer_details.name;
+    console.log('Using customer_details.name as fallback:', name);
+  }
+
+  // Fallback: try to retrieve full session from Stripe API
+  if (!name || !email) {
+    try {
+      console.log('Attempting to retrieve full session from Stripe API...');
+      const fullSession = await stripe.checkout.sessions.retrieve(session.id, {
+        expand: ['customer']
+      });
+      console.log('Full session from API:', JSON.stringify(fullSession, null, 2));
+      
+      if (!name && fullSession.metadata?.name) {
+        name = fullSession.metadata.name;
+      }
+      if (!email && fullSession.metadata?.email) {
+        email = fullSession.metadata.email;
+      }
+      if (!phone && fullSession.metadata?.phone) {
+        phone = fullSession.metadata.phone;
+      }
+      
+      // Try customer_email again
+      if (!email && fullSession.customer_email) {
+        email = fullSession.customer_email;
+      }
+    } catch (err) {
+      console.error('Error retrieving full session:', err);
+    }
+  }
+
+  console.log('Final customer data:', { name, email, phone });
+
+  if (!email) {
+    console.error('❌ No email found - cannot send confirmation');
     return;
+  }
+
+  if (!name) {
+    name = 'Valued Customer'; // Fallback name
+    console.log('Using fallback name:', name);
   }
 
   console.log('Gmail credentials configured:', {
