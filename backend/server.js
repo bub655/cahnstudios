@@ -3,7 +3,7 @@
 //   try {
 //     const { name, email, phone } = req.body;
 
-//     // 2a) Mail to yourself with registrant’s details
+//     // 2a) Mail to yourself with registrant's details
 //     const mailOptionsOwner = {
 //       from: `"Webinar Registration" <${process.env.GMAIL_USER}>`,
 //       to: process.env.GMAIL_USER, // deliver to your own inbox
@@ -22,7 +22,7 @@
 //     const infoOwner = await transporter.sendMail(mailOptionsOwner);
 //     console.log('Owner notification sent:', infoOwner.messageId);
 
-//     // 2b) Mail to registrant with a link (e.g., Zoom link or “thank you” page)
+//     // 2b) Mail to registrant with a link (e.g., Zoom link or "thank you" page)
 //     const webinarLink = 'https://cahnstudios.com/'; 
 //     // ← Replace with your actual webinar or confirmation URL
 
@@ -143,47 +143,75 @@ app.post('/api/create-checkout-session', async (req, res) => {
   }
 });
 
-/* Fallback endpoint to send confirmation email */
-app.post('/api/send-confirmation', async (req, res) => {
-  console.log("RECEIVED REQUEST FOR CONFIRMATION EMAIL");
-  try {
-    console.log("SENDING CONFIRMATION EMAIL");
-    const { session_id } = req.body;
+/* Webhook: on checkout.session.completed → send confirmation email */
+app.post(
+  '/api/webhook',
+  express.raw({ type: 'application/json' }),
+  async (req, res) => {
+    console.log('🚨 WEBHOOK CALLED - Raw request received');
+    console.log('Headers:', req.headers);
+    console.log('Body size:', req.body?.length || 0);
     
-    if (!session_id) {
-      return res.status(400).json({ error: 'Session ID is required' });
+    const sig = req.headers['stripe-signature'];
+    console.log('Stripe signature present:', !!sig);
+    console.log('Webhook secret configured:', !!process.env.STRIPE_WEBHOOK_SECRET);
+    
+    let event;
+
+    try {
+      event = stripe.webhooks.constructEvent(
+        req.body,
+        sig,
+        process.env.STRIPE_WEBHOOK_SECRET
+      );
+      console.log('✅ Webhook signature verified successfully');
+      console.log('Event type:', event.type);
+      console.log('Event ID:', event.id);
+    } catch (err) {
+      console.error('❌ Webhook signature verification failed:', err.message);
+      return res.status(400).send(`Webhook Error: ${err.message}`);
     }
 
-    console.log('Fetching session details for:', session_id);
-    
-    // Retrieve the session from Stripe
-    const session = await stripe.checkout.sessions.retrieve(session_id);
-    
-    if (session.payment_status === 'paid') {
-      console.log('Payment confirmed, sending email...');
-      await handleSuccessfulPayment(session);
-      return res.json({ success: true, message: 'Confirmation email sent' });
+    if (event.type === 'checkout.session.completed') {
+      console.log("🎉 CHECKOUT SESSION COMPLETED EVENT RECEIVED");
+      const session = event.data.object;
+      console.log('Session ID:', session.id);
+      console.log('Payment status:', session.payment_status);
+      console.log('Session metadata:', session.metadata);
+      
+      try {
+        await handleSuccessfulPayment(session);
+        console.log('✅ Email handling completed successfully');
+      } catch (error) {
+        console.error('❌ Error in handleSuccessfulPayment:', error);
+      }
     } else {
-      return res.status(400).json({ error: 'Payment not completed' });
+      console.log('ℹ️ Ignoring event type:', event.type);
     }
-  } catch (error) {
-    console.error('Error in send-confirmation:', error);
-    return res.status(500).json({ error: 'Failed to send confirmation email' });
+
+    res.json({ received: true });
   }
-});
+);
 
 async function handleSuccessfulPayment(session) {
-    // Retrieve our metadata fields from session
-    const name = session.metadata.name;
-    const email = session.metadata.email;
-    const phone = session.metadata.phone;
+  console.log('📧 Starting email process...');
+  
+  // Retrieve our metadata fields from session
+  const name = session.metadata?.name;
+  const email = session.metadata?.email;
+  const phone = session.metadata?.phone;
 
-    console.log(`Processing payment for ${name} (${email}, ${phone})`);
+  console.log('Customer data:', { name, email, phone });
 
-    if (!email || !name) {
-      console.error('Missing required data:', { name, email, phone });
-      return;
-    }
+  if (!email || !name) {
+    console.error('❌ Missing required customer data:', { name, email, phone });
+    return;
+  }
+
+  console.log('Gmail credentials configured:', {
+    user: !!process.env.GMAIL_USER,
+    pass: !!process.env.GMAIL_PASS
+  });
 
   // Compose and send the confirmation email now that payment is done
   const webinarLink = 'https://www.cahnstudios.com';
@@ -218,10 +246,13 @@ We look forward to seeing you there.
   };
 
   try {
+    console.log('📤 Attempting to send email to:', email);
     const info = await transporter.sendMail(mailOptions);
-    console.log('Confirmation email sent:', info.messageId);
+    console.log('✅ Email sent successfully! Message ID:', info.messageId);
+    console.log('Email info:', info);
   } catch (err) {
-    console.error('Error sending confirmation email:', err);
+    console.error('❌ Email sending failed:', err);
+    console.error('Error details:', err.message);
   }
 }
 
