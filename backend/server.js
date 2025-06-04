@@ -321,7 +321,7 @@ Team Cahn
       </p>
 
       <p>
-        <strong>📅 Webinar Date:</strong> 21-06-2025 &amp; 22-06-2025<br>
+        <strong>📅 Webinar Date:</strong> 21.06.2025 &amp; 22.06.2025<br>
         <strong>🕒 Time:</strong> 7:30 PM – 9:30 PM (IST) &amp; 7:00 AM – 9:00 AM (PST)<br>
         <strong>📍 Where:</strong> Live on Zoom — Link coming soon!
       </p>
