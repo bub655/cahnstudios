@@ -24,4 +24,4 @@ export default function Success() {
       </a>
     </section>
   );
-}
+} 
