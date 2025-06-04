@@ -83,7 +83,7 @@ const PORT = process.env.PORT || 3001;
 
 app.use(
   cors({
-    origin: process.env.FRONT_END_URL || 'https://cahn-webinar-individual-ivi7.vercel.app' || 'http://localhost:5173',
+    origin: 'https://cahn-webinar-individual-ivi7.vercel.app' || 'http://localhost:5173',
     credentials: true,
   })
 );
