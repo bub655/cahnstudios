@@ -9,7 +9,7 @@ export default function Navbar() {
         <img src="/CAHN_Logo_Black_RGB.png" alt="Cahn Logo" className="h-8" />
         </a>
       </div>
-      <ul className="flex space-x-8 text-gray-700 font-medium list-none">
+      {/* <ul className="flex space-x-8 text-gray-700 font-medium list-none">
         <li>
           <a href="/" className="hover:text-black-600 transition-colors duration-200 py-2 px-1 border-b-2 border-transparent hover:border-blue-600">
             Home
@@ -30,7 +30,7 @@ export default function Navbar() {
             Webinars
           </a>
         </li>
-      </ul>
+      </ul> */}
     </nav>
   );
 }

@@ -18,12 +18,19 @@ export default function Showcase() {
     }
   }, []);
 
-  const scrollToRegister = () => {
-    const el = document.getElementById("register-section");
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-    }
-  };
+const scrollToRegister = () => {
+  const el = document.getElementById("register-section");
+  if (el) {
+    el.scrollIntoView({ behavior: "smooth" });
+  }
+};
+
+const scrollToDetails = () => {
+  const el = document.getElementById("webinar-details");
+  if (el) {
+    el.scrollIntoView({ behavior: "smooth" });
+  }
+};
 
   return (
     <section className="relative w-full h-screen overflow-hidden flex">
@@ -61,19 +68,24 @@ export default function Showcase() {
             <button
               onClick={scrollToRegister}
               className="w-full max-w-xs px-8 py-4 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
-            >
-              <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent font-semibold text-lg">
+              >
+                <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent font-semibold text-lg">
                 Register Now
-              </span>
+                </span>
             </button>
-            <button className="w-full max-w-xs px-8 py-4 bg-transparent border-2 border-white rounded-full hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-              <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent font-semibold text-lg">
+
+            <button
+              onClick={scrollToDetails}
+              className="w-full max-w-xs px-8 py-4 bg-transparent border-2 border-white rounded-full hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+              >
+                <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent font-semibold text-lg">
                 Learn More
-              </span>
+                </span>
             </button>
+
           </div>
-        </div>
       </div>
-    </section>
-  );
+    </div>
+  </section>
+);
 }

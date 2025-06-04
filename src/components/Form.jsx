@@ -4,7 +4,8 @@ const Form = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    phone: ''
+    phone: '',
+    country: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState('');
@@ -101,6 +102,22 @@ const Form = () => {
               required
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
               placeholder="+1 (555) 123-4567"
+            />
+          </div>
+
+          <div className="flex flex-col">
+            <label htmlFor="country" className="text-gray-700 mb-1">
+              Country
+            </label>
+            <input
+              type="text"
+              id="country"
+              name="country"
+              value={formData.country}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+              placeholder="e.g. USA, India, Canada, etc."
             />
           </div>
 
