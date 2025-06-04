@@ -11,16 +11,22 @@ export default function App() {
   useEffect(() => {
     const checkBackend = async () => {
       try {
-        console.log(import.meta.env.VITE_BACKEND_URL);
-        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/health`);
+        const backendUrl = import.meta.env.VITE_BACKEND_URL;
+        console.log('Backend URL:', backendUrl);
+        console.log('Full health check URL:', `${backendUrl}/api/health`);
+        
+        const res = await fetch(`${backendUrl}/api/health`);
+        console.log('Response status:', res.status);
+        console.log('Response ok:', res.ok);
+        
         if (res.ok) {
           const data = await res.json();
           console.log(`✅ Backend running (${data.status})`);
         } else {
-          console.log("❌ Backend not responding");
+          console.log("❌ Backend not responding, status:", res.status);
         }
       } catch (err) {
-        console.log("❌ Backend not reachable");
+        console.log("❌ Backend not reachable, error:", err.message);
       }
     };
     checkBackend();
