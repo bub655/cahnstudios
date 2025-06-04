@@ -6,6 +6,7 @@ import WebinarDetails from "./components/WebinarDetails";
 import Form from "./components/Form";
 import Success from "./components/Success";
 import Cancel from "./components/Cancel";
+import Footer from "./components/Footer";
 
 export default function App() {
   useEffect(() => {
@@ -60,6 +61,7 @@ export default function App() {
           element={<Cancel />}
         />
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }
