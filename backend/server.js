@@ -277,9 +277,6 @@ async function handleSuccessfulPayment(session) {
     user: !!process.env.GMAIL_USER,
     pass: !!process.env.GMAIL_PASS
   });
-
-  // Compose and send the confirmation email now that payment is done
-  const webinarLink = 'https://www.cahnstudios.com';
   
   const mailOptions = {
   from: `"Cahn Studios" <${process.env.GMAIL_USER}>`,
@@ -290,7 +287,7 @@ Hi,
 
 Thank you for registering for "AI for Creators" — we’re thrilled to have you join us for this high-impact session designed to supercharge your creative workflows using AI!
 
-📅 Webinar Date: 21-06-2025 & 22-06-2025
+📅 Webinar Date: 21.06.2025 & 22.06.2025
 🕒 Time: 7:30 PM – 9:30 PM (IST) & 7:00 AM – 9:00 AM (PST)
 📍 Where: Live on Zoom — Link coming soon!
 
