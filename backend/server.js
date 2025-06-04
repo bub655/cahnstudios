@@ -118,7 +118,7 @@ app.post(
       return res.status(400).send(`Webhook Error: ${err.message}`);
     }
 
-    if (event.type === 'checkout.session.completed') {
+    if (event.type === 'checkout.session.completed' || event.type === 'payment_intent.succeeded') {
       console.log("🎉 CHECKOUT SESSION COMPLETED EVENT RECEIVED");
       const session = event.data.object;
       console.log('Session ID:', session.id);
@@ -301,4 +301,4 @@ app.get('/', (req, res) => {
       </body>
     </html>
   `);
-});
+}); 
