@@ -164,11 +164,11 @@ app.post('/api/create-checkout-session', async (req, res) => {
     const { name, email, phone } = req.body;
     const amount = 11599; //monetary value
 
-    console.log('Extracted data:', { name, email, phone, country});
+    console.log('Extracted data:', { name, email, phone });
 
-    if (!name || !email || !phone || !country) {
-      console.error('Missing required fields:', { name: !!name, email: !!email, phone: !!phone, country: !!country });
-      return res.status(400).json({ error: 'Name, email, phone, and country are required.' });
+    if (!name || !email || !phone) {
+      console.error('Missing required fields:', { name: !!name, email: !!email, phone: !!phone });
+      return res.status(400).json({ error: 'Name, email, and phone are required.' });
     }
 
     console.log('Creating Stripe session with metadata:', { name, email, phone });
@@ -196,7 +196,6 @@ app.post('/api/create-checkout-session', async (req, res) => {
         name: name,
         email: email,
         phone: phone,
-        country: country,
       },
       allow_promotion_codes: true,
       billing_address_collection: 'auto',
