@@ -118,12 +118,16 @@ app.post(
       return res.status(400).send(`Webhook Error: ${err.message}`);
     }
 
-    if (event.type === 'checkout.session.completed' || event.type === 'payment_intent.succeeded') {
+    if (event.type === 'checkout.session.completed') {
       console.log("🎉 CHECKOUT SESSION COMPLETED EVENT RECEIVED");
       const session = event.data.object;
       console.log('Session ID:', session.id);
       console.log('Payment status:', session.payment_status);
+      console.log('Session object keys:', Object.keys(session));
       console.log('Session metadata:', session.metadata);
+      console.log('Session customer_email:', session.customer_email);
+      console.log('Session customer_details:', session.customer_details);
+      console.log('Session customer:', session.customer);
       
       try {
         await handleSuccessfulPayment(session);
@@ -133,6 +137,8 @@ app.post(
       }
     } else {
       console.log('ℹ️ Ignoring event type:', event.type);
+      console.log('Available event types we should listen for: checkout.session.completed');
+      console.log('Event data object keys:', Object.keys(event.data.object));
     }
 
     res.json({ received: true });
@@ -154,12 +160,18 @@ const transporter = nodemailer.createTransport({
 /* Checkout Session */
 app.post('/api/create-checkout-session', async (req, res) => {
   try {
+    console.log('📝 Creating checkout session with request body:', req.body);
     const { name, email, phone } = req.body;
-    const amount = 100; //monitary value
+    const amount = 100; //monetary value
+
+    console.log('Extracted data:', { name, email, phone });
 
     if (!name || !email || !phone) {
+      console.error('Missing required fields:', { name: !!name, email: !!email, phone: !!phone });
       return res.status(400).json({ error: 'Name, email, and phone are required.' });
     }
+
+    console.log('Creating Stripe session with metadata:', { name, email, phone });
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -188,6 +200,10 @@ app.post('/api/create-checkout-session', async (req, res) => {
       allow_promotion_codes: true,
       billing_address_collection: 'auto',
     });
+
+    console.log('✅ Stripe session created successfully:', session.id);
+    console.log('Session metadata in response:', session.metadata);
+    console.log('Session customer_email in response:', session.customer_email);
 
     return res.json({ url: session.url });
   } catch (error) {
@@ -323,6 +339,46 @@ app.get('/api/webhook-test', (req, res) => {
     },
     timestamp: new Date().toISOString()
   });
+});
+
+/* Test endpoint to verify session creation */
+app.post('/api/test-session', async (req, res) => {
+  try {
+    console.log('🧪 TEST: Creating test session');
+    
+    const testSession = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: [{
+        price_data: {
+          currency: 'usd',
+          product_data: { name: 'Test Product' },
+          unit_amount: 100,
+        },
+        quantity: 1,
+      }],
+      mode: 'payment',
+      success_url: 'https://example.com/success',
+      cancel_url: 'https://example.com/cancel',
+      customer_email: 'test@example.com',
+      metadata: {
+        name: 'Test User',
+        email: 'test@example.com',
+        phone: '555-1234',
+      },
+    });
+
+    console.log('✅ Test session created:', testSession.id);
+    console.log('Test session metadata:', testSession.metadata);
+    
+    return res.json({ 
+      success: true, 
+      sessionId: testSession.id,
+      metadata: testSession.metadata 
+    });
+  } catch (error) {
+    console.error('❌ Test session failed:', error);
+    return res.status(500).json({ error: error.message });
+  }
 });
 
 app.listen(PORT, () => {
