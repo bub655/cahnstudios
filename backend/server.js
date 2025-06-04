@@ -284,7 +284,7 @@ async function handleSuccessfulPayment(session) {
   const mailOptions = {
   from: `"Cahn Studios" <${process.env.GMAIL_USER}>`,
   to: email,
-  subject: 'Welcome to Webinar 2.0 – AI for Creators!',
+  subject: 'Welcome to AI for Creators - Webinar 2.0!',
   text: `
 Hi,
 
@@ -320,7 +320,7 @@ Team Cahn
       <p>Hi,</p>
 
       <p>
-        Thank you for registering for "<strong>AI for Creators</strong>" — we’re thrilled to have you join us for this high-impact session designed to supercharge your creative workflows using AI!
+        Thank you for registering for <strong>AI for Creators</strong> — we’re thrilled to have you join us for this high-impact session designed to supercharge your creative workflows using AI!
       </p>
 
       <p>
@@ -330,7 +330,7 @@ Team Cahn
       </p>
 
       <p><strong>What to Expect:</strong><br>
-      These interactive sessions are crafted for creators, marketers, and entrepreneurs ready to work with AI, not against it. You’ll learn:</p>
+      These interactive sessions are crafted for <strong>creators, marketers, and entrepreneurs</strong> ready to work with AI, not against it. You’ll learn:</p>
 
       <ul style="margin-left: 1rem; color: #333;">
         <li>The best AI tools for writing, video, design &amp; ads</li>
