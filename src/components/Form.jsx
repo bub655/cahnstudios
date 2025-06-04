@@ -7,8 +7,6 @@ const Form = () => {
     phone: '',
     country: ''
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState('');
 
   const handleChange = (e) => {
     setFormData({
@@ -17,33 +15,14 @@ const Form = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus('');
-
-    try {
-      console.log("SENDING REQUEST");
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/create-checkout-session`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-      console.log("GOT RESPONSE");
-
-      const data = await response.json();
-      if (data.url) {
-        // Redirect to Stripe 
-        window.location.href = data.url;
-      } else {
-        setSubmitStatus('Failed to start payment. Please try again.');
-        setIsSubmitting(false);
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      setSubmitStatus('Registration failed. Please try again.');
-      setIsSubmitting(false);
-    }
+    
+    // Store form data in sessionStorage to pass to payment selection page
+    sessionStorage.setItem('registrationData', JSON.stringify(formData));
+    
+    // Redirect to payment selection page
+    window.location.href = '/payment-selection';
   };
 
   return (
@@ -117,33 +96,16 @@ const Form = () => {
               onChange={handleChange}
               required
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
-              placeholder="e.g. USA, India, Canada, etc."
+              placeholder="e.g. USA, India, Canada"
             />
           </div>
 
           <button
             type="submit"
-            disabled={isSubmitting}
-            className={`w-full py-3 text-lg font-semibold transition rounded-full ${
-              isSubmitting
-                ? 'bg-gray-400 cursor-not-allowed text-gray-200'
-                : 'bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 text-white hover:from-purple-500 hover:via-pink-500 hover:to-blue-500'
-            }`}
+            className="w-full py-3 text-lg font-semibold transition rounded-full bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 text-white hover:from-purple-500 hover:via-pink-500 hover:to-blue-500"
           >
-            {isSubmitting ? 'Processing Payment…' : 'Pay & Register'}
+            Continue to Payment
           </button>
-
-          {submitStatus && (
-            <p
-              className={`mt-4 text-center ${
-                submitStatus.includes('failed')
-                  ? 'text-red-600'
-                  : 'text-green-600'
-              }`}
-            >
-              {submitStatus}
-            </p>
-          )}
         </form>
       </div>
     </section>
