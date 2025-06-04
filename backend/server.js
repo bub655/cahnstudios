@@ -83,10 +83,63 @@ const PORT = process.env.PORT || 3001;
 
 app.use(
   cors({
-    origin: '*',
+    origin: process.env.FRONT_END_URL || 'https://cahn-webinar-individual-ivi7.vercel.app' || 'http://localhost:5173',
     credentials: true,
   })
 );
+
+/* Webhook: on checkout.session.completed → send confirmation email */
+/* This MUST come BEFORE express.json() middleware */
+app.post(
+  '/api/webhook',
+  express.raw({ type: 'application/json' }),
+  async (req, res) => {
+    console.log('🚨 WEBHOOK CALLED - Raw request received');
+    console.log('Headers:', req.headers);
+    console.log('Body size:', req.body?.length || 0);
+    
+    const sig = req.headers['stripe-signature'];
+    console.log('Stripe signature present:', !!sig);
+    console.log('Webhook secret configured:', !!process.env.STRIPE_WEBHOOK_SECRET);
+    
+    let event;
+
+    try {
+      event = stripe.webhooks.constructEvent(
+        req.body,
+        sig,
+        process.env.STRIPE_WEBHOOK_SECRET
+      );
+      console.log('✅ Webhook signature verified successfully');
+      console.log('Event type:', event.type);
+      console.log('Event ID:', event.id);
+    } catch (err) {
+      console.error('❌ Webhook signature verification failed:', err.message);
+      return res.status(400).send(`Webhook Error: ${err.message}`);
+    }
+
+    if (event.type === 'checkout.session.completed') {
+      console.log("🎉 CHECKOUT SESSION COMPLETED EVENT RECEIVED");
+      const session = event.data.object;
+      console.log('Session ID:', session.id);
+      console.log('Payment status:', session.payment_status);
+      console.log('Session metadata:', session.metadata);
+      
+      try {
+        await handleSuccessfulPayment(session);
+        console.log('✅ Email handling completed successfully');
+      } catch (error) {
+        console.error('❌ Error in handleSuccessfulPayment:', error);
+      }
+    } else {
+      console.log('ℹ️ Ignoring event type:', event.type);
+    }
+
+    res.json({ received: true });
+  }
+);
+
+/* Apply JSON parsing AFTER the webhook endpoint */
 app.use(express.json());
 
 /* Nodemailer transporter (Gmail) */
@@ -142,56 +195,6 @@ app.post('/api/create-checkout-session', async (req, res) => {
     return res.status(500).json({ error: 'Unable to create checkout session.' });
   }
 });
-
-/* Webhook: on checkout.session.completed → send confirmation email */
-app.post(
-  '/api/webhook',
-  express.raw({ type: 'application/json' }),
-  async (req, res) => {
-    console.log('🚨 WEBHOOK CALLED - Raw request received');
-    console.log('Headers:', req.headers);
-    console.log('Body size:', req.body?.length || 0);
-    
-    const sig = req.headers['stripe-signature'];
-    console.log('Stripe signature present:', !!sig);
-    console.log('Webhook secret configured:', !!process.env.STRIPE_WEBHOOK_SECRET);
-    
-    let event;
-
-    try {
-      event = stripe.webhooks.constructEvent(
-        req.body,
-        sig,
-        process.env.STRIPE_WEBHOOK_SECRET
-      );
-      console.log('✅ Webhook signature verified successfully');
-      console.log('Event type:', event.type);
-      console.log('Event ID:', event.id);
-    } catch (err) {
-      console.error('❌ Webhook signature verification failed:', err.message);
-      return res.status(400).send(`Webhook Error: ${err.message}`);
-    }
-
-    if (event.type === 'checkout.session.completed') {
-      console.log("🎉 CHECKOUT SESSION COMPLETED EVENT RECEIVED");
-      const session = event.data.object;
-      console.log('Session ID:', session.id);
-      console.log('Payment status:', session.payment_status);
-      console.log('Session metadata:', session.metadata);
-      
-      try {
-        await handleSuccessfulPayment(session);
-        console.log('✅ Email handling completed successfully');
-      } catch (error) {
-        console.error('❌ Error in handleSuccessfulPayment:', error);
-      }
-    } else {
-      console.log('ℹ️ Ignoring event type:', event.type);
-    }
-
-    res.json({ received: true });
-  }
-);
 
 async function handleSuccessfulPayment(session) {
   console.log('📧 Starting email process...');
@@ -259,6 +262,21 @@ We look forward to seeing you there.
 /* Health check */
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
+});
+
+/* Webhook test endpoint */
+app.get('/api/webhook-test', (req, res) => {
+  res.json({ 
+    status: 'Webhook endpoint is accessible',
+    environment: {
+      stripeSecretKey: !!process.env.STRIPE_SECRET_KEY,
+      stripeWebhookSecret: !!process.env.STRIPE_WEBHOOK_SECRET,
+      gmailUser: !!process.env.GMAIL_USER,
+      gmailPass: !!process.env.GMAIL_PASS,
+      frontEndUrl: process.env.FRONT_END_URL || 'not set'
+    },
+    timestamp: new Date().toISOString()
+  });
 });
 
 app.listen(PORT, () => {
