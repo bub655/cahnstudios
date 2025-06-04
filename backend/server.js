@@ -161,6 +161,7 @@ async function handleSuccessfulPayment(session) {
     name = session.customer_details.name;
     console.log('Using customer_details.name as fallback:', name);
   }
+  
 
   // Fallback: try to retrieve full session from Stripe API
   if (!name || !email) {
@@ -180,6 +181,9 @@ async function handleSuccessfulPayment(session) {
       if (!phone && fullSession.metadata?.phone) {
         phone = fullSession.metadata.phone;
       }
+      if (!country && fullSession.metadata?.country) { 
+      country = fullSession.metadata.country;
+    }
       
       
       // Try customer_email again
@@ -191,7 +195,7 @@ async function handleSuccessfulPayment(session) {
     }
   }
 
-  console.log('Final customer data:', { name, email, phone });
+  console.log('Final customer data:', { name, email, phone, country});
 
   if (!email) {
     console.error('❌ No email found - cannot send confirmation');
@@ -315,6 +319,7 @@ Registration Time: ${new Date().toISOString()}
         <p><strong>Name:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email}</p>
         <p><strong>Phone:</strong> ${phone}</p>
+        <p><strong>Country:</strong> ${country}</p>
         <p><strong>Session ID:</strong> ${session.id}</p>
         <p><strong>Payment Status:</strong> ${session.payment_status}</p>
         <p><strong>Registration Time:</strong> ${new Date().toISOString()}</p>
