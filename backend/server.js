@@ -284,15 +284,47 @@ Team Cahn
   `.trim(),
 };
 
-  try {
-    console.log('📤 Attempting to send email to:', email);
-    const info = await transporter.sendMail(mailOptions);
-    console.log('✅ Email sent successfully! Message ID:', info.messageId);
-    console.log('Email info:', info);
-  } catch (err) {
-    console.error('❌ Email sending failed:', err);
-    console.error('Error details:', err.message);
-  }
+try {
+  console.log('📤 Attempting to send email to:', email);
+  const info = await transporter.sendMail(mailOptions);
+  console.log('✅ Email sent successfully! Message ID:', info.messageId);
+  console.log('Email info:', info);
+
+  // Send notification email to yourself
+  const notificationOptions = {
+    from: `"Cahn Studios" <${process.env.GMAIL_USER}>`,
+    to: process.env.GMAIL_USER,
+    subject: `New Registration: AI for Creators Webinar - ${name}`,
+    text: `
+New registration received:
+
+Name: ${name}
+Email: ${email}
+Phone: ${phone}
+Session ID: ${session.id}
+Payment Status: ${session.payment_status}
+Registration Time: ${new Date().toISOString()}
+    `.trim(),
+    html: `
+      <div style="font-family: sans-serif; line-height: 1.5; color: #333;">
+        <h2>New Registration Received</h2>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Phone:</strong> ${phone}</p>
+        <p><strong>Session ID:</strong> ${session.id}</p>
+        <p><strong>Payment Status:</strong> ${session.payment_status}</p>
+        <p><strong>Registration Time:</strong> ${new Date().toISOString()}</p>
+      </div>
+    `.trim(),
+  };
+
+  await transporter.sendMail(notificationOptions);
+  console.log('✅ Notification email sent to admin');
+
+} catch (err) {
+  console.error('❌ Email sending failed:', err);
+  console.error('Error details:', err.message);
+}
 }
 
 /* Health check */
