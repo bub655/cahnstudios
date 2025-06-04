@@ -282,39 +282,83 @@ async function handleSuccessfulPayment(session) {
   const webinarLink = 'https://www.cahnstudios.com';
   
   const mailOptions = {
-    from: `"Cahn Studios" <${process.env.GMAIL_USER}>`,
-    to: email,
-    subject: 'Your Webinar Registration is Confirmed!',
-    text: `
+  from: `"Cahn Studios" <${process.env.GMAIL_USER}>`,
+  to: email,
+  subject: 'Welcome to Webinar 2.0 – AI for Creators!',
+  text: `
 Hi,
 
 Thank you for registering for "AI for Creators" — we’re thrilled to have you join us for this high-impact session designed to supercharge your creative workflows using AI!
 
 📅 Webinar Date: 21-06-2025 & 22-06-2025
-🕒 Time: 7:30pm-9:30PM(IST) & 7:00 AM-9:00AM (PST) Time Zone
-📍 Where: Live on Zoom — ["Link coming soon!"]
+🕒 Time: 7:30 PM – 9:30 PM (IST) & 7:00 AM – 9:00 AM (PST)
+📍 Where: Live on Zoom — Link coming soon!
 
 What to Expect:
 These interactive sessions are crafted for creators, marketers, and entrepreneurs ready to work with AI, not against it. You’ll learn:
 
-The best AI tools for writing, video, design & ads
-Prompt engineering secrets that unlock powerful results
-Smart workflows to scale content and campaigns
-Real-world case studies and ethical guardrails
-A downloadable handout with tools, tips, and templates
+• The best AI tools for writing, video, design & ads  
+• Prompt engineering secrets that unlock powerful results  
+• Smart workflows to scale content and campaigns  
+• Real-world case studies and ethical guardrails  
+• A downloadable handout with tools, tips, and templates
+
 Expect a mix of demos, live walkthroughs, creative challenges, and Q&A time — no fluff, just action-ready insights.
 
- Come with a project idea in mind — you’ll leave with ways to accelerate it using AI!
-We’ll be sending a reminder with the Zoom link and your downloadable handout closer to the date. 
+Come with a project idea in mind — you’ll leave with ways to accelerate it using AI!  
+We’ll be sending a reminder with the Zoom link and your downloadable handout closer to the date.  
 
 Meanwhile, feel free to reply if you have any questions or ideas you’d love covered in the session.
 
 Can’t wait to see you there!
 
-Warmly,
+Warmly,  
 Team Cahn
-    `,
-  };
+  `.trim(),
+  html: `
+    <div style="font-family: sans-serif; line-height: 1.5; color: #333;">
+      <p>Hi,</p>
+
+      <p>
+        Thank you for registering for "<strong>AI for Creators</strong>" — we’re thrilled to have you join us for this high-impact session designed to supercharge your creative workflows using AI!
+      </p>
+
+      <p>
+        <strong>📅 Webinar Date:</strong> 21-06-2025 &amp; 22-06-2025<br>
+        <strong>🕒 Time:</strong> 7:30 PM – 9:30 PM (IST) &amp; 7:00 AM – 9:00 AM (PST)<br>
+        <strong>📍 Where:</strong> Live on Zoom — Link coming soon!
+      </p>
+
+      <p><strong>What to Expect:</strong><br>
+      These interactive sessions are crafted for creators, marketers, and entrepreneurs ready to work with AI, not against it. You’ll learn:</p>
+
+      <ul style="margin-left: 1rem; color: #333;">
+        <li>The best AI tools for writing, video, design &amp; ads</li>
+        <li>Prompt engineering secrets that unlock powerful results</li>
+        <li>Smart workflows to scale content and campaigns</li>
+        <li>Real-world case studies and ethical guardrails</li>
+        <li>A downloadable handout with tools, tips, and templates</li>
+      </ul>
+
+      <p>
+        Expect a mix of demos, live walkthroughs, creative challenges, and Q&amp;A time — <strong>no fluff, just action-ready insights.</strong>
+      </p>
+
+      <p>
+        Come with a project idea in mind — you’ll leave with ways to accelerate it using AI!<br>
+        We’ll be sending a reminder with the Zoom link and your downloadable handout closer to the date.
+      </p>
+
+      <p>
+        Meanwhile, feel free to reply if you have any questions or ideas you’d love covered in the session.
+      </p>
+
+      <p>Can’t wait to see you there!</p>
+
+      <p>Warmly,<br>Team Cahn</p>
+    </div>
+  `.trim(),
+};
 
   try {
     console.log('📤 Attempting to send email to:', email);
