@@ -220,7 +220,6 @@ async function handleSuccessfulPayment(session) {
   let name = session.metadata?.name;
   let email = session.metadata?.email;
   let phone = session.metadata?.phone;
-  let country = session.metadata?.country; // Add country field
 
   // Fallback: try customer_email field
   if (!email && session.customer_email) {
@@ -252,9 +251,6 @@ async function handleSuccessfulPayment(session) {
       if (!phone && fullSession.metadata?.phone) {
         phone = fullSession.metadata.phone;
       }
-      if (!country && fullSession.metadata?.country) {
-        country = fullSession.metadata.country;
-      }
       
       // Try customer_email again
       if (!email && fullSession.customer_email) {
@@ -265,7 +261,7 @@ async function handleSuccessfulPayment(session) {
     }
   }
 
-  console.log('Final customer data:', { name, email, phone, country });
+  console.log('Final customer data:', { name, email, phone });
 
   if (!email) {
     console.error('❌ No email found - cannot send confirmation');
@@ -282,128 +278,49 @@ async function handleSuccessfulPayment(session) {
     pass: !!process.env.GMAIL_PASS
   });
 
-  // 1) Send confirmation email to customer
+  // Compose and send the confirmation email now that payment is done
   const webinarLink = 'https://www.cahnstudios.com';
   
-  const customerMailOptions = {
+  const mailOptions = {
     from: `"Cahn Studios" <${process.env.GMAIL_USER}>`,
     to: email,
     subject: 'Your Webinar Registration is Confirmed!',
     text: `
-Hi ${name},
+Hi,
 
-Thanks for completing payment for our AI for Creators Webinar! 🎉
+Thank you for registering for "AI for Creators" — we’re thrilled to have you join us for this high-impact session designed to supercharge your creative workflows using AI!
 
-Here is your personal link to join the webinar:
-${webinarLink}
+📅 Webinar Date: 21-06-2025 & 22-06-2025
+🕒 Time: 7:30pm-9:30PM(IST) & 7:00 AM-9:00AM (PST) Time Zone
+📍 Where: Live on Zoom — ["Link coming soon!"]
 
-We look forward to seeing you there.
+What to Expect:
+These interactive sessions are crafted for creators, marketers, and entrepreneurs ready to work with AI, not against it. You’ll learn:
 
-– The Cahn Team
-    `.trim(),
-    html: `
-      <p>Hi ${name},</p>
-      <p>Thanks for completing payment for our <strong>AI for Creators Webinar</strong>! 🎉</p>
-      <p>
-        <a href="${webinarLink}" target="_blank" style="color:rgb(57, 87, 167); text-decoration: none; font-weight: bold;">
-          Click here to join the webinar
-        </a>
-      </p>
-      <p>We look forward to seeing you there. If you have questions, reply to this email.</p>
-      <p>– The Cahn Team</p>
-    `,
-  };
+The best AI tools for writing, video, design & ads
+Prompt engineering secrets that unlock powerful results
+Smart workflows to scale content and campaigns
+Real-world case studies and ethical guardrails
+A downloadable handout with tools, tips, and templates
+Expect a mix of demos, live walkthroughs, creative challenges, and Q&A time — no fluff, just action-ready insights.
 
-  // 2) Send notification email to yourself with registration details
-  const ownerMailOptions = {
-    from: `"Webinar Registration System" <${process.env.GMAIL_USER}>`,
-    to: process.env.GMAIL_USER, // Send to yourself
-    subject: `🎉 New Paid Registration: ${name}`,
-    replyTo: email, // When you reply, it goes to the customer
-    text: `
-You have a new PAID registration for the AI for Creators Webinar!
+ Come with a project idea in mind — you’ll leave with ways to accelerate it using AI!
+We’ll be sending a reminder with the Zoom link and your downloadable handout closer to the date. 
 
-Registration Details:
-===================
-Name: ${name}
-Email: ${email}
-Phone: ${phone || 'Not provided'}
-Country: ${country || 'Not provided'}
+Meanwhile, feel free to reply if you have any questions or ideas you’d love covered in the session.
 
-Payment Details:
-===============
-Stripe Session ID: ${session.id}
-Amount Paid: $${(session.amount_total / 100).toFixed(2)}
-Payment Status: ${session.payment_status}
-Payment Date: ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}
+Can’t wait to see you there!
 
-Customer can be reached at: ${email}
-    `.trim(),
-    html: `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-        <h2 style="color: #2563eb;">🎉 New Paid Registration!</h2>
-        
-        <div style="background: #f8fafc; padding: 20px; border-radius: 8px; margin: 20px 0;">
-          <h3 style="color: #374151; margin-top: 0;">Registration Details</h3>
-          <table style="width: 100%; border-collapse: collapse;">
-            <tr>
-              <td style="padding: 8px 0; font-weight: bold; color: #6b7280;">Name:</td>
-              <td style="padding: 8px 0;">${name}</td>
-            </tr>
-            <tr>
-              <td style="padding: 8px 0; font-weight: bold; color: #6b7280;">Email:</td>
-              <td style="padding: 8px 0;"><a href="mailto:${email}" style="color: #2563eb;">${email}</a></td>
-            </tr>
-            <tr>
-              <td style="padding: 8px 0; font-weight: bold; color: #6b7280;">Phone:</td>
-              <td style="padding: 8px 0;">${phone || 'Not provided'}</td>
-            </tr>
-            <tr>
-              <td style="padding: 8px 0; font-weight: bold; color: #6b7280;">Country:</td>
-              <td style="padding: 8px 0;">${country || 'Not provided'}</td>
-            </tr>
-          </table>
-        </div>
-
-        <div style="background: #ecfdf5; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #10b981;">
-          <h3 style="color: #065f46; margin-top: 0;">Payment Details</h3>
-          <table style="width: 100%; border-collapse: collapse;">
-            <tr>
-              <td style="padding: 8px 0; font-weight: bold; color: #6b7280;">Amount Paid:</td>
-              <td style="padding: 8px 0; color: #065f46; font-weight: bold;">$${(session.amount_total / 100).toFixed(2)}</td>
-            </tr>
-            <tr>
-              <td style="padding: 8px 0; font-weight: bold; color: #6b7280;">Payment Status:</td>
-              <td style="padding: 8px 0; color: #065f46;">${session.payment_status}</td>
-            </tr>
-            <tr>
-              <td style="padding: 8px 0; font-weight: bold; color: #6b7280;">Session ID:</td>
-              <td style="padding: 8px 0; font-family: monospace; font-size: 12px;">${session.id}</td>
-            </tr>
-            <tr>
-              <td style="padding: 8px 0; font-weight: bold; color: #6b7280;">Date:</td>
-              <td style="padding: 8px 0;">${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}</td>
-            </tr>
-          </table>
-        </div>
-
-        <p style="color: #6b7280; font-size: 14px;">
-          You can reply to this email to contact the customer directly.
-        </p>
-      </div>
+Warmly,
+Team Cahn
     `,
   };
 
   try {
-    // Send both emails
-    console.log('📤 Attempting to send customer confirmation email to:', email);
-    const customerInfo = await transporter.sendMail(customerMailOptions);
-    console.log('✅ Customer email sent successfully! Message ID:', customerInfo.messageId);
-
-    console.log('📤 Attempting to send owner notification email to:', process.env.GMAIL_USER);
-    const ownerInfo = await transporter.sendMail(ownerMailOptions);
-    console.log('✅ Owner notification email sent successfully! Message ID:', ownerInfo.messageId);
-
+    console.log('📤 Attempting to send email to:', email);
+    const info = await transporter.sendMail(mailOptions);
+    console.log('✅ Email sent successfully! Message ID:', info.messageId);
+    console.log('Email info:', info);
   } catch (err) {
     console.error('❌ Email sending failed:', err);
     console.error('Error details:', err.message);
