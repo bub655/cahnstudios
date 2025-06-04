@@ -88,14 +88,14 @@ const transporter = nodemailer.createTransport({
 app.post('/api/create-checkout-session', async (req, res) => {
   try {
     console.log('📝 Creating checkout session with request body:', req.body);
-    const { name, email, phone } = req.body;
+    const { name, email, phone, country} = req.body;
     const amount = 11599; //monetary value
 
-    console.log('Extracted data:', { name, email, phone });
+    console.log('Extracted data:', { name, email, phone, country });
 
-    if (!name || !email || !phone) {
-      console.error('Missing required fields:', { name: !!name, email: !!email, phone: !!phone });
-      return res.status(400).json({ error: 'Name, email, and phone are required.' });
+    if (!name || !email || !phone || !country) {
+      console.error('Missing required fields:', { name: !!name, email: !!email, phone: !!phone, country: !!country });
+      return res.status(400).json({ error: 'Name, email, phone, and country are required.' });
     }
 
     console.log('Creating Stripe session with metadata:', { name, email, phone });
@@ -123,6 +123,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
         name: name,
         email: email,
         phone: phone,
+        country: country,
       },
       allow_promotion_codes: true,
       billing_address_collection: 'auto',
@@ -147,6 +148,7 @@ async function handleSuccessfulPayment(session) {
   let name = session.metadata?.name;
   let email = session.metadata?.email;
   let phone = session.metadata?.phone;
+  let country = session.metadata?.country;
 
   // Fallback: try customer_email field
   if (!email && session.customer_email) {
@@ -178,6 +180,7 @@ async function handleSuccessfulPayment(session) {
       if (!phone && fullSession.metadata?.phone) {
         phone = fullSession.metadata.phone;
       }
+      
       
       // Try customer_email again
       if (!email && fullSession.customer_email) {
@@ -301,6 +304,7 @@ New registration received:
 Name: ${name}
 Email: ${email}
 Phone: ${phone}
+Country: ${country}
 Session ID: ${session.id}
 Payment Status: ${session.payment_status}
 Registration Time: ${new Date().toISOString()}

@@ -96,7 +96,7 @@ const Form = () => {
               onChange={handleChange}
               required
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
-              placeholder="e.g. USA, India, Canada"
+              placeholder="e.g. USA, India, Canada, etc."
             />
           </div>
 
