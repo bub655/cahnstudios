@@ -7,6 +7,8 @@ const Form = () => {
     phone: '',
     country: ''
   });
+  const [isRegistering, setIsRegistering] = useState(false);
+  const [registerStatus, setRegisterStatus] = useState('');
 
   const handleChange = (e) => {
     setFormData({
@@ -15,12 +17,36 @@ const Form = () => {
     });
   };
 
+  // New handler to send formData to backend for registration
+  const handleRegister = async () => {
+    setIsRegistering(true);
+    setRegisterStatus('');
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to register');
+      }
+
+      const data = await response.json();
+      setRegisterStatus('Registration successful! Check your email.');
+    } catch (error) {
+      console.error(error);
+      setRegisterStatus('Registration failed. Please try again.');
+    } finally {
+      setIsRegistering(false);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    
     // Store form data in sessionStorage to pass to payment selection page
     sessionStorage.setItem('registrationData', JSON.stringify(formData));
-    
     // Redirect to payment selection page
     window.location.href = '/payment-selection';
   };
@@ -35,7 +61,6 @@ const Form = () => {
           Register Now
         </h2>
         <form onSubmit={handleSubmit} className="space-y-6">
-          
           <div className="flex flex-col">
             <label htmlFor="name" className="text-gray-700 mb-1">
               Name
@@ -100,12 +125,31 @@ const Form = () => {
             />
           </div>
 
+          {/* New “Register Now” button */}
           <button
-            type="submit"
-            className="w-full py-3 text-lg font-semibold transition rounded-full bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 text-white hover:from-purple-500 hover:via-pink-500 hover:to-blue-500"
+            type="button"
+            onClick={handleRegister}
+            disabled={isRegistering}
+            className="w-full py-3 text-lg font-semibold transition rounded-full bg-green-500 text-white hover:bg-green-600 disabled:opacity-50"
           >
-            Continue to Payment
+            {isRegistering ? 'Registering…' : 'Register Now'}
           </button>
+
+          {/* Show status message below the register button */}
+          {registerStatus && (
+            <p className="text-center text-sm text-gray-700 mt-2">
+              {registerStatus}
+            </p>
+          )}
+
+          <div className="pt-4">
+            <button
+              type="submit"
+              className="w-full py-3 text-lg font-semibold transition rounded-full bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 text-white hover:from-purple-500 hover:via-pink-500 hover:to-blue-500"
+            >
+              Continue to Payment
+            </button>
+          </div>
         </form>
       </div>
     </section>
