@@ -5,37 +5,54 @@ const Form = () => {
     name: '',
     email: '',
     phone: '',
-    country: ''
+    country: '',
   });
+  const [status, setStatus] = useState('');
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
+  // 1) “Send Info” button: POST formData to /api/contact → sends two emails
+  const sendInfo = async () => {
+    setStatus('Sending email…');
+    try {
+      const response = await fetch('https://your-backend-domain.com/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      const data = await response.json();
+      if (data.success) {
+        setStatus('Email sent successfully!');
+      } else {
+        console.error('Backend error:', data.error);
+        setStatus('Failed to send email. Please try again.');
+      }
+    } catch (err) {
+      console.error('Network error:', err);
+      setStatus('Error sending email. Try again later.');
+    }
+  };
+
+  // 2) “Continue to Payment” button: store in sessionStorage and redirect
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    // Store form data in sessionStorage to pass to payment selection page
     sessionStorage.setItem('registrationData', JSON.stringify(formData));
-    
-    // Redirect to payment selection page
     window.location.href = '/payment-selection';
   };
 
   return (
-    <section
-      id="register-section"
-      className="py-16 bg-white flex justify-center"
-    >
-      <div className="w-full max-w-lg bg-white rounded-lg shadow-md p-8">
-        <h2 className="text-4xl font-bold text-gray-800 mb-8 text-center">
+    <section id="register-section" className="py-16 bg-white flex justify-center">
+      <div className="w-full max-w-lg bg-white rounded-lg shadow-md px-4 py-6 md:px-8 md:py-8">
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6 md:mb-8 text-center">
           Register Now
         </h2>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          
+
+        <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
           <div className="flex flex-col">
             <label htmlFor="name" className="text-gray-700 mb-1">
               Name
@@ -96,17 +113,30 @@ const Form = () => {
               onChange={handleChange}
               required
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
-              placeholder="e.g. USA, India, Canada, etc."
+              placeholder="e.g. USA, India, Canada"
             />
           </div>
 
-          <button
-            type="submit"
-            className="w-full py-3 text-lg font-semibold transition rounded-full bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 text-white hover:from-purple-500 hover:via-pink-500 hover:to-blue-500"
-          >
-            Continue to Payment
-          </button>
+          {/* Buttons: stack on mobile, side-by-side on md+ */}
+          <div className="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-4">
+            <button
+              type="button"
+              onClick={sendInfo}
+              className="w-full md:w-1/2 py-3 text-base md:text-lg font-semibold rounded-full bg-green-500 text-white hover:bg-green-600 transition"
+            >
+              Register for Webinar
+            </button>
+
+            <button
+              type="submit"
+              className="w-full md:w-1/2 py-3 text-base md:text-lg font-semibold rounded-full bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 text-white hover:from-purple-500 hover:via-pink-500 hover:to-blue-500 transition"
+            >
+              Continue to Payment
+            </button>
+          </div>
         </form>
+
+        {status && <p className="mt-4 text-center text-sm text-gray-600">{status}</p>}
       </div>
     </section>
   );
