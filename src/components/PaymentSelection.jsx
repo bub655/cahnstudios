@@ -43,110 +43,16 @@ const PaymentSelection = () => {
     }
   };
 
-  const handleRazorpayPayment = async () => {
+  const handleRazorpayPayment = () => {
     setIsProcessing(true);
     setProcessingMethod('razorpay');
-
-    try {
-      // Call your backend to create Razorpay order
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/create-razorpay-order`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, paymentMethod: 'razorpay' }),
-      });
-
-      const data = await response.json();
-      
-      if (data.success && data.order) {
-        // Initialize Razorpay checkout
-        const options = {
-          key: data.razorpayKeyId, // Your Razorpay Key ID from backend
-          amount: data.order.amount,
-          currency: data.order.currency,
-          name: 'Your Company Name',
-          description: 'Event Registration',
-          order_id: data.order.id,
-          prefill: {
-            name: formData.name,
-            email: formData.email,
-            contact: formData.phone,
-          },
-          theme: {
-            color: '#6366f1', // Your brand color
-          },
-          handler: function (response) {
-            // Payment successful
-            verifyPayment(response);
-          },
-          modal: {
-            ondismiss: function() {
-              // Payment modal closed
-              setIsProcessing(false);
-              setProcessingMethod('');
-            }
-          }
-        };
-
-        const razorpay = new window.Razorpay(options);
-        razorpay.open();
-      } else {
-        alert('Failed to initialize Razorpay payment. Please try again.');
-        setIsProcessing(false);
-        setProcessingMethod('');
-      }
-    } catch (error) {
-      console.error('Razorpay payment error:', error);
-      alert('Payment failed. Please try again.');
-      setIsProcessing(false);
-      setProcessingMethod('');
-    }
-  };
-
-  const verifyPayment = async (paymentResponse) => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/verify-razorpay-payment`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          razorpay_payment_id: paymentResponse.razorpay_payment_id,
-          razorpay_order_id: paymentResponse.razorpay_order_id,
-          razorpay_signature: paymentResponse.razorpay_signature,
-          formData: formData
-        }),
-      });
-
-      const data = await response.json();
-      
-      if (data.success) {
-        // Redirect to success page
-        window.location.href = '/payment-success';
-      } else {
-        alert('Payment verification failed. Please contact support.');
-      }
-    } catch (error) {
-      console.error('Payment verification error:', error);
-      alert('Payment verification failed. Please contact support.');
-    } finally {
-      setIsProcessing(false);
-      setProcessingMethod('');
-    }
+    // Directly redirect to the external link
+    window.location.href = 'https://rzp.io/rzp/5I2Axrj'; //RazorPay Link by Vishnu
   };
 
   const goBack = () => {
     window.history.back();
   };
-
-  // Load Razorpay script
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-    script.async = true;
-    document.body.appendChild(script);
-    
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
 
   if (!formData) {
     return (
