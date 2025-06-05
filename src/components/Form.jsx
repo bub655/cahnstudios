@@ -5,54 +5,129 @@ const Form = () => {
     name: '',
     email: '',
     phone: '',
-    country: '',
+    country: ''
   });
-  const [status, setStatus] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [message, setMessage] = useState('');
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value
     });
   };
 
-  // 1) “Send Info” button: POST formData to /api/contact → sends two emails
-  const sendInfo = async () => {
-    setStatus('Sending email…');
-    try {
-      const response = await fetch('https://your-backend-domain.com/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-      const data = await response.json();
-      if (data.success) {
-        setStatus('Email sent successfully!');
-      } else {
-        console.error('Backend error:', data.error);
-        setStatus('Failed to send email. Please try again.');
-      }
-    } catch (err) {
-      console.error('Network error:', err);
-      setStatus('Error sending email. Try again later.');
+  const handleSubmit = async () => {
+    if (!formData.name || !formData.email || !formData.phone || !formData.country) {
+      setMessage('Please fill in all fields.');
+      return;
     }
+
+    setIsSubmitting(true);
+    
+    try {
+      // Send registration data to your backend
+      const response = await fetch('https://your-backend-url.com/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          country: formData.country
+        })
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        setMessage('Registration successful! Redirecting to payment...');
+        
+        // Store data in memory for payment page (since sessionStorage isn't available)
+        window.registrationData = formData;
+        
+        // Redirect to payment after a short delay
+        setTimeout(() => {
+          // window.location.href = '/payment-selection';
+          setMessage('Payment redirect would happen here');
+        }, 2000);
+      } else {
+        setMessage(result.error || 'Registration failed. Please try again.');
+      }
+      
+    } catch (error) {
+      console.error('Registration error:', error);
+      setMessage('Network error. Please check your connection and try again.');
+    }
+    
+    setIsSubmitting(false);
   };
 
-  // 2) “Continue to Payment” button: store in sessionStorage and redirect
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    sessionStorage.setItem('registrationData', JSON.stringify(formData));
-    window.location.href = '/payment-selection';
+  const sendEmail = async () => {
+    if (!formData.name || !formData.email || !formData.phone || !formData.country) {
+      setMessage('Please fill in all fields before sending email.');
+      return;
+    }
+
+    setIsSubmitting(true);
+    
+    try {
+      // Send registration data to your backend
+      const response = await fetch('https://cahnstudios.com/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          country: formData.country
+        })
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        setMessage('Registration successful! Confirmation emails sent.');
+        // Optionally clear the form
+        // setFormData({ name: '', email: '', phone: '', country: '' });
+      } else {
+        setMessage(result.error || 'Registration failed. Please try again.');
+      }
+      
+    } catch (error) {
+      console.error('Registration error:', error);
+      setMessage('Network error. Please check your connection and try again.');
+    }
+    
+    setIsSubmitting(false);
   };
 
   return (
-    <section id="register-section" className="py-16 bg-white flex justify-center">
-      <div className="w-full max-w-lg bg-white rounded-lg shadow-md px-4 py-6 md:px-8 md:py-8">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6 md:mb-8 text-center">
+    <section
+      id="register-section"
+      className="py-16 bg-white flex justify-center"
+    >
+      <div className="w-full max-w-lg bg-white rounded-lg shadow-md p-8">
+        <h2 className="text-4xl font-bold text-gray-800 mb-8 text-center">
           Register Now
         </h2>
-
-        <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
+        
+        {message && (
+          <div className={`mb-4 p-3 rounded-md text-center ${
+            message.includes('Error') || message.includes('fill in') 
+              ? 'bg-red-100 text-red-700' 
+              : 'bg-green-100 text-green-700'
+          }`}>
+            {message}
+          </div>
+        )}
+        
+        <div className="space-y-6">
+          
           <div className="flex flex-col">
             <label htmlFor="name" className="text-gray-700 mb-1">
               Name
@@ -113,30 +188,28 @@ const Form = () => {
               onChange={handleChange}
               required
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
-              placeholder="e.g. USA, India, Canada"
+              placeholder="e.g. USA, India, Canada, etc."
             />
           </div>
 
-          {/* Buttons: stack on mobile, side-by-side on md+ */}
-          <div className="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-4">
+          <div className="space-y-3">
             <button
-              type="button"
-              onClick={sendInfo}
-              className="w-full md:w-1/2 py-3 text-base md:text-lg font-semibold rounded-full bg-green-500 text-white hover:bg-green-600 transition"
+              onClick={handleSubmit}
+              disabled={isSubmitting}
+              className="w-full py-3 text-lg font-semibold transition rounded-full bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 text-white hover:from-purple-500 hover:via-pink-500 hover:to-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Register for Webinar
+              {isSubmitting ? 'Processing...' : 'Continue to Payment'}
             </button>
-
+            
             <button
-              type="submit"
-              className="w-full md:w-1/2 py-3 text-base md:text-lg font-semibold rounded-full bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 text-white hover:from-purple-500 hover:via-pink-500 hover:to-blue-500 transition"
+              onClick={sendEmail}
+              disabled={isSubmitting}
+              className="w-full py-3 text-lg font-semibold transition rounded-full bg-gradient-to-r from-green-400 to-blue-500 text-white hover:from-green-500 hover:to-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Continue to Payment
+              {isSubmitting ? 'Processing...' : 'Send Registration Email'}
             </button>
           </div>
-        </form>
-
-        {status && <p className="mt-4 text-center text-sm text-gray-600">{status}</p>}
+        </div>
       </div>
     </section>
   );
