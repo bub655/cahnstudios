@@ -5,6 +5,7 @@ const cors = require('cors');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const nodemailer = require('nodemailer');
 
+
 const app = express();
 const PORT = process.env.PORT || 3001;
 
@@ -24,11 +25,11 @@ app.post(
     console.log('🚨 WEBHOOK CALLED - Raw request received');
     console.log('Headers:', req.headers);
     console.log('Body size:', req.body?.length || 0);
-
+    
     const sig = req.headers['stripe-signature'];
     console.log('Stripe signature present:', !!sig);
     console.log('Webhook secret configured:', !!process.env.STRIPE_WEBHOOK_SECRET);
-
+    
     let event;
 
     try {
@@ -55,7 +56,7 @@ app.post(
       console.log('Session customer_email:', session.customer_email);
       console.log('Session customer_details:', session.customer_details);
       console.log('Session customer:', session.customer);
-
+      
       try {
         await handleSuccessfulPayment(session);
         console.log('✅ Email handling completed successfully');
@@ -84,106 +85,21 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-/* /api/contact: receive form data and send emails */
-app.post('/api/contact', async (req, res) => {
-  try {
-    const { name, email, phone, country } = req.body;
-    if (!name || !email || !phone || !country) {
-      return res.status(400).json({
-        success: false,
-        error: 'Name, email, phone, and country are required.',
-      });
-    }
-
-    // Email to admin with registrant's details
-    const mailOptionsOwner = {
-      from: `"Webinar Registration" <${process.env.GMAIL_USER}>`,
-      to: process.env.GMAIL_USER,
-      subject: `New registration from ${name}`,
-      replyTo: email,
-      text: `
-You have a new registration from your website:
-
-Name:    ${name}
-Email:   ${email}
-Phone:   ${phone}
-Country: ${country}
-      `.trim(),
-    };
-
-    await transporter.sendMail(mailOptionsOwner);
-
-    // Confirmation email to registrant
-    const mailOptionsUser = {
-      from: `"Cahn Studios" <${process.env.GMAIL_USER}>`,
-      to: email,
-      subject: 'Thanks for registering!',
-      text: `
-Hi ${name},
-
-Thank you for registering for our AI for Creators webinar!
-
-We see you’re joining us from ${country}.
-
-Here is your personal link to join:
-https://cahnstudios.com/
-
-We look forward to seeing you there.
-
-– The Cahn Team
-      `.trim(),
-      html: `
-        <p>Hi ${name},</p>
-        <p>Thank you for registering for our <strong>AI for Creators</strong> webinar!</p>
-        <p>We see you’re joining us from <strong>${country}</strong>.</p>
-        <p>
-          <a href="https://cahnstudios.com/" target="_blank" style="color: #1e40af; text-decoration: none; font-weight: bold;">
-            Click here to join your webinar
-          </a>
-        </p>
-        <p>We look forward to seeing you there.</p>
-        <p>– The Cahn Team</p>
-      `.trim(),
-    };
-
-    await transporter.sendMail(mailOptionsUser);
-
-    return res.status(200).json({ success: true, message: 'Emails sent.' });
-  } catch (err) {
-    console.error('Error in /api/contact:', err);
-    return res
-      .status(500)
-      .json({ success: false, error: 'Failed to send emails. Please try again.' });
-  }
-});
-
 /* Checkout Session */
 app.post('/api/create-checkout-session', async (req, res) => {
   try {
     console.log('📝 Creating checkout session with request body:', req.body);
-    const { name, email, phone, country } = req.body;
-    const amount = 11599;
+    const { name, email, phone, country} = req.body;
+    const amount = 11599; //monetary value
 
     console.log('Extracted data:', { name, email, phone, country });
 
     if (!name || !email || !phone || !country) {
-      console.error('Missing required fields:', {
-        name: !!name,
-        email: !!email,
-        phone: !!phone,
-        country: !!country,
-      });
-      return res
-        .status(400)
-        .json({ error: 'Name, email, phone, and country are required.' });
+      console.error('Missing required fields:', { name: !!name, email: !!email, phone: !!phone, country: !!country });
+      return res.status(400).json({ error: 'Name, email, phone, and country are required.' });
     }
 
-    console.log('Creating Stripe session with metadata:', {
-      name,
-      email,
-      phone,
-      country,
-    });
+    console.log('Creating Stripe session with metadata:', { name, email, phone });
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -228,7 +144,8 @@ app.post('/api/create-checkout-session', async (req, res) => {
 async function handleSuccessfulPayment(session) {
   console.log('📧 Starting email process...');
   console.log('Full session object:', JSON.stringify(session, null, 2));
-
+  
+  // Try multiple ways to get customer data
   let name = session.metadata?.name;
   let email = session.metadata?.email;
   let phone = session.metadata?.phone;
@@ -245,16 +162,17 @@ async function handleSuccessfulPayment(session) {
     name = session.customer_details.name;
     console.log('Using customer_details.name as fallback:', name);
   }
+  
 
-  // Fallback: retrieve full session from Stripe API
-  if (!name || !email || !country) {
+  // Fallback: try to retrieve full session from Stripe API
+  if (!name || !email) {
     try {
       console.log('Attempting to retrieve full session from Stripe API...');
       const fullSession = await stripe.checkout.sessions.retrieve(session.id, {
-        expand: ['customer'],
+        expand: ['customer']
       });
       console.log('Full session from API:', JSON.stringify(fullSession, null, 2));
-
+      
       if (!name && fullSession.metadata?.name) {
         name = fullSession.metadata.name;
       }
@@ -264,10 +182,12 @@ async function handleSuccessfulPayment(session) {
       if (!phone && fullSession.metadata?.phone) {
         phone = fullSession.metadata.phone;
       }
-      if (!country && fullSession.metadata?.country) {
-        country = fullSession.metadata.country;
-      }
-
+      if (!country && fullSession.metadata?.country) { 
+      country = fullSession.metadata.country;
+    }
+      
+      
+      // Try customer_email again
       if (!email && fullSession.customer_email) {
         email = fullSession.customer_email;
       }
@@ -276,7 +196,7 @@ async function handleSuccessfulPayment(session) {
     }
   }
 
-  console.log('Final customer data:', { name, email, phone, country });
+  console.log('Final customer data:', { name, email, phone, country});
 
   if (!email) {
     console.error('❌ No email found - cannot send confirmation');
@@ -284,26 +204,21 @@ async function handleSuccessfulPayment(session) {
   }
 
   if (!name) {
-    name = 'Valued Customer';
+    name = 'Valued Customer'; // Fallback name
     console.log('Using fallback name:', name);
-  }
-  if (!country) {
-    country = 'Unknown';
-    console.log('Using fallback country:', country);
   }
 
   console.log('Gmail credentials configured:', {
     user: !!process.env.GMAIL_USER,
-    pass: !!process.env.GMAIL_PASS,
+    pass: !!process.env.GMAIL_PASS
   });
-
-  // Email to registrant
+  
   const mailOptions = {
-    from: `"Cahn Studios" <${process.env.GMAIL_USER}>`,
-    to: email,
-    subject: 'Welcome to AI for Creators - Webinar 2.0!',
-    text: `
-Hi ${name},
+  from: `"Cahn Studios" <${process.env.GMAIL_USER}>`,
+  to: email,
+  subject: 'Welcome to AI for Creators - Webinar 2.0!',
+  text: `
+Hi,
 
 Thank you for registering for "AI for Creators" — we’re thrilled to have you join us for this high-impact session designed to supercharge your creative workflows using AI!
 
@@ -311,9 +226,9 @@ Thank you for registering for "AI for Creators" — we’re thrilled to have you
 🕒 Time: 7:30 PM – 9:30 PM (IST) & 7:00 AM – 9:00 AM (PST)
 📍 Where: Live on Zoom — Link coming soon!
 
-We see you’re joining us from ${country}!
-
 What to Expect:
+These interactive sessions are crafted for creators, marketers, and entrepreneurs ready to work with AI, not against it. You’ll learn:
+
 • The best AI tools for writing, video, design & ads  
 • Prompt engineering secrets that unlock powerful results  
 • Smart workflows to scale content and campaigns  
@@ -323,7 +238,7 @@ What to Expect:
 Expect a mix of demos, live walkthroughs, creative challenges, and Q&A time — no fluff, just action-ready insights.
 
 Come with a project idea in mind — you’ll leave with ways to accelerate it using AI!  
-We’ll be sending a reminder with the Zoom link and your downloadable handout closer to the date.
+We’ll be sending a reminder with the Zoom link and your downloadable handout closer to the date.  
 
 Meanwhile, feel free to reply if you have any questions or ideas you’d love covered in the session.
 
@@ -331,54 +246,64 @@ Can’t wait to see you there!
 
 Warmly,  
 Team Cahn
-    `.trim(),
-    html: `
-      <div style="font-family: sans-serif; line-height: 1.5; color: #333;">
-        <p>Hi ${name},</p>
+  `.trim(),
+  html: `
+    <div style="font-family: sans-serif; line-height: 1.5; color: #333;">
+      <p>Hi,</p>
 
-        <p>Thank you for registering for <strong>AI for Creators</strong> — we’re thrilled to have you join us for this high-impact session designed to supercharge your creative workflows using AI!</p>
+      <p>
+        Thank you for registering for <strong>AI for Creators</strong> — we’re thrilled to have you join us for this high-impact session designed to supercharge your creative workflows using AI!
+      </p>
 
-        <p>
-          <strong>📅 Webinar Date:</strong> 21.06.2025 &amp; 22.06.2025<br>
-          <strong>🕒 Time:</strong> 7:30 PM – 9:30 PM (IST) &amp; 7:00 AM – 9:00 AM (PST)<br>
-          <strong>📍 Where:</strong> Live on Zoom — Link coming soon!
-        </p>
+      <p>
+        <strong>📅 Webinar Date:</strong> 21.06.2025 &amp; 22.06.2025<br>
+        <strong>🕒 Time:</strong> 7:30 PM – 9:30 PM (IST) &amp; 7:00 AM – 9:00 AM (PST)<br>
+        <strong>📍 Where:</strong> Live on Zoom — Link coming soon!
+      </p>
 
-        <p>We see you’re joining us from <strong>${country}</strong>!</p>
+      <p><strong>What to Expect:</strong><br>
+      These interactive sessions are crafted for <strong>creators, marketers, and entrepreneurs</strong> ready to work with AI, not against it. You’ll learn:</p>
 
-        <p><strong>What to Expect:</strong></p>
-        <ul style="margin-left: 1rem; color: #333;">
-          <li>The best AI tools for writing, video, design &amp; ads</li>
-          <li>Prompt engineering secrets that unlock powerful results</li>
-          <li>Smart workflows to scale content and campaigns</li>
-          <li>Real-world case studies and ethical guardrails</li>
-          <li>A downloadable handout with tools, tips, and templates</li>
-        </ul>
+      <ul style="margin-left: 1rem; color: #333;">
+        <li>The best AI tools for writing, video, design &amp; ads</li>
+        <li>Prompt engineering secrets that unlock powerful results</li>
+        <li>Smart workflows to scale content and campaigns</li>
+        <li>Real-world case studies and ethical guardrails</li>
+        <li>A downloadable handout with tools, tips, and templates</li>
+      </ul>
 
-        <p>Expect a mix of demos, live walkthroughs, creative challenges, and Q&amp;A time — <strong>no fluff, just action-ready insights.</strong></p>
+      <p>
+        Expect a mix of demos, live walkthroughs, creative challenges, and Q&amp;A time — <strong>no fluff, just action-ready insights.</strong>
+      </p>
 
-        <p>Come with a project idea in mind — you’ll leave with ways to accelerate it using AI! We’ll be sending a reminder with the Zoom link closer to the date.</p>
+      <p>
+        Come with a project idea in mind — you’ll leave with ways to accelerate it using AI!<br>
+        We’ll be sending a reminder with the Zoom link and your downloadable handout closer to the date.
+      </p>
 
-        <p>Feel free to reply if you have any questions.</p>
+      <p>
+        Meanwhile, feel free to reply if you have any questions or ideas you’d love covered in the session.
+      </p>
 
-        <p>Can’t wait to see you there!</p>
-        <p>Warmly,<br>Team Cahn</p>
-      </div>
-    `.trim(),
-  };
+      <p>Can’t wait to see you there!</p>
 
-  try {
-    console.log('📤 Attempting to send email to:', email);
-    const info = await transporter.sendMail(mailOptions);
-    console.log('✅ Email sent successfully! Message ID:', info.messageId);
-    console.log('Email info:', info);
+      <p>Warmly,<br>Team Cahn</p>
+    </div>
+  `.trim(),
+};
 
-    // Send notification email to yourself (admin)
-    const notificationOptions = {
-      from: `"Cahn Studios" <${process.env.GMAIL_USER}>`,
-      to: process.env.GMAIL_USER,
-      subject: `New Registration: AI for Creators Webinar - ${name}`,
-      text: `
+try {
+  console.log('📤 Attempting to send email to:', email);
+  const info = await transporter.sendMail(mailOptions);
+  console.log('✅ Email sent successfully! Message ID:', info.messageId);
+  console.log('Email info:', info);
+
+  // Send notification email to yourself
+  const notificationOptions = {
+    from: `"Cahn Studios" <${process.env.GMAIL_USER}>`,
+    to: process.env.GMAIL_USER,
+    subject: `New Registration: AI for Creators Webinar - ${name}`,
+    text: `
 New registration received:
 
 Name: ${name}
@@ -388,27 +313,28 @@ Country: ${country}
 Session ID: ${session.id}
 Payment Status: ${session.payment_status}
 Registration Time: ${new Date().toISOString()}
-      `.trim(),
-      html: `
-        <div style="font-family: sans-serif; line-height: 1.5; color: #333;">
-          <h2>New Registration Received</h2>
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Phone:</strong> ${phone}</p>
-          <p><strong>Country:</strong> ${country}</p>
-          <p><strong>Session ID:</strong> ${session.id}</p>
-          <p><strong>Payment Status:</strong> ${session.payment_status}</p>
-          <p><strong>Registration Time:</strong> ${new Date().toISOString()}</p>
-        </div>
-      `.trim(),
-    };
+    `.trim(),
+    html: `
+      <div style="font-family: sans-serif; line-height: 1.5; color: #333;">
+        <h2>New Registration Received</h2>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Phone:</strong> ${phone}</p>
+        <p><strong>Country:</strong> ${country}</p>
+        <p><strong>Session ID:</strong> ${session.id}</p>
+        <p><strong>Payment Status:</strong> ${session.payment_status}</p>
+        <p><strong>Registration Time:</strong> ${new Date().toISOString()}</p>
+      </div>
+    `.trim(),
+  };
 
-    await transporter.sendMail(notificationOptions);
-    console.log('✅ Notification email sent to admin');
-  } catch (err) {
-    console.error('❌ Email sending failed:', err);
-    console.error('Error details:', err.message);
-  }
+  await transporter.sendMail(notificationOptions);
+  console.log('✅ Notification email sent to admin');
+
+} catch (err) {
+  console.error('❌ Email sending failed:', err);
+  console.error('Error details:', err.message);
+}
 }
 
 /* Health check */
@@ -418,16 +344,16 @@ app.get('/api/health', (req, res) => {
 
 /* Webhook test endpoint */
 app.get('/api/webhook-test', (req, res) => {
-  res.json({
+  res.json({ 
     status: 'Webhook endpoint is accessible',
     environment: {
       stripeSecretKey: !!process.env.STRIPE_SECRET_KEY,
       stripeWebhookSecret: !!process.env.STRIPE_WEBHOOK_SECRET,
       gmailUser: !!process.env.GMAIL_USER,
       gmailPass: !!process.env.GMAIL_PASS,
-      frontEndUrl: process.env.FRONT_END_URL || 'not set',
+      frontEndUrl: process.env.FRONT_END_URL || 'not set'
     },
-    timestamp: new Date().toISOString(),
+    timestamp: new Date().toISOString()
   });
 });
 
@@ -435,19 +361,17 @@ app.get('/api/webhook-test', (req, res) => {
 app.post('/api/test-session', async (req, res) => {
   try {
     console.log('🧪 TEST: Creating test session');
-
+    
     const testSession = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
-      line_items: [
-        {
-          price_data: {
-            currency: 'usd',
-            product_data: { name: 'Test Product' },
-            unit_amount: 100,
-          },
-          quantity: 1,
+      line_items: [{
+        price_data: {
+          currency: 'usd',
+          product_data: { name: 'Test Product' },
+          unit_amount: 100,
         },
-      ],
+        quantity: 1,
+      }],
       mode: 'payment',
       success_url: 'https://example.com/success',
       cancel_url: 'https://example.com/cancel',
@@ -461,11 +385,11 @@ app.post('/api/test-session', async (req, res) => {
 
     console.log('✅ Test session created:', testSession.id);
     console.log('Test session metadata:', testSession.metadata);
-
-    return res.json({
-      success: true,
+    
+    return res.json({ 
+      success: true, 
       sessionId: testSession.id,
-      metadata: testSession.metadata,
+      metadata: testSession.metadata 
     });
   } catch (error) {
     console.error('❌ Test session failed:', error);
@@ -495,4 +419,4 @@ app.get('/', (req, res) => {
       </body>
     </html>
   `);
-});
+}); 
