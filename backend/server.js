@@ -107,7 +107,7 @@ app.post('/api/register', async (req, res) => {
     const thankYouOptions = {
       from: `"Cahn Studios" <${process.env.GMAIL_USER}>`,
       to: email,
-      subject: 'Thanks for Registering for AI for Creators!',
+      subject: 'Thanks for Registering AI for Creators - Webinar 2.0!',
       text: `
 Hi,
 
