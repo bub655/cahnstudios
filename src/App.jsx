@@ -8,6 +8,7 @@ import Success from "./components/Success";
 import Footer from "./components/Footer";
 import PaymentSelection from './components/PaymentSelection';
 import Contact from './components/Contact';
+import TermsOfService from './components/TermsOfService';
 
 export default function App() {
   useEffect(() => {
@@ -56,6 +57,7 @@ export default function App() {
           element={<Success />}
         />
         <Route path="/" element={<Form />} />
+        <Route path="/terms-of-service" element={<TermsOfService />} />
         <Route path="/payment-selection" element={<PaymentSelection />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>

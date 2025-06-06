@@ -19,10 +19,10 @@ const Form = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Store form data in sessionStorage to pass to payment selection page
+    // Store form data in sessionStorage to pass to terms of service page
     sessionStorage.setItem('registrationData', JSON.stringify(formData));
-    // Redirect to payment selection page
-    window.location.href = '/payment-selection';
+    // Redirect to terms of service page
+    window.location.href = '/terms-of-service';
   };
 
   return (
