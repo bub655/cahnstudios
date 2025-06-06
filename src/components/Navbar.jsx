@@ -10,26 +10,26 @@ export default function Navbar() {
         </a>
       </div>
       <ul className="flex space-x-8 text-gray-700 font-medium list-none">
-        {/* <li>
+        <li>
           <a href="/" className="hover:text-black-600 transition-colors duration-200 py-2 px-1 border-b-2 border-transparent hover:border-blue-600">
             Home
           </a>
         </li>
         <li>
-          <a href="/about" className="hover:text-black-600 transition-colors duration-200 py-2 px-1 border-b-2 border-transparent hover:border-blue-600">
+          <a href="/#about" className="hover:text-black-600 transition-colors duration-200 py-2 px-1 border-b-2 border-transparent hover:border-blue-600">
             About
           </a>
         </li>
         <li>
-          <a href="/services" className="hover:text-black-600 transition-colors duration-200 py-2 px-1 border-b-2 border-transparent hover:border-blue-600">
+          <a href="/#services" className="hover:text-black-600 transition-colors duration-200 py-2 px-1 border-b-2 border-transparent hover:border-blue-600">
             Services
           </a>
         </li>
         <li>
-          <a href="/webinars" className="hover:text-black-600 transition-colors duration-200 py-2 px-1 border-b-2 border-transparent hover:border-blue-600">
-            Webinars
+          <a href="/webinar" className="hover:text-black-600 transition-colors duration-200 py-2 px-1 border-b-2 border-transparent hover:border-blue-600">
+            AI Webinar
           </a>
-        </li> */}
+        </li>
         <li>
           <a href="/contact" className="hover:text-black-600 transition-colors duration-200 py-2 px-1 border-b-2 border-transparent hover:border-blue-600">
             Contact Us

@@ -137,3 +137,8 @@
   color: #721c24;
   border: 1px solid #f5c6cb;
 }
+
+/* Offset for fixed navbar when scrolling to sections */
+section[id] {
+  scroll-margin-top: 64px; /* Height of the fixed navbar */
+}

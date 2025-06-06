@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import Showcase from "./components/Showcase";
-import WebinarDetails from "./components/WebinarDetails";
-import Form from "./components/Form";
+import Home from "./components/Home";
+import Webinar from "./components/Webinar";
 import Success from "./components/Success";
 import Footer from "./components/Footer";
 import PaymentSelection from './components/PaymentSelection';
@@ -40,27 +39,21 @@ export default function App() {
       <Navbar />
 
       <Routes>
-        <Route
-          path="/"
-          element={
-            <>
-              <Showcase />
-              <WebinarDetails />
-              <Form />
-            </>
-          }
-        />
+        {/* New home page with company sections */}
+        <Route path="/" element={<Home />} />
+        
+        {/* Webinar registration page (moved from home) */}
+        <Route path="/webinar" element={<Webinar />} />
 
         {/* After successful payment, Stripe redirects here */}
-        <Route
-          path="/success"
-          element={<Success />}
-        />
-        <Route path="/" element={<Form />} />
+        <Route path="/success" element={<Success />} />
+        
+        {/* Other pages */}
         <Route path="/terms-of-service" element={<TermsOfService />} />
         <Route path="/payment-selection" element={<PaymentSelection />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>
+      
       <Footer />
     </BrowserRouter>
   );
