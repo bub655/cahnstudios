@@ -359,48 +359,48 @@ const Home = () => {
 
       {/* Section 7: How We Do It */}
       <section id="how" className="py-20 bg-gray-950">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
+        <div className="max-w-8xl mx-auto px-12">
+          <div className="mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">How We Do It</h2>
-            <p className="text-xl text-gray-300">
-              Our proven methodology combines cutting-edge technology with human creativity.
+            <p className="text-xl text-gray-300 max-w-8xl mx-auto">
+              In an era where AI raises as many questions as it answers, our approach centers on building trust through transparency, expertise, and human-centered design.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="text-center lg:text-left border-2 border-gray-700 rounded-lg p-8 bg-gray-800/50">
-              <div className="flex items-center justify-center lg:justify-start mb-6">
-                <div className="w-12 h-12 border-2 border-blue-500 rounded-full flex items-center justify-center text-blue-400 font-bold text-xl mr-4">
-                  1
-                </div>
-                <h3 className="text-2xl font-semibold">Research & Learn</h3>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <div className="border-2 border-gray-700 rounded-lg p-8">
+              <div className="mb-6">
+                <svg className="w-12 h-12 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5-6v6a7 7 0 11-14 0V6a7 7 0 1114 0z" />
+                </svg>
               </div>
+              <h3 className="text-2xl font-semibold mb-4">Trust & Safety by Design</h3>
               <p className="text-gray-300">
-                We continuously explore the latest AI developments and identify practical applications for creators.
+                Every solution we build integrates ethical guardrails and safety protocols from inception, not as afterthoughts. Your data, brand voice, and audiences are protected at every step.
               </p>
             </div>
 
-            <div className="text-center lg:text-left border-2 border-gray-700 rounded-lg p-8 bg-gray-800/50">
-              <div className="flex items-center justify-center lg:justify-start mb-6">
-                <div className="w-12 h-12 border-2 border-blue-500 rounded-full flex items-center justify-center text-blue-400 font-bold text-xl mr-4">
-                  2
-                </div>
-                <h3 className="text-2xl font-semibold">Build & Test</h3>
+            <div className="border-2 border-gray-700 rounded-lg p-8">
+              <div className="mb-6">
+                <svg className="w-12 h-12 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
               </div>
+              <h3 className="text-2xl font-semibold mb-4">Responsible AI Development</h3>
               <p className="text-gray-300">
-                We develop user-friendly tools and test them rigorously with real creators to ensure effectiveness.
+                Our neuroscience background informs our ethical approach to AI—we rigorously test against biases, ensure data privacy, and maintain human oversight where it matters most.
               </p>
             </div>
 
-            <div className="text-center lg:text-left border-2 border-gray-700 rounded-lg p-8 bg-gray-800/50">
-              <div className="flex items-center justify-center lg:justify-start mb-6">
-                <div className="w-12 h-12 border-2 border-blue-500 rounded-full flex items-center justify-center text-blue-400 font-bold text-xl mr-4">
-                  3
-                </div>
-                <h3 className="text-2xl font-semibold">Teach & Share</h3>
+            <div className="border-2 border-gray-700 rounded-lg p-8">
+              <div className="mb-6">
+                <svg className="w-12 h-12 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
               </div>
+              <h3 className="text-2xl font-semibold mb-4">Transparent Partnership</h3>
               <p className="text-gray-300">
-                We educate our community through workshops, tutorials, and hands-on training sessions.
+                We demystify AI by involving you in every stage—explaining our processes, providing education, and ensuring you maintain control and ownership of your creative vision.
               </p>
             </div>
           </div>
