@@ -119,7 +119,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
       ],
       mode: 'payment',
       success_url: `${process.env.FRONT_END_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.FRONT_END_URL}/cancel`,
+      cancel_url: `${process.env.FRONT_END_URL}/payment-selection`,
       customer_email: email,
       metadata: {
         name: name,
