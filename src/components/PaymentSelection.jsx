@@ -194,7 +194,7 @@ const PaymentSelection = () => {
           <div className="mt-4 pt-4 border-t border-gray-200">
             <div className="flex justify-between items-center">
               <span className="font-semibold text-gray-700">Total Amount:</span>
-              <span className="text-xl font-bold text-gray-800">₹9,899</span>
+              <span className="text-xl font-bold text-gray-800">₹4,999</span>
             </div>
           </div>
         </div>
@@ -250,7 +250,7 @@ const PaymentSelection = () => {
                 </div>
                 <div className="text-left">
                   <h4 className="font-semibold text-gray-800">Pay with Razorpay (India)</h4>
-                  <p className="text-sm text-gray-600">UPI, Cards, Net Banking, Wallets - ₹9,899</p>
+                  <p className="text-sm text-gray-600">UPI, Cards, Net Banking, Wallets - ₹4,999</p>
                 </div>
               </div>
               {isProcessing && processingMethod === 'razorpay' ? (
