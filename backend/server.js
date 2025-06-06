@@ -11,13 +11,24 @@ const PORT = process.env.PORT || 3001;
 
 app.use(
   cors({
-    origin: [
-      'https://www.cahnstudios.com',
-      'https://cahnstudios.com', 
-      'https://cahn-webinar-individual-ivi7.vercel.app',
-      'http://localhost:5173',
-      'http://localhost:3000'
-    ],
+    origin: (origin, callback) => {
+      const allowedOrigins = [
+        'https://www.cahnstudios.com',
+        'https://cahnstudios.com', 
+        'https://cahn-webinar-individual-ivi7.vercel.app',
+        'http://localhost:5173',
+        'http://localhost:3000'
+      ];
+      
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+      
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      } else {
+        return callback(null, false);
+      }
+    },
     credentials: true,
   })
 );
