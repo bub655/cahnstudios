@@ -38,49 +38,6 @@ export default function Success() {
     setTimeout(handlePaymentConfirmation, 1000);
   }, [sessionId, paymentId, orderId, isRazorpayPayment, isStripePayment]);
 
-  const handleRazorpayConfirmation = async () => {
-    try {
-      console.log('Confirming Razorpay payment...');
-      
-      // Get signature from sessionStorage if available
-      const razorpayPayment = sessionStorage.getItem('razorpayPayment');
-      let signature = '';
-      
-      if (razorpayPayment) {
-        const paymentData = JSON.parse(razorpayPayment);
-        signature = paymentData.signature || '';
-      }
-
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/razorpay/webhook/payment-success`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          payment_id: paymentId, 
-          order_id: orderId,
-          signature: signature
-        }),
-      });
-
-      console.log('Razorpay confirmation response status:', response.status);
-      
-      if (response.ok) {
-        const result = await response.json();
-        console.log('Razorpay payment confirmed successfully:', result);
-        setEmailStatus('sent');
-        
-        // Clear payment data from sessionStorage
-        sessionStorage.removeItem('razorpayPayment');
-      } else {
-        const errorResult = await response.text();
-        console.error('Failed to confirm Razorpay payment:', response.status, errorResult);
-        setEmailStatus('failed');
-      }
-    } catch (error) {
-      console.error('Error confirming Razorpay payment:', error);
-      setEmailStatus('failed');
-    }
-  };
-
   const getEmailMessage = () => {
     switch (emailStatus) {
       case 'checking':
