@@ -12,7 +12,6 @@ const PaymentSelection = () => {
     
     if (!storedData) {
       // If no registration data, redirect to registration form
-      alert('Please complete the registration form first.');
       window.location.href = '/';
       return;
     }
@@ -58,7 +57,6 @@ const PaymentSelection = () => {
       if (data.url) {
         window.location.href = data.url;
       } else {
-        alert('Failed to start Stripe payment. Please try again.');
         setIsProcessing(false);
         setProcessingMethod('');
       }
@@ -101,7 +99,7 @@ const PaymentSelection = () => {
 
       // Razorpay checkout options
       const options = {
-        key: import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_live_your_key_id", // Add this to your frontend env
+        key: order.key_id, // Use key provided securely by backend
         amount: order.amount,
         currency: order.currency,
         name: "Cahn Studios",

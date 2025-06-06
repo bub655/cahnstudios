@@ -17,7 +17,6 @@ const TermsOfService = () => {
 
   const handleAccept = () => {
     if (!accepted) {
-      alert('Please accept the Terms of Service to continue.');
       return;
     }
     

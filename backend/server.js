@@ -424,7 +424,7 @@ app.post("/api/razorpay/create-order", async (req, res) => {
     }
 
     const options = {
-      amount: 4999, // amount in the smallest currency unit (₹4,288.58)
+      amount: 499900, // amount in the smallest currency unit (₹4,999)
       currency: "INR",
       receipt: `receipt_${email}`,
       notes: {
@@ -439,7 +439,11 @@ app.post("/api/razorpay/create-order", async (req, res) => {
     console.log('✅ Razorpay order created successfully:', order.id);
     console.log('Order notes:', order.notes);
     
-    return res.json(order);
+    // Return order details along with the key_id (key_id is safe to expose, key_secret is not)
+    return res.json({
+      ...order,
+      key_id: process.env.RAZORPAY_KEY_ID // Only send the key_id, never the secret
+    });
   } catch (err) {
     console.error('❌ Error creating Razorpay order:', err);
     return res.status(500).send(err);
