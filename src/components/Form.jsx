@@ -17,12 +17,32 @@ const Form = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Store form data in sessionStorage to pass to terms of service page
-    sessionStorage.setItem('registrationData', JSON.stringify(formData));
-    // Redirect to terms of service page
-    window.location.href = '/terms-of-service';
+    setIsRegistering(true);
+    
+    try {
+      // Store form data in sessionStorage
+      sessionStorage.setItem('registrationData', JSON.stringify(formData));
+      
+      // Track initial engagement
+      console.log('Tracking initial engagement...');
+      await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/track-engagement`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      console.log('✅ Engagement tracked successfully');
+      
+      // Redirect to terms of service page
+      window.location.href = '/terms-of-service';
+    } catch (error) {
+      console.error('❌ Error tracking engagement:', error);
+      // Still redirect even if tracking fails
+      window.location.href = '/terms-of-service';
+    } finally {
+      setIsRegistering(false);
+    }
   };
 
   return (
@@ -123,9 +143,21 @@ const Form = () => {
           <div className="pt-4">
             <button
               type="submit"
-              className="w-full py-3 text-lg font-semibold transition rounded-full bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 text-white hover:from-purple-500 hover:via-pink-500 hover:to-blue-500"
+              disabled={isRegistering}
+              className={`w-full py-3 text-lg font-semibold transition rounded-full ${
+                isRegistering
+                  ? 'bg-gray-400 cursor-not-allowed text-gray-200'
+                  : 'bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 text-white hover:from-purple-500 hover:via-pink-500 hover:to-blue-500'
+              }`}
             >
-              Continue to Payment
+              {isRegistering ? (
+                <div className="flex items-center justify-center">
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                  Processing...
+                </div>
+              ) : (
+                'Continue to Payment'
+              )}
             </button>
           </div>
         </form>
