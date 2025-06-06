@@ -50,7 +50,7 @@ export default function Success() {
         signature = paymentData.signature || '';
       }
 
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/razorpay/payment-success`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/razorpay/webhook/payment-success`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
