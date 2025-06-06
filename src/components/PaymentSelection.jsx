@@ -222,7 +222,7 @@ const PaymentSelection = () => {
                 </div>
                 <div className="text-left">
                   <h4 className="font-semibold text-gray-800">Pay with Stripe (International)</h4>
-                  <p className="text-sm text-gray-600">Credit/Debit Cards, Digital Wallets - $115.99</p>
+                  <p className="text-sm text-gray-600">Credit/Debit Cards, Digital Wallets - $58.21</p>
                 </div>
               </div>
               {isProcessing && processingMethod === 'stripe' ? (
