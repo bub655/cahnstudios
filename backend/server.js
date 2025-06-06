@@ -11,24 +11,7 @@ const PORT = process.env.PORT || 3001;
 
 app.use(
   cors({
-    origin: (origin, callback) => {
-      const allowedOrigins = [
-        'https://www.cahnstudios.com',
-        'https://cahnstudios.com', 
-        'https://cahn-webinar-individual-ivi7.vercel.app',
-        'http://localhost:5173',
-        'http://localhost:3000'
-      ];
-      
-      // Allow requests with no origin (like mobile apps or curl requests)
-      if (!origin) return callback(null, true);
-      
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      } else {
-        return callback(null, false);
-      }
-    },
+    origin: true,
     credentials: true,
   })
 );
@@ -607,11 +590,7 @@ app.post('/api/contact', async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Backend server running on port ${PORT}`);
-  console.log(`Webhook endpoint: http://localhost:${PORT}/api/webhook`);
-});
-
+/* Home route */
 app.get('/', (req, res) => {
   res.send(`
     <html>
@@ -629,4 +608,9 @@ app.get('/', (req, res) => {
       </body>
     </html>
   `);
+}); 
+
+app.listen(PORT, () => {
+  console.log(`Backend server running on port ${PORT}`);
+  console.log(`Webhook endpoint: http://localhost:${PORT}/api/webhook`);
 }); 
