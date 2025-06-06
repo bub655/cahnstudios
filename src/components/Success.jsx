@@ -21,7 +21,8 @@ export default function Success() {
 
       if (isRazorpayPayment) {
         // Handle Razorpay payment confirmation
-        await handleRazorpayConfirmation();
+        console.log('Razorpay payment detected - webhook should handle email sending');
+        setEmailStatus('sent');
       } else if (isStripePayment) {
         // For Stripe, the webhook should handle email sending
         // But we can add a fallback here if needed
@@ -34,7 +35,7 @@ export default function Success() {
     };
 
     // Wait 2 seconds to let any webhooks potentially complete first
-    setTimeout(handlePaymentConfirmation, 2000);
+    setTimeout(handlePaymentConfirmation, 1000);
   }, [sessionId, paymentId, orderId, isRazorpayPayment, isStripePayment]);
 
   const handleRazorpayConfirmation = async () => {

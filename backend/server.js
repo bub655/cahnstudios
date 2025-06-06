@@ -22,7 +22,7 @@ app.post(
   '/api/webhook',
   express.raw({ type: 'application/json' }),
   async (req, res) => {
-    console.log('🚨 WEBHOOK CALLED - Raw request received');
+    console.log('🚨 STRIPE WEBHOOK CALLED - Raw request received');
     console.log('Headers:', req.headers);
     console.log('Body size:', req.body?.length || 0);
     
@@ -311,8 +311,8 @@ Name: ${name}
 Email: ${email}
 Phone: ${phone}
 Country: ${country}
-Session ID: ${session.id}
-Payment Status: ${session.payment_status}
+Payment Type: ${type}
+ID: ${id}
 Registration Time: ${new Date().toISOString()}
     `.trim(),
     html: `
@@ -443,36 +443,33 @@ app.post("/api/razorpay/create-order", async (req, res) => {
 /* Razorpay Payment Success Handler */
 app.post('/api/razorpay/webhook/payment-success', async (req, res) => {
   try {
-    console.log('🎉 Razorpay payment success callback received');
-    const { payment_id, order_id, signature } = req.body;
+    console.log('🚨 WEBHOOK CALLED - Raw request received');
+    console.log('Headers:', req.headers);
+    console.log('Body size:', req.body?.length || 0);
 
-    console.log('Payment details:', { payment_id, order_id, signature });
+    const event = req.body.event;
+    const payload = req.body.payload;
+    console.log('Event:', event);
+    console.log('Payload:', payload);
+    const paymentEntity = payload.payment.entity;
+
+    const email = paymentEntity.email;
+    const phone = paymentEntity.contact;
+    const name = paymentEntity.notes?.name || 'No name given'; // if you passed name in notes
+    const country = paymentEntity.country || 'N/A';
+    const payment_id = paymentEntity.id;
+    const order_id = paymentEntity.order_id;
+
+    console.log("Email:", email);
+    console.log("Phone:", phone);
+    console.log("Country:", country);
+    console.log("Name:", name);
+
+    console.log('Payment details:', { payment_id, order_id });
 
     if (!payment_id || !order_id) {
       return res.status(400).json({ error: 'Payment ID and Order ID are required' });
     }
-
-    // Verify payment signature (optional but recommended)
-    const crypto = require('crypto');
-    const generated_signature = crypto
-      .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
-      .update(order_id + '|' + payment_id)
-      .digest('hex');
-
-    if (signature && generated_signature !== signature) {
-      console.error('❌ Payment signature verification failed');
-      return res.status(400).json({ error: 'Invalid payment signature' });
-    }
-
-    // Fetch order details from Razorpay to get customer information
-    const order = await razorpay.orders.fetch(order_id);
-    console.log('Order details from Razorpay:', order);
-
-    // Extract customer data from order notes
-    const name = order.notes?.name || 'Valued Customer';
-    const email = order.notes?.email;
-    const phone = order.notes?.phone;
-    const country = order.notes?.country;
 
     console.log('Customer data from order:', { name, email, phone, country });
 
@@ -481,9 +478,10 @@ app.post('/api/razorpay/webhook/payment-success', async (req, res) => {
       return res.status(400).json({ error: 'Customer email not found' });
     }
 
+    console.log('Sending confirmation email...');
     // Send confirmation email (same function as Stripe)
     await handleSuccessFullEmail({ name, email, phone, country, type: 'razorpay', id: payment_id });
-
+    console.log('✅ Email sent successfully!');
     return res.json({ 
       success: true, 
       message: 'Payment verified and confirmation email sent',
