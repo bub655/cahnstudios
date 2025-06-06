@@ -34,6 +34,27 @@ const Form = () => {
         <h2 className="text-4xl font-bold text-gray-800 mb-8 text-center">
           Register Now
         </h2>
+
+        {/* Pricing Section */}
+        <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-xl p-6 mb-8 text-center border border-green-100">
+          <h3 className="text-lg font-semibold text-gray-800 mb-3">
+            🎯 Exclusive Early Bird Pricing
+          </h3>
+          <div className="flex items-center justify-center gap-4 mb-3">
+            <div className="text-center">
+              <span className="text-sm text-gray-500 block">Was</span>
+              <span className="text-2xl text-gray-500 line-through font-bold">$200</span>
+            </div>
+            <div className="text-center">
+              <span className="text-sm text-green-600 block">Now Only</span>
+              <span className="text-4xl text-green-600 font-bold">$58</span>
+            </div>
+          </div>
+          <div className="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium inline-block">
+            71% OFF Limited Time Only
+          </div>
+        </div>
+
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="flex flex-col">
             <label htmlFor="name" className="text-gray-700 mb-1">

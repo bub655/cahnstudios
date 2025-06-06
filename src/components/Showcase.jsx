@@ -64,6 +64,18 @@ const scrollToDetails = () => {
             scale your efforts, this session will walk you through practical
             workflows that save time, increase impact, and ignite creativity.
           </p>
+
+          {/* Pricing Section */}
+          <div className="mb-8 text-center">
+            <div className="flex items-center justify-center gap-4 mb-4">
+              <span className="text-2xl text-gray-400 line-through">$200</span>
+              <span className="text-4xl font-bold text-white">$58</span>
+              <div className="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+                71% OFF
+              </div>
+            </div>
+          </div>
+
           <div className="flex flex-col gap-4 justify-center items-center w-full">
             <button
               onClick={scrollToRegister}

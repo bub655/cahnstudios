@@ -148,7 +148,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
   try {
     console.log('📝 Creating checkout session with request body:', req.body);
     const { name, email, phone, country} = req.body;
-    const amount = 11599; //monetary value
+    const amount = 5821; //monetary value
 
     console.log('Extracted data:', { name, email, phone, country });
 
@@ -424,7 +424,7 @@ app.post("/api/razorpay/create-order", async (req, res) => {
     }
 
     const options = {
-      amount: 989900, // amount in the smallest currency unit (₹9,899)
+      amount: 4999, // amount in the smallest currency unit (₹4,288.58)
       currency: "INR",
       receipt: `receipt_${email}`,
       notes: {
