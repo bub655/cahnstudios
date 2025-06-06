@@ -7,21 +7,23 @@ const TermsOfService = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Get registration data from sessionStorage
+    // Get registration data from sessionStorage if it exists
     const data = sessionStorage.getItem('registrationData');
-    if (!data) {
-      // If no registration data, redirect to form
-      navigate('/');
-      return;
+    if (data) {
+      setRegistrationData(JSON.parse(data));
     }
-    setRegistrationData(JSON.parse(data));
-  }, [navigate]);
+    // No redirect if no registration data - allow access to terms page
+  }, []);
 
   const handleAccept = () => {
     if (!accepted) {
       alert('Please accept the Terms of Service to continue.');
       return;
     }
+    
+    // Store terms acceptance in sessionStorage
+    sessionStorage.setItem('termsAccepted', 'true');
+    
     // Proceed to payment selection
     navigate('/payment-selection');
   };
@@ -30,12 +32,8 @@ const TermsOfService = () => {
     navigate('/');
   };
 
-  if (!registrationData) {
-    return <div>Loading...</div>;
-  }
-
   return (
-    <section className="py-16 bg-gray-50 min-h-screen">
+    <section className="mt-12 py-16 bg-gray-50 min-h-screen">
       <div className="container mx-auto px-6 max-w-4xl">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-800 mb-4">
@@ -190,16 +188,36 @@ const TermsOfService = () => {
               </label>
             </div>
 
-            {/* Registration Summary */}
-            <div className="bg-blue-50 rounded-lg p-4 mb-6">
-              <h3 className="font-semibold text-gray-800 mb-2">Registration Summary</h3>
-              <div className="text-sm text-gray-600 space-y-1">
-                <p><strong>Name:</strong> {registrationData.name}</p>
-                <p><strong>Email:</strong> {registrationData.email}</p>
-                <p><strong>Phone:</strong> {registrationData.phone}</p>
-                <p><strong>Country:</strong> {registrationData.country}</p>
+            {/* Registration Summary - only show if registration data exists */}
+            {registrationData && (
+              <div className="bg-blue-50 rounded-lg p-4 mb-6">
+                <h3 className="font-semibold text-gray-800 mb-2">Registration Summary</h3>
+                <div className="text-sm text-gray-600 space-y-1">
+                  <p><strong>Name:</strong> {registrationData.name}</p>
+                  <p><strong>Email:</strong> {registrationData.email}</p>
+                  <p><strong>Phone:</strong> {registrationData.phone}</p>
+                  <p><strong>Country:</strong> {registrationData.country}</p>
+                </div>
               </div>
-            </div>
+            )}
+
+            {/* Warning if no registration data */}
+            {!registrationData && (
+              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+                <div className="flex">
+                  <div className="flex-shrink-0">
+                    <span className="text-yellow-500 text-xl">⚠️</span>
+                  </div>
+                  <div className="ml-3">
+                    <p className="font-medium text-yellow-800">No Registration Data Found</p>
+                    <p className="text-sm text-yellow-700">
+                      You'll need to complete the registration form before proceeding to payment. 
+                      You can still read and accept the terms here.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Action Buttons */}
             <div className="flex space-x-4">

@@ -6,14 +6,25 @@ const PaymentSelection = () => {
   const [processingMethod, setProcessingMethod] = useState('');
 
   useEffect(() => {
-    // Retrieve form data from sessionStorage
+    // Check for both registration data and terms acceptance
     const storedData = sessionStorage.getItem('registrationData');
-    if (storedData) {
-      setFormData(JSON.parse(storedData));
-    } else {
-      // If no form data, redirect back to registration
+    const termsAccepted = sessionStorage.getItem('termsAccepted');
+    
+    if (!storedData) {
+      // If no registration data, redirect to registration form
+      alert('Please complete the registration form first.');
       window.location.href = '/';
+      return;
     }
+    
+    if (!termsAccepted || termsAccepted !== 'true') {
+      // If terms not accepted, redirect to terms page
+      window.location.href = '/terms-of-service';
+      return;
+    }
+    
+    // Both checks passed, set the form data
+    setFormData(JSON.parse(storedData));
   }, []);
 
   const loadRazorpayScript = () => {
