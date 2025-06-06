@@ -16,6 +16,22 @@ const PaymentSelection = () => {
     }
   }, []);
 
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      // Check if script is already loaded
+      if (window.Razorpay) {
+        resolve(true);
+        return;
+      }
+
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+
   const handleStripePayment = async () => {
     setIsProcessing(true);
     setProcessingMethod('stripe');
@@ -43,11 +59,82 @@ const PaymentSelection = () => {
     }
   };
 
-  const handleRazorpayPayment = () => {
+  const handleRazorpayPayment = async () => {
     setIsProcessing(true);
     setProcessingMethod('razorpay');
-    // Directly redirect to the external link
-    window.location.href = 'https://rzp.io/rzp/5I2Axrj'; //RazorPay Link by Vishnu
+
+    try {
+      // Load Razorpay script first
+      console.log('Loading Razorpay script...');
+      const scriptLoaded = await loadRazorpayScript();
+      
+      if (!scriptLoaded) {
+        throw new Error('Failed to load Razorpay script');
+      }
+
+      console.log('Creating Razorpay order...');
+      
+      // Call your backend to create Razorpay order
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/razorpay/create-order`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      const order = await response.json();
+      console.log('Razorpay order created:', order);
+
+      if (!order.id) {
+        throw new Error('Failed to create order');
+      }
+
+      // Razorpay checkout options
+      const options = {
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_live_your_key_id", // Add this to your frontend env
+        amount: order.amount,
+        currency: order.currency,
+        name: "Cahn Studios",
+        description: "AI for Creators Webinar",
+        order_id: order.id,
+        handler: function (response) {
+          console.log('Payment successful:', response);
+          
+          // Store payment details for success page
+          sessionStorage.setItem('razorpayPayment', JSON.stringify({
+            payment_id: response.razorpay_payment_id,
+            order_id: response.razorpay_order_id,
+            signature: response.razorpay_signature
+          }));
+
+          // Redirect to success page
+          window.location.href = `/success?payment_id=${response.razorpay_payment_id}&order_id=${response.razorpay_order_id}`;
+        },
+        prefill: {
+          name: formData.name,
+          email: formData.email,
+          contact: formData.phone
+        },
+        theme: {
+          color: "#6366f1" // Indigo color to match your design
+        },
+        modal: {
+          ondismiss: function() {
+            console.log('Payment cancelled by user');
+            setIsProcessing(false);
+            setProcessingMethod('');
+          }
+        }
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+
+    } catch (error) {
+      console.error('Razorpay payment error:', error);
+      alert('Payment failed. Please try again.');
+      setIsProcessing(false);
+      setProcessingMethod('');
+    }
   };
 
   const goBack = () => {
@@ -93,6 +180,14 @@ const PaymentSelection = () => {
               <p className="text-gray-800">{formData.country}</p>
             </div>
           </div>
+          
+          {/* Payment Amount */}
+          <div className="mt-4 pt-4 border-t border-gray-200">
+            <div className="flex justify-between items-center">
+              <span className="font-semibold text-gray-700">Total Amount:</span>
+              <span className="text-xl font-bold text-gray-800">₹9,899</span>
+            </div>
+          </div>
         </div>
 
         {/* Payment Options */}
@@ -117,8 +212,8 @@ const PaymentSelection = () => {
                   <span className="text-white font-bold text-lg">S</span>
                 </div>
                 <div className="text-left">
-                  <h4 className="font-semibold text-gray-800">Pay with Stripe</h4>
-                  <p className="text-sm text-gray-600">Credit/Debit Cards, Digital Wallets</p>
+                  <h4 className="font-semibold text-gray-800">Pay with Stripe (International)</h4>
+                  <p className="text-sm text-gray-600">Credit/Debit Cards, Digital Wallets - $115.99</p>
                 </div>
               </div>
               {isProcessing && processingMethod === 'stripe' ? (
@@ -145,8 +240,8 @@ const PaymentSelection = () => {
                   <span className="text-white font-bold text-lg">R</span>
                 </div>
                 <div className="text-left">
-                  <h4 className="font-semibold text-gray-800">Pay with Razorpay</h4>
-                  <p className="text-sm text-gray-600">UPI, Cards, Net Banking, Wallets</p>
+                  <h4 className="font-semibold text-gray-800">Pay with Razorpay (India)</h4>
+                  <p className="text-sm text-gray-600">UPI, Cards, Net Banking, Wallets - ₹9,899</p>
                 </div>
               </div>
               {isProcessing && processingMethod === 'razorpay' ? (

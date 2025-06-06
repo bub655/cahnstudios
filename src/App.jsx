@@ -5,9 +5,9 @@ import Showcase from "./components/Showcase";
 import WebinarDetails from "./components/WebinarDetails";
 import Form from "./components/Form";
 import Success from "./components/Success";
-import Cancel from "./components/Cancel";
 import Footer from "./components/Footer";
 import PaymentSelection from './components/PaymentSelection';
+import Contact from './components/Contact';
 
 export default function App() {
   useEffect(() => {
@@ -55,13 +55,9 @@ export default function App() {
           path="/success"
           element={<Success />}
         />
-        {/* If payment is canceled, Stripe redirects here */}
-        <Route
-          path="/cancel"
-          element={<Cancel />}
-        />
         <Route path="/" element={<Form />} />
         <Route path="/payment-selection" element={<PaymentSelection />} />
+        <Route path="/contact" element={<Contact />} />
       </Routes>
       <Footer />
     </BrowserRouter>

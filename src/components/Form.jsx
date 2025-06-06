@@ -17,32 +17,6 @@ const Form = () => {
     });
   };
 
-  // New handler to send formData to backend for registration
-  const handleRegister = async () => {
-    setIsRegistering(true);
-    setRegisterStatus('');
-
-    try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/register`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to register');
-      }
-
-      const data = await response.json();
-      setRegisterStatus('Registration successful! Check your email.');
-    } catch (error) {
-      console.error(error);
-      setRegisterStatus('Registration failed. Please try again.');
-    } finally {
-      setIsRegistering(false);
-    }
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     // Store form data in sessionStorage to pass to payment selection page
@@ -124,23 +98,6 @@ const Form = () => {
               placeholder="e.g. USA, India, Canada, etc."
             />
           </div>
-
-          {/* New “Register Now” button */}
-          <button
-            type="button"
-            onClick={handleRegister}
-            disabled={isRegistering}
-            className="w-full py-3 text-lg font-semibold transition rounded-full bg-green-500 text-white hover:bg-green-600 disabled:opacity-50"
-          >
-            {isRegistering ? 'Registering…' : 'Register Now'}
-          </button>
-
-          {/* Show status message below the register button */}
-          {registerStatus && (
-            <p className="text-center text-sm text-gray-700 mt-2">
-              {registerStatus}
-            </p>
-          )}
 
           <div className="pt-4">
             <button
