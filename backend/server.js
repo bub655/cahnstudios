@@ -221,10 +221,10 @@ async function handleSuccessFullEmail(paymentData) {
   });
   
   const mailOptions = {
-    from: `"Cahn Studios" <${process.env.GMAIL_USER}>`,
-    to: email,
+  from: `"Cahn Studios" <${process.env.GMAIL_USER}>`,
+  to: email,
   subject: 'Welcome to AI for Creators - Webinar 2.0!',
-    text: `
+  text: `
 Hi,
 
 Thank you for registering for "AI for Creators" — we're thrilled to have you join us for this high-impact session designed to supercharge your creative workflows using AI!
@@ -253,8 +253,8 @@ Can't wait to see you there!
 
 Warmly,  
 Team Cahn
-    `.trim(),
-    html: `
+  `.trim(),
+  html: `
     <div style="font-family: sans-serif; line-height: 1.5; color: #333;">
       <p>Hi,</p>
 
@@ -297,11 +297,11 @@ Team Cahn
       <p>Warmly,<br>Team Cahn</p>
     </div>
   `.trim(),
-  };
+};
 
-  try {
+try {
   console.log('📤 Attempting to send email to:', email);
-    const info = await transporter.sendMail(mailOptions);
+  const info = await transporter.sendMail(mailOptions);
   console.log('✅ Email sent successfully! Message ID:', info.messageId);
   console.log('Email info:', info);
 
@@ -338,10 +338,10 @@ Registration Time: ${new Date().toISOString()}
   await transporter.sendMail(notificationOptions);
   console.log('✅ Notification email sent to admin');
 
-  } catch (err) {
+} catch (err) {
   console.error('❌ Email sending failed:', err);
   console.error('Error details:', err.message);
-  }
+}
 }
 
 /* Health check */
@@ -614,7 +614,7 @@ app.get('/', (req, res) => {
       </body>
     </html>
   `);
-});
+}); 
 
 app.listen(PORT, () => {
   console.log(`Backend server running on port ${PORT}`);

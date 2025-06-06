@@ -196,7 +196,7 @@ const PaymentSelection = () => {
           <div className="mt-4 pt-4 border-t border-gray-200">
             <div className="flex justify-between items-center">
               <span className="font-semibold text-gray-700">Total Amount:</span>
-              <span className="text-xl font-bold text-gray-800">$58</span>
+              <span className="text-xl font-bold text-gray-800">₹9,899</span>
             </div>
           </div>
         </div>
@@ -223,8 +223,8 @@ const PaymentSelection = () => {
                   <span className="text-white font-bold text-lg">S</span>
                 </div>
                 <div className="text-left">
-                  <h4 className="font-semibold text-gray-800">Pay with Stripe</h4>
-                  <p className="text-sm text-gray-600">Credit/Debit Cards, Digital Wallets - $58</p>
+                  <h4 className="font-semibold text-gray-800">Pay with Stripe (International)</h4>
+                  <p className="text-sm text-gray-600">Credit/Debit Cards, Digital Wallets - $115.99</p>
                 </div>
               </div>
               {isProcessing && processingMethod === 'stripe' ? (
@@ -235,43 +235,33 @@ const PaymentSelection = () => {
             </div>
           </button>
 
-          {/* Razorpay Button - Hidden for now */}
-          {false && (
-            <button
-              onClick={handleRazorpayPayment}
-              disabled={isProcessing}
-              className={`w-full p-6 border-2 rounded-lg transition-all duration-200 ${
-                isProcessing && processingMethod === 'razorpay'
-                  ? 'bg-indigo-100 border-indigo-300 cursor-not-allowed'
-                  : 'bg-white border-indigo-200 hover:border-indigo-400 hover:bg-indigo-50'
-              }`}
-            >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-indigo-600 rounded-lg flex items-center justify-center">
-                    <span className="text-white font-bold text-lg">R</span>
-                  </div>
-                  <div className="text-left">
-                    <h4 className="font-semibold text-gray-800">Pay with Razorpay (India)</h4>
-                    <p className="text-sm text-gray-600">UPI, Cards, Net Banking, Wallets - ₹9,899</p>
-                  </div>
+          {/* Razorpay Button */}
+          <button
+            onClick={handleRazorpayPayment}
+            disabled={isProcessing}
+            className={`w-full p-6 border-2 rounded-lg transition-all duration-200 ${
+              isProcessing && processingMethod === 'razorpay'
+                ? 'bg-indigo-100 border-indigo-300 cursor-not-allowed'
+                : 'bg-white border-indigo-200 hover:border-indigo-400 hover:bg-indigo-50'
+            }`}
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <div className="w-12 h-12 bg-indigo-600 rounded-lg flex items-center justify-center">
+                  <span className="text-white font-bold text-lg">R</span>
                 </div>
-                {isProcessing && processingMethod === 'razorpay' ? (
-                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-indigo-600"></div>
-                ) : (
-                  <span className="text-indigo-600 font-medium">Choose →</span>
-                )}
+                <div className="text-left">
+                  <h4 className="font-semibold text-gray-800">Pay with Razorpay (India)</h4>
+                  <p className="text-sm text-gray-600">UPI, Cards, Net Banking, Wallets - ₹9,899</p>
+                </div>
               </div>
-            </button>
-          )}
-
-          {/* Payment Note */}
-          <div className="text-center mt-6 p-4 bg-gray-50 rounded-lg">
-            <p className="text-sm text-gray-600">
-              <span className="font-medium">Secure Payment:</span> All transactions are encrypted and processed securely. 
-              You will receive a confirmation email after successful payment.
-            </p>
-          </div>
+              {isProcessing && processingMethod === 'razorpay' ? (
+                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-indigo-600"></div>
+              ) : (
+                <span className="text-indigo-600 font-medium">Choose →</span>
+              )}
+            </div>
+          </button>
         </div>
 
         {/* Back Button */}
