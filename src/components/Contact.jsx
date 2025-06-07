@@ -55,25 +55,25 @@ const Contact = () => {
   };
 
   return (
-    <section className="py-16 bg-gray-50 min-h-screen">
+    <section className="py-16 bg-gray-950 min-h-screen mt-12">
       <div className="container mx-auto px-6 max-w-4xl">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">
+          <h1 className="text-4xl font-bold text-white mb-4">
             Prompt Us
           </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
             Have questions about our AI for Creators webinar? We'd love to hear from you. 
             Send us a message and we'll get back to you as soon as possible.
           </p>
         </div>
 
-        <div className="bg-white rounded-lg shadow-lg p-8">
+        <div className="border-2 border-gray-700 rounded-lg p-8 bg-gray-900/50">
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Name and Email Row */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="flex flex-col">
-                <label htmlFor="name" className="text-gray-700 mb-2 font-medium">
-                  Name <span className="text-red-500">*</span>
+                <label htmlFor="name" className="text-gray-300 mb-2 font-medium">
+                  Name <span className="text-red-400">*</span>
                 </label>
                 <input
                   type="text"
@@ -82,14 +82,14 @@ const Contact = () => {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  className="w-full px-4 py-3 bg-gray-800/50 border-2 border-gray-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all placeholder-gray-400"
                   placeholder="Your full name"
                 />
               </div>
 
               <div className="flex flex-col">
-                <label htmlFor="email" className="text-gray-700 mb-2 font-medium">
-                  Email <span className="text-red-500">*</span>
+                <label htmlFor="email" className="text-gray-300 mb-2 font-medium">
+                  Email <span className="text-red-400">*</span>
                 </label>
                 <input
                   type="email"
@@ -98,7 +98,7 @@ const Contact = () => {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  className="w-full px-4 py-3 bg-gray-800/50 border-2 border-gray-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all placeholder-gray-400"
                   placeholder="you@example.com"
                 />
               </div>
@@ -106,8 +106,8 @@ const Contact = () => {
 
             {/* Subject */}
             <div className="flex flex-col">
-              <label htmlFor="subject" className="text-gray-700 mb-2 font-medium">
-                Subject <span className="text-red-500">*</span>
+              <label htmlFor="subject" className="text-gray-300 mb-2 font-medium">
+                Subject <span className="text-red-400">*</span>
               </label>
               <input
                 type="text"
@@ -116,15 +116,15 @@ const Contact = () => {
                 value={formData.subject}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                className="w-full px-4 py-3 bg-gray-800/50 border-2 border-gray-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all placeholder-gray-400"
                 placeholder="What's this about?"
               />
             </div>
 
             {/* Message */}
             <div className="flex flex-col">
-              <label htmlFor="message" className="text-gray-700 mb-2 font-medium">
-                Message <span className="text-red-500">*</span>
+              <label htmlFor="message" className="text-gray-300 mb-2 font-medium">
+                Message <span className="text-red-400">*</span>
               </label>
               <textarea
                 id="message"
@@ -133,7 +133,7 @@ const Contact = () => {
                 onChange={handleChange}
                 required
                 rows="6"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-vertical"
+                className="w-full px-4 py-3 bg-gray-800/50 border-2 border-gray-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all resize-vertical placeholder-gray-400"
                 placeholder="Tell us what's on your mind..."
               />
             </div>
@@ -144,13 +144,13 @@ const Contact = () => {
               disabled={isSubmitting}
               className={`w-full py-4 text-lg font-semibold rounded-lg transition-all duration-200 ${
                 isSubmitting
-                  ? 'bg-gray-400 cursor-not-allowed text-gray-200'
-                  : 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 transform hover:scale-[1.02] active:scale-[0.98]'
+                  ? 'border-2 border-gray-600 text-gray-400 cursor-not-allowed'
+                  : 'border-2 border-blue-500 text-blue-400 hover:bg-blue-500 hover:text-white transform hover:scale-[1.02] active:scale-[0.98]'
               }`}
             >
               {isSubmitting ? (
                 <div className="flex items-center justify-center">
-                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-gray-400 mr-2"></div>
                   Sending Message...
                 </div>
               ) : (
@@ -160,28 +160,32 @@ const Contact = () => {
 
             {/* Status Messages */}
             {submitStatus === 'success' && (
-              <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg">
+              <div className="border-2 border-green-500 bg-green-500/10 text-green-400 px-4 py-3 rounded-lg">
                 <div className="flex">
                   <div className="flex-shrink-0">
-                    <span className="text-green-500 text-xl">✓</span>
+                    <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
                   </div>
                   <div className="ml-3">
                     <p className="font-medium">Message sent successfully!</p>
-                    <p className="text-sm">We'll get back to you within 24 hours.</p>
+                    <p className="text-sm text-green-300">We'll get back to you within 24 hours.</p>
                   </div>
                 </div>
               </div>
             )}
 
             {submitStatus === 'error' && (
-              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg">
+              <div className="border-2 border-red-500 bg-red-500/10 text-red-400 px-4 py-3 rounded-lg">
                 <div className="flex">
                   <div className="flex-shrink-0">
-                    <span className="text-red-500 text-xl">✗</span>
+                    <svg className="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
                   </div>
                   <div className="ml-3">
                     <p className="font-medium">Failed to send message</p>
-                    <p className="text-sm">Please try again or email us directly at contact@cahnstudios.com</p>
+                    <p className="text-sm text-red-300">Please try again or email us directly at contact@cahnstudios.com</p>
                   </div>
                 </div>
               </div>
@@ -191,14 +195,14 @@ const Contact = () => {
 
         {/* Contact Info */}
         <div className="mt-12 text-center">
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h3 className="text-xl font-semibold text-gray-800 mb-4">Other Ways to Reach Us</h3>
-            <div className="space-y-2 text-gray-600">
+          <div className="border-2 border-gray-700 rounded-lg p-6 bg-gray-900/50">
+            <h3 className="text-xl font-semibold text-white mb-4">Other Ways to Reach Us</h3>
+            <div className="space-y-2 text-gray-300">
               <p>
-                <span className="font-medium">Email:</span> contact@cahnstudios.com
+                <span className="font-medium text-blue-400">Email:</span> contact@cahnstudios.com
               </p>
               <p>
-                <span className="font-medium">Website:</span> www.cahnstudios.com
+                <span className="font-medium text-blue-400">Website:</span> www.cahnstudios.com
               </p>
             </div>
           </div>
