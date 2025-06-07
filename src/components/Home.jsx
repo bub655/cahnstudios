@@ -452,7 +452,7 @@ const Home = () => {
               href="/contact" 
               className="px-8 py-4 border-2 border-blue-500 text-blue-400 rounded-full font-semibold text-lg hover:bg-blue-500 hover:text-white transition-all duration-300"
             >
-              Contact Us
+              Prompt Us
             </a>
             <a 
               href="/webinar" 
