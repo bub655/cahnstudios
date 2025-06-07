@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Footer() {
   return (
-    <footer className="bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white py-10">
+    <footer className="bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white py-10 px-8">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
         <div>
           <h3 className="text-xl font-semibold">Cahn Studios</h3>
