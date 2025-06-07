@@ -11,13 +11,8 @@ export default function Navbar() {
       </div>
       <ul className="flex space-x-8 text-gray-700 font-medium list-none">
         <li>
-          <a href="/" className="text-white transition-colors duration-200 py-2 px-1 border-b-2 border-transparent hover:border-white">
-            Home
-          </a>
-        </li>
-        <li>
-          <a href="/#about" className=" text-white transition-colors duration-200 py-2 px-1 border-b-2 border-transparent hover:border-white">
-            About
+          <a href="/webinar" className="text-white transition-colors duration-200 py-2 px-1 border-b-2 border-transparent hover:border-white">
+            Webinars
           </a>
         </li>
         <li>
@@ -26,12 +21,12 @@ export default function Navbar() {
           </a>
         </li>
         <li>
-          <a href="/webinar" className="text-white transition-colors duration-200 py-2 px-1 border-b-2 border-transparent hover:border-white">
-            Webinars
+          <a href="/#about" className=" text-white transition-colors duration-200 py-2 px-1 border-b-2 border-transparent hover:border-white">
+            About
           </a>
         </li>
         <li>
-          <a href="/contact" className="text-white transition-colors duration-200 py-2 px-1 border-b-2 border-transparent hover:border-white">
+          <a href="/contact" className="px-1 py-2 bg-gray-800/50 text-white rounded-lg hover:border-2 hover:border-white transition-all duration-75">
             Prompt Us
           </a>
         </li>
