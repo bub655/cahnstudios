@@ -617,37 +617,15 @@ app.post('/api/track-engagement', async (req, res) => {
       to: 'cahnwebinar@gmail.com',
       subject: `Initial Engagement Click - ${name}`,
       html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
-          <h2 style="color: #333; text-align: center; margin-bottom: 30px; background: linear-gradient(90deg, #4F46E5, #06B6D4); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-            🎯 New Engagement Alert!
-          </h2>
-          
-          <div style="background-color: #f0f9ff; padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #06B6D4;">
-            <h3 style="color: #1e40af; margin-top: 0;">Someone is interested in the AI for Creators Webinar!</h3>
-            <p style="color: #1e3a8a; margin: 0;">This person filled out the registration form and clicked "Continue to Payment" but hasn't completed the payment yet.</p>
-          </div>
-          
-          <div style="background-color: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-            <h3 style="color: #555; margin-top: 0;">📋 Registration Details</h3>
-            <div style="display: grid; gap: 10px;">
-              <p style="margin: 0;"><strong>👤 Name:</strong> ${name}</p>
-              <p style="margin: 0;"><strong>📧 Email:</strong> <a href="mailto:${email}" style="color: #4F46E5;">${email}</a></p>
-              <p style="margin: 0;"><strong>📱 Phone:</strong> ${phone}</p>
-              <p style="margin: 0;"><strong>🌍 Country:</strong> ${country}</p>
-            </div>
-          </div>
-          
-          <div style="background-color: #fef3c7; padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #f59e0b;">
-            <h3 style="color: #92400e; margin-top: 0;">💡 Follow-up Opportunity</h3>
-            <p style="color: #92400e; margin: 0;">This is a warm lead! Consider following up with personalized outreach or retargeting campaigns.</p>
-          </div>
-          
-          <div style="background-color: #f5f5f5; padding: 15px; border-radius: 8px; font-size: 12px; color: #666; text-align: center;">
-            <p style="margin: 0;"><strong>⏰ Engagement Time:</strong> ${new Date().toLocaleString()}</p>
-            <p style="margin: 5px 0 0 0;"><strong>📍 Status:</strong> Registration Started - Payment Pending</p>
-          </div>
-        </div>
-      `,
+      <div style="font-family: sans-serif; line-height: 1.5; color: #333;">
+        <h2>New Registration Received</h2>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Phone:</strong> ${phone}</p>
+        <p><strong>Country:</strong> ${country}</p>
+        <p><strong>Registration Time:</strong> ${new Date().toISOString()}</p>
+      </div>
+    `.trim(),
     };
 
     console.log('Sending engagement tracking email...');
