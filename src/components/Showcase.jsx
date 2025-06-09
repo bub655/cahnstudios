@@ -70,12 +70,20 @@ const scrollToDetails = () => {
           {/* Pricing Section */}
           <div className="mb-6 sm:mb-8 text-center">
             <div className="flex items-center justify-center gap-2 sm:gap-4 mb-4">
-              <span className="text-xl sm:text-2xl text-gray-400 line-through">$200</span>
-              <span className="text-2xl sm:text-4xl font-bold text-white">$58</span>
+              <div className="text-center">
+                <span className="text-xl sm:text-2xl text-gray-400 line-through">$200 / ₹16,999</span>
+              </div>
+              <div className="text-3xl sm:text-4xl text-gray-300">→</div>
+              <div className="text-center">
+                <span className="text-2xl sm:text-4xl font-bold text-white">$58 / ₹4,999</span>
+              </div>
               <div className="bg-red-500 text-white px-2 py-1 sm:px-3 rounded-full text-xs sm:text-sm font-medium">
                 71% OFF
               </div>
             </div>
+            <p className="text-xs sm:text-sm text-gray-400 mt-2">
+              Pay in USD (International) or INR (India)
+            </p>
           </div>
 
           <div className="flex flex-col gap-3 sm:gap-4 justify-center items-center w-full">
