@@ -95,7 +95,7 @@ export default function Success() {
           <p className="text-sm font-medium">Payment processed successfully, but email confirmation failed.</p>
           <p className="text-sm">Please save your payment details and contact support:</p>
           <p className="text-sm mt-2">
-            <strong>Support:</strong> contact@cahnstudios.com
+            <strong>Support:</strong> create@cahnstudios.com
           </p>
         </div>
       )}

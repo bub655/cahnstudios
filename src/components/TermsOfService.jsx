@@ -153,7 +153,7 @@ const TermsOfService = () => {
               <section>
                 <h2 className="text-xl font-bold text-gray-800 mb-3">12. Contact Information</h2>
                 <p>
-                  For questions regarding these terms or the webinar, please contact us at contact@cahnstudios.com
+                  For questions regarding these terms or the webinar, please contact us at create@cahnstudios.com
                 </p>
               </section>
 

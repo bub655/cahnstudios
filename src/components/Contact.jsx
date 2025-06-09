@@ -185,7 +185,7 @@ const Contact = () => {
                   </div>
                   <div className="ml-3">
                     <p className="font-medium">Failed to send message</p>
-                    <p className="text-sm text-red-300">Please try again or email us directly at contact@cahnstudios.com</p>
+                    <p className="text-sm text-red-300">Please try again or email us directly at create@cahnstudios.com</p>
                   </div>
                 </div>
               </div>
@@ -199,7 +199,7 @@ const Contact = () => {
             <h3 className="text-xl font-semibold text-white mb-4">Other Ways to Reach Us</h3>
             <div className="space-y-2 text-gray-300">
               <p>
-                <span className="font-medium text-blue-400">Email:</span> contact@cahnstudios.com
+                <span className="font-medium text-blue-400">Email:</span> create@cahnstudios.com
               </p>
               <p>
                 <span className="font-medium text-blue-400">Website:</span> www.cahnstudios.com
