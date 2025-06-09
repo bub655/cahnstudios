@@ -23,7 +23,7 @@ const Form = () => {
     
     try {
       // Store form data in sessionStorage
-      sessionStorage.setItem('registrationData', JSON.stringify(formData));
+    sessionStorage.setItem('registrationData', JSON.stringify(formData));
       
       // Track initial engagement
       console.log('Tracking initial engagement...');
