@@ -47,7 +47,7 @@ export default function App() {
 
         {/* After successful payment, Stripe redirects here */}
         <Route path="/success" element={<Success />} />
-        
+
         {/* Other pages */}
         <Route path="/terms-of-service" element={<TermsOfService />} />
         <Route path="/payment-selection" element={<PaymentSelection />} />
