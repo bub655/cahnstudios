@@ -551,43 +551,11 @@ app.post('/api/contact', async (req, res) => {
       `,
     };
 
-    // Send auto-reply to the user
-    const autoReplyOptions = {
-      from: process.env.GMAIL_USER,
-      to: email,
-      subject: `Thank you for contacting us - ${subject}`,
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
-          <h2 style="color: #333; text-align: center; margin-bottom: 30px;">Thank you for your message!</h2>
-          
-          <div style="background-color: #f0f8ff; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-            <p>Hi ${name},</p>
-            <p>Thank you for reaching out to us! We've received your message and will get back to you within 24 hours.</p>
-            <p>Here's a copy of what you sent us:</p>
-          </div>
-          
-          <div style="background-color: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-            <p><strong>Subject:</strong> ${subject}</p>
-            <p><strong>Message:</strong></p>
-            <p style="white-space: pre-wrap; line-height: 1.6; background-color: white; padding: 15px; border-left: 4px solid #007cba;">${message}</p>
-          </div>
-          
-          <div style="background-color: #e8f5e8; padding: 15px; border-radius: 8px; text-align: center;">
-            <p style="margin: 0;"><strong>Best regards,</strong></p>
-            <p style="margin: 5px 0 0 0;">The Cahn Team</p>
-          </div>
-        </div>
-      `,
-    };
-
     console.log('Sending contact form emails...');
     
     // Send both emails
     await transporter.sendMail(mailOptions);
     console.log('✅ Contact form notification sent to admin');
-    
-    await transporter.sendMail(autoReplyOptions);
-    console.log('✅ Auto-reply sent to user');
 
     return res.json({ 
       success: true, 
