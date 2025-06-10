@@ -25,7 +25,7 @@ app.use(
 /* Webhook: on checkout.session.completed → send confirmation email */
 /* This MUST come BEFORE express.json() middleware */
 app.post(
-  '/api/webhook',
+  '/stripe/payment-success',
   express.raw({ type: 'application/json' }),
   async (req, res) => {
     console.log('🚨 STRIPE WEBHOOK CALLED - Raw request received');
@@ -633,5 +633,5 @@ app.get('/', (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Backend server running on port ${PORT}`);
-  console.log(`Webhook endpoint: http://localhost:${PORT}/api/webhook`);
+  console.log(`Webhook endpoint: http://localhost:${PORT}/stripe/payment-success`);
 });
