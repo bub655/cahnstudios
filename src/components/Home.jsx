@@ -15,12 +15,10 @@ const Home = () => {
         <div className="absolute inset-0 bg-black/30"></div>
         <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
           <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-            AI-Powered
-            <br />
+            AI-Powered&nbsp;
             <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-              Creativity &
+              Creativity &&nbsp;
             </span>
-            <br />
             Technology
           </h1>
           <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl mx-auto">
