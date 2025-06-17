@@ -115,12 +115,12 @@ const Home = () => {
               </div>
               <h3 className="text-2xl font-semibold mb-4">Distribution & Collaboration</h3>
               <p className="text-gray-300 mb-6">
-                Leveraging our 70K+ AI-enthusiast network to amplify partner brands through content syndication, co-branded events, and affiliate channels.
+                Leveraging our 100K+ AI-enthusiast network to amplify partner brands through content syndication, co-branded events, and affiliate channels.
               </p>
               <ul className="space-y-3 text-gray-300">
                 <li className="flex items-start">
                   <span className="w-2 h-2 border border-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                  <span>Content syndication across 70K+ followers</span>
+                  <span>Content syndication across 101K+ followers</span>
                 </li>
                 <li className="flex items-start">
                   <span className="w-2 h-2 border border-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
