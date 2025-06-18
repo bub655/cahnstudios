@@ -10,6 +10,17 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-gray-950 text-white">
+      {/* Section: Trust */}
+      <section id="services" className="py-20 bg-gray-900">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <p className="text-xl text-gray-300 max-w-4xl mx-auto">
+              Trusted by Gemini, Adobe, Upgrad, Blackbox, Dora, Lindy & many more.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Section 1: Landing Page */}
       <section id="home" className="relative h-screen flex items-center justify-center bg-gradient-to-br from-gray-950 via-gray-900 to-gray-800">
         <div className="absolute inset-0 bg-black/30"></div>
