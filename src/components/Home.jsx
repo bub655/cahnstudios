@@ -13,7 +13,7 @@ const Home = () => {
       {/* Section: Trust */}
       <section id="services" className="py-20 bg-gray-900">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
+          <div className="text-center mb-10">
             <p className="text-xl text-gray-300 max-w-4xl mx-auto">
               Trusted by Gemini, Adobe, Upgrad, Blackbox, Dora, Lindy & many more.
             </p>
