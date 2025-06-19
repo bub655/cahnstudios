@@ -11,14 +11,12 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-gray-950 text-white">
       {/* Section: Trust */}
-      <section id="services" className="py-8 bg-gray-900">
-        <div className="max-w-7xl mx-auto px-6">
+      <section id="services" className="py-16 bg-gray-900">
           <div className="text-center mb-16">
             <p className="text-xl text-gray-300 max-w-4xl mx-auto">
               Trusted by Gemini, Adobe, Upgrad, Blackbox, Dora, Lindy & many more.
             </p>
           </div>
-        </div>
       </section>
       
       {/* Section 1: Landing Page */}
