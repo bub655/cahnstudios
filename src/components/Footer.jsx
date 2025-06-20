@@ -3,31 +3,61 @@ import React from "react";
 export default function Footer() {
   return (
     <footer className="bg-[#122739] text-white py-10 px-8">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
-        <div>
-          <h3 className="text-xl font-semibold">Cahn Studios</h3>
-          <p className="text-gray-400 text-sm mt-1">
-            Empowering creators with AI tools and insights.
-          </p>
+      <div className="max-w-7xl mx-auto">
+        {/* Main footer content */}
+        <div className="flex flex-col md:flex-row justify-between items-start gap-8">
+          {/* Left side - Company info */}
+          <div className="flex-1">
+            <h3 className="text-xl font-semibold mb-2">Cahn Studios</h3>
+            <p className="text-gray-400 text-sm">
+              Empowering creators with AI tools and insights.
+            </p>
+          </div>
+
+          {/* Center - Navigation links */}
+          <div className="flex gap-8 flex-wrap justify-center md:justify-start">
+            <a 
+              href="/about" 
+              className="group text-gray-300 hover:text-blue-400 transition-colors duration-200 flex items-center gap-1"
+            >
+              About
+              <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 transform group-hover:translate-x-1 group-hover:-translate-y-1">
+                ↗
+              </span>
+            </a>
+            <a 
+              href="/community" 
+              className="group text-gray-300 hover:text-blue-400 transition-colors duration-200 flex items-center gap-1"
+            >
+              Community
+              <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 transform group-hover:translate-x-1 group-hover:-translate-y-1">
+                ↗
+              </span>
+            </a>
+            <a 
+              href="/services" 
+              className="group text-gray-300 hover:text-blue-400 transition-colors duration-200 flex items-center gap-1"
+            >
+              Services
+              <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 transform group-hover:translate-x-1 group-hover:-translate-y-1">
+                ↗
+              </span>
+            </a>
+          </div>
+
+          {/* Right side - Prompt Us button */}
+          <div className="flex-shrink-0">
+            <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors duration-200 font-medium">
+              Prompt Us
+            </button>
+          </div>
         </div>
 
-        {/* <div className="flex gap-6 flex-wrap justify-center">
-          <a href="#webinar-details" className="text-gray-300 hover:text-white transition">
-            Webinar
-          </a>
-          <a href="#register-section" className="text-gray-300 hover:text-white transition">
-            Register
-          </a>
-          <a href="/about" className="text-gray-300 hover:text-white transition">
-            About
-          </a>
-          <a href="/contact" className="text-gray-300 hover:text-white transition">
-            Contact
-          </a>
-        </div> */}
-
-        <div className="text-sm text-gray-500 mt-4 md:mt-0">
-          © {new Date().getFullYear()} Cahn Studios. All rights reserved.
+        {/* Bottom section - All rights reserved */}
+        <div className="border-t border-gray-600 mt-8 pt-6">
+          <div className="text-sm text-gray-500 text-center">
+            © {new Date().getFullYear()} Cahn Studios. All rights reserved.
+          </div>
         </div>
       </div>
     </footer>
