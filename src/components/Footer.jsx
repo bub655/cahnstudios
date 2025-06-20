@@ -17,7 +17,7 @@ export default function Footer() {
           {/* Center - Navigation links */}
           <div className="flex gap-8 flex-wrap justify-center md:justify-start">
             <a 
-              href="/about" 
+              href="/#about" 
               className="group text-gray-300 hover:text-blue-400 transition-colors duration-200 flex items-center gap-1"
             >
               About
@@ -26,7 +26,7 @@ export default function Footer() {
               </span>
             </a>
             <a 
-              href="/community" 
+              href="https://www.linkedin.com/company/cahn-studios/" 
               className="group text-gray-300 hover:text-blue-400 transition-colors duration-200 flex items-center gap-1"
             >
               Community
@@ -35,10 +35,10 @@ export default function Footer() {
               </span>
             </a>
             <a 
-              href="/services" 
+              href="/webinar" 
               className="group text-gray-300 hover:text-blue-400 transition-colors duration-200 flex items-center gap-1"
             >
-              Services
+              Webinar
               <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 transform group-hover:translate-x-1 group-hover:-translate-y-1">
                 ↗
               </span>
