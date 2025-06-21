@@ -35,10 +35,10 @@ export default function Footer() {
               </span>
             </a>
             <a 
-              href="/webinar" 
+              href="https://cahns-newsletter.beehiiv.com/subscribe" 
               className="group text-gray-300 hover:text-blue-400 transition-colors duration-200 flex items-center gap-1"
             >
-              Webinar
+              Newsletter
               <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 transform group-hover:translate-x-1 group-hover:-translate-y-1">
                 ↗
               </span>
