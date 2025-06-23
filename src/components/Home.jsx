@@ -11,23 +11,15 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-gray-950 text-white">
       {/* Section: Trust */}
-      {/* <section id="services" className="py-16 bg-gray-900">
-          <div className="text-center mb-16">
-            <p className="text-xl text-gray-300 max-w-4xl mx-auto">
-              Trusted by Gemini, Adobe, Upgrad, Blackbox, Dora, Lindy & many more.
-            </p>
-          </div>
-      </section> */}
+      <section className="bg-gray-950 text-center py-3">
+        <p className="text-sm md:text-base text-gray-300 max-w-6xl mx-auto px-4">
+          Trusted by Gemini, Adobe, Upgrad, Blackbox, Dora, Lindy & many more.
+        </p>
+      </section>
       
       {/* Section 1: Landing Page */}
       <section id="home" className="relative h-screen flex items-center justify-center bg-gradient-to-br from-gray-950 via-gray-900 to-gray-800">
-    
         <div className="absolute inset-0 bg-black/30"></div>
-                <div className="text-center mb-16">
-          <p className="text-xl text-gray-300 max-w-4xl mx-auto">
-            Trusted by Gemini, Adobe, Upgrad, Blackbox, Dora, Lindy & many more.
-          </p>
-        </div>   
         <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
           <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
             AI-Powered&nbsp;
