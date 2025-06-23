@@ -21,12 +21,13 @@ const Home = () => {
       
       {/* Section 1: Landing Page */}
       <section id="home" className="relative h-screen flex items-center justify-center bg-gradient-to-br from-gray-950 via-gray-900 to-gray-800">
-        <div className="text-center mb-16">
+    
+        <div className="absolute inset-0 bg-black/30"></div>
+                <div className="text-center mb-16">
           <p className="text-xl text-gray-300 max-w-4xl mx-auto">
             Trusted by Gemini, Adobe, Upgrad, Blackbox, Dora, Lindy & many more.
           </p>
-        </div>       
-        <div className="absolute inset-0 bg-black/30"></div>
+        </div>   
         <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
           <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
             AI-Powered&nbsp;
