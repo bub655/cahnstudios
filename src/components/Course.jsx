@@ -6,8 +6,6 @@ import Form from './Form';
 const Webinar = () => {
   return (
     <>
-      <Showcase />
-      <WebinarDetails />
       <Form />
     </>
   );
