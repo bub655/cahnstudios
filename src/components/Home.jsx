@@ -248,9 +248,10 @@ const Home = () => {
                 <span className="text-sm text-gray-400">📅 TBA</span>
                 <span className="text-sm text-gray-400">🕒 TBA</span>
               </div>
-              <button className="px-6 py-3 border-2 border-gray-600 text-gray-400 rounded-lg font-semibold hover:border-gray-500 hover:text-gray-300 transition-colors">
+              <a href="https://cahns-newsletter.beehiiv.com/subscribe"
+                 className="px-6 py-3 border-2 border-gray-600 text-gray-400 rounded-lg font-semibold hover:border-gray-500 hover:text-gray-300 transition-colors">
                 Get Notified
-              </button>
+              </a>
             </div>
           </div>
         </div>
@@ -284,7 +285,7 @@ const Home = () => {
                 </div>
               </div>
             </div>
-            <div>
+            {/* <div>
               <div className="border-2 border-gray-700 rounded-lg p-8 bg-gray-800/50">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="aspect-square border-2 border-gray-600 rounded-lg flex items-center justify-center">
@@ -309,7 +310,7 @@ const Home = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>
