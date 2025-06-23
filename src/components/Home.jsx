@@ -289,6 +289,28 @@ const Home = () => {
             </div>
           </div>
 
+          <div className="flex justify-center">
+            <div className="w-full max-w-3xl">
+              <div className="text-center">
+                <h3 className="text-3xl font-semibold mb-6">Our Mission</h3>
+                <p className="text-lg text-gray-300 mb-6">
+                  To empower creators and businesses with accessible AI tools that enhance creativity, productivity, and growth. 
+                  We believe that AI should amplify human potential, not replace it.
+                </p>
+              </div>
+              <div className="grid grid-cols-2 gap-8 mt-8">
+                <div className="text-center border border-gray-700 rounded-lg p-4">
+                  <div className="text-3xl font-bold text-blue-400 mb-2">500+</div>
+                  <div className="text-gray-300">Creators Empowered</div>
+                </div>
+                <div className="text-center border border-gray-700 rounded-lg p-4">
+                  <div className="text-3xl font-bold text-blue-400 mb-2">50+</div>
+                  <div className="text-gray-300">AI Tools Mastered</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h3 className="text-3xl font-semibold mb-6">Our Mission</h3>
