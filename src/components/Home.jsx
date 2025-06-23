@@ -18,7 +18,7 @@ const Home = () => {
       </section>
       
       {/* Section 1: Landing Page */}
-      <section id="home" className="relative h-screen flex items-center justify-center bg-gradient-to-br from-gray-950 via-gray-900 to-gray-800">
+      <section id="home" className="relative min-h-[85vh] flex items-center justify-center bg-gradient-to-br from-gray-950 via-gray-900 to-gray-800">
         <div className="absolute inset-0 bg-black/30"></div>
         <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
           <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
