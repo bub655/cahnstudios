@@ -1,12 +1,10 @@
 import React from 'react';
-import Showcase from './Showcase';
-import WebinarDetails from './WebinarDetails';
-import Form from './Form';
+import CourseVideo from './CourseVideo';
 
 const Webinar = () => {
   return (
     <>
-      <Form />
+    <CourseVideo />  
     </>
   );
 };
