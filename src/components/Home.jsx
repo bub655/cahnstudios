@@ -226,12 +226,12 @@ const Home = () => {
                 <span className="text-sm text-gray-400">📅 June 21-22, 2025</span>
                 <span className="text-sm text-gray-400">🕒 7:30 PM - 9:30 PM IST</span>
               </div>
-              <a 
+              <btn 
                 href="/webinar" 
-                className="inline-block px-6 py-3 border-2 border-blue-500 text-blue-400 rounded-lg font-semibold hover:bg-blue-500 hover:text-white transition-all duration-300"
+                className="px-6 py-3 border-2 border-gray-600 text-gray-400 rounded-lg font-semibold hover:border-gray-500 hover:text-gray-300 transition-colors"
               >
                 Register Now
-              </a>
+              </btn>
             </div>
 
             <div className="border-2 border-gray-700 rounded-lg p-8 bg-gray-800/50">
@@ -247,7 +247,7 @@ const Home = () => {
                 <span className="text-sm text-gray-400">🕒 TBA</span>
               </div>
               <a href="https://cahns-newsletter.beehiiv.com/subscribe"
-                 className="px-6 py-3 border-2 border-gray-600 text-gray-400 rounded-lg font-semibold hover:border-gray-500 hover:text-gray-300 transition-colors">
+                 className="inline-block px-6 py-3 border-2 border-blue-500 text-blue-400 rounded-lg font-semibold hover:bg-blue-500 hover:text-white transition-all duration-300">
                 Get Notified
               </a>
             </div>
