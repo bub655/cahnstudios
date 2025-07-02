@@ -18,7 +18,7 @@ const Home = () => {
       </section>
       
       {/* Section 1: Landing Page */}
-      <section id="home" className="relative min-h-[85vh] flex items-center justify-center bg-gradient-to-br from-gray-950 via-gray-900 to-gray-800">
+      <section id="home" className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-950 via-gray-900 to-gray-800">
         <div className="absolute inset-0 bg-black/30"></div>
         <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
           <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
@@ -386,7 +386,7 @@ const Home = () => {
       </section>
 
       {/* Section 7: How We Do It */}
-      <section id="how" className="py-20 bg-gray-950">
+      <section id="how" className="py-20 bg-gray-950 text-center">
         <div className="max-w-8xl mx-auto px-12">
           <div className="mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">How We Do It</h2>
@@ -398,7 +398,7 @@ const Home = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
             <div className="border-2 border-gray-700 rounded-lg p-8">
               <div className="mb-6">
-                <svg className="w-12 h-12 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-12 h-12 text-blue-400 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5-6v6a7 7 0 11-14 0V6a7 7 0 1114 0z" />
                 </svg>
               </div>
@@ -410,7 +410,7 @@ const Home = () => {
 
             <div className="border-2 border-gray-700 rounded-lg p-8">
               <div className="mb-6">
-                <svg className="w-12 h-12 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-12 h-12 text-blue-400 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 </svg>
               </div>
@@ -422,7 +422,7 @@ const Home = () => {
 
             <div className="border-2 border-gray-700 rounded-lg p-8">
               <div className="mb-6">
-                <svg className="w-12 h-12 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-12 h-12 text-blue-400 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
               </div>

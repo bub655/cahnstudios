@@ -8,6 +8,9 @@ import Footer from "./components/Footer";
 import PaymentSelection from './components/PaymentSelection';
 import Contact from './components/Contact';
 import TermsOfService from './components/TermsOfService';
+import Course from './components/Course';
+import CourseTermsOfService from './components/CourseTermsOfService';
+import CoursePaymentSelection from './components/CoursePaymentSelection';
 
 export default function App() {
   useEffect(() => {
@@ -52,6 +55,9 @@ export default function App() {
         <Route path="/terms-of-service" element={<TermsOfService />} />
         <Route path="/payment-selection" element={<PaymentSelection />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/course" element={<Course />} />
+        {/* <Route path="/course-terms-of-service" element={<CourseTermsOfService />} />
+        <Route path="/course-payment-selection" element={<CoursePaymentSelection />} /> */}
       </Routes>
       
       <Footer />

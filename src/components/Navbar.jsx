@@ -115,6 +115,15 @@ export default function Navbar() {
             </li>
             <li>
               <a 
+                href="/course" 
+                className="block text-white py-3 px-4 rounded-lg hover:bg-gray-800 active:bg-gray-700 transition-colors duration-200 touch-manipulation"
+                onClick={closeMenu}
+              >
+                Course
+              </a>
+            </li>
+            <li>
+              <a 
                 href="/contact" 
                 className="block text-white py-3 px-4 bg-gray-800/50 rounded-lg hover:bg-gray-700 active:bg-gray-600 transition-colors duration-200 touch-manipulation"
                 onClick={closeMenu}
