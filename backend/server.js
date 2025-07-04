@@ -150,7 +150,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
     console.log('📝 Creating checkout session with request body:', req.body);
     const { name, email, phone, country} = req.body;
     // const amount = 5821; //monetary value
-    const amount = 100;
+    const amount = 2000;
 
     console.log('Extracted data:', { name, email, phone, country });
 
