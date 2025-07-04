@@ -56,8 +56,8 @@ export default function App() {
         <Route path="/payment-selection" element={<PaymentSelection />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/course" element={<Course />} />
-        {/* <Route path="/course-terms-of-service" element={<CourseTermsOfService />} />
-        <Route path="/course-payment-selection" element={<CoursePaymentSelection />} /> */}
+        <Route path="/course-terms-of-service" element={<CourseTermsOfService />} />
+        <Route path="/course-payment-selection" element={<CoursePaymentSelection />} />
       </Routes>
       
       <Footer />
