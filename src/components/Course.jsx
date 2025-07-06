@@ -72,16 +72,17 @@ const Course = () => {
         <div className="absolute inset-0 bg-black/40"></div>
         <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
           <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight text-white">
-            Course webpage under construction.{/* AI‑Powered{' '}
+            AI‑Powered{' '}
             <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-              Creativity &amp; Technology
-            </span> */}
+              Content Creation{' '}
+            </span>
+            Course
           </h1>
-          {/* <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl mx-auto">
             Get the <strong>full recordings</strong> of our sold‑out webinars and learn proven AI workflows to level‑up your content and business growth.
-          </p> */}
+          </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            {/* <button
+            <button
               onClick={() => scrollToSection('learn')}
               className="px-8 py-4 border-2 border-gray-400 text-gray-300 rounded-full font-semibold text-lg hover:border-white hover:text-white transition-all"
             >
@@ -92,7 +93,7 @@ const Course = () => {
               className="px-8 py-4 border-2 border-blue-500 text-blue-400 rounded-full font-semibold text-lg hover:bg-blue-500 hover:text-white transition-all hover:-translate-y-1"
             >
               Buy Recordings
-            </button> */}
+            </button>
           </div>
         </div>
       </section>

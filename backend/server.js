@@ -649,7 +649,7 @@ app.post('/api/track-engagement', async (req, res) => {
     const engagementOptions = {
       from: process.env.GMAIL_USER,
       to: 'cahnwebinar@gmail.com',
-      subject: `Initial Engagement Click - ${name}`,
+      subject: `Initial AI Content Course Engagement Click - ${name}`,
       html: `
       <div style="font-family: sans-serif; line-height: 1.5; color: #333;">
         <h2>New Registration Received</h2>
