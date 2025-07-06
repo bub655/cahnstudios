@@ -145,7 +145,7 @@ const transporter = nodemailer.createTransport({
 
 
 /* Checkout Session */
-app.post('/api/create-checkout-session', async (req, res) => {
+app.post('/api/course/stripe/create-checkout-session', async (req, res) => {
   try {
     console.log('📝 Creating checkout session with request body:', req.body);
     const { name, email, phone, country} = req.body;
@@ -374,7 +374,7 @@ Team Cahn
   const notificationOptions = {
     from: `"Cahn Studios" <${process.env.GMAIL_USER}>`,
     to: process.env.GMAIL_USER,
-    subject: `New Registration: AI for Creators Webinar - ${name}`,
+    subject: `New Registration: AI for Creators Course - ${name}`,
     text: `
 New registration received:
 
@@ -476,7 +476,7 @@ const razorpay = new Razorpay({
 });
 
 
-app.post("/api/razorpay/create-order", async (req, res) => {
+app.post("/api/course/razorpay/create-order", async (req, res) => {
   try {
     console.log('📝 Creating Razorpay order with request body:', req.body);
     const { name, email, phone, country } = req.body;
