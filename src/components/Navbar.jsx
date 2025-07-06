@@ -39,11 +39,11 @@ export default function Navbar() {
 
       {/* Desktop Menu */}
       <ul className="hidden md:flex space-x-6 lg:space-x-8 text-gray-700 font-medium list-none">
-        <li>
+        {/* <li>
           <a href="/webinar" className="text-white transition-colors duration-200 py-2 px-1 border-b-2 border-transparent hover:border-white">
             Webinars
           </a>
-        </li>
+        </li> */}
         <li>
           <a href="/#services" className="text-white transition-colors duration-200 py-2 px-1 border-b-2 border-transparent hover:border-white">
             Services
@@ -86,7 +86,7 @@ export default function Navbar() {
       {isMenuOpen && (
         <div className="absolute top-16 left-0 right-0 bg-black border-t border-gray-700 md:hidden z-50 shadow-lg">
           <ul className="flex flex-col space-y-1 p-4 text-gray-700 font-medium list-none">
-            <li>
+            {/* <li>
               <a 
                 href="/webinar" 
                 className="block text-white py-3 px-4 rounded-lg hover:bg-gray-800 active:bg-gray-700 transition-colors duration-200 touch-manipulation"
@@ -94,7 +94,7 @@ export default function Navbar() {
               >
                 Webinars
               </a>
-            </li>
+            </li> */}
             <li>
               <a 
                 href="/#services" 
