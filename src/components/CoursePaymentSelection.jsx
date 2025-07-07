@@ -47,7 +47,7 @@ const CoursePaymentSelection = () => {
     setProcessingMethod('stripe');
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/create-checkout-session`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/course/stripe/create-checkout-session`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, paymentMethod: 'stripe' }),
@@ -84,7 +84,7 @@ const CoursePaymentSelection = () => {
       console.log('Creating Razorpay order...');
       
       // Call your backend to create Razorpay order
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/razorpay/create-order`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/course/razorpay/create-order`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),

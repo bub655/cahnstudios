@@ -216,7 +216,7 @@ const Home = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="border-2 border-gray-700 rounded-lg p-8 bg-gray-800/50">
               <div className="mb-6">
-                <span className="border border-red-500 text-red-400 px-3 py-1 rounded-full text-sm font-medium">Live Now</span>
+                <span className="border border-red-500 text-red-400 px-3 py-1 rounded-full text-sm font-medium">Done</span>
               </div>
               <h3 className="text-2xl font-semibold mb-4">AI for Creators Webinar</h3>
               <p className="text-gray-300 mb-6">
@@ -227,10 +227,10 @@ const Home = () => {
                 <span className="text-sm text-gray-400">🕒 7:30 PM - 9:30 PM IST</span>
               </div>
               <btn 
-                href="/webinar" 
+                href="/course" 
                 className="px-6 py-3 border-2 border-gray-600 text-gray-400 rounded-lg font-semibold hover:border-gray-500 hover:text-gray-300 transition-colors"
               >
-                Register Now
+                Get Course
               </btn>
             </div>
 
@@ -482,12 +482,12 @@ const Home = () => {
             >
               Prompt Us
             </a>
-            <a 
+            {/* <a 
               href="/webinar" 
               className="px-8 py-4 border-2 border-gray-400 text-gray-300 rounded-full font-semibold text-lg hover:border-white hover:text-white transition-all duration-300"
             >
               Join Our Webinar
-            </a>
+            </a> */}
           </div>
         </div>
       </section>

@@ -46,7 +46,7 @@ export default function App() {
         <Route path="/" element={<Home />} />
         
         {/* Webinar registration page (moved from home) */}
-        <Route path="/webinar" element={<Webinar />} />
+        {/* <Route path="/webinar" element={<Webinar />} /> */}
 
         {/* After successful payment, Stripe redirects here */}
         <Route path="/success" element={<Success />} />
