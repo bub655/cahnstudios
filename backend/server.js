@@ -15,7 +15,7 @@ app.use(
     origin: [
       'https://www.cahnstudios.com',
       'https://cahnstudios.com', 
-      'https://cahn-webinar-individual-ivi7.vercel.app',
+      'https://cahn-webinar-individual-one.vercel.app',
       'http://localhost:5173',
       'http://localhost:3001'
     ],
