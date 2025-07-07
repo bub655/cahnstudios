@@ -16,6 +16,7 @@ app.use(
       'https://www.cahnstudios.com',
       'https://cahnstudios.com', 
       'https://cahn-webinar-individual-one.vercel.app',
+      'https://cahn-webinar-individual-496o.vercel.app',
       'http://localhost:5173',
       'http://localhost:3001'
     ],
@@ -310,7 +311,7 @@ const mailOptions = {
   text: `
 Hi ${name || ''},
 
-Thank you for showing interest in our AI for Creators course! We’re excited to help you accelerate your content creation and business workflows using powerful AI tools.
+Thank you for showing interest in our AI for Creators course! We're excited to help you accelerate your content creation and business workflows using powerful AI tools.
 
 🎥 Below are your private course recordings:
 1. Part 1: https://vimeo.com/your-link-1
@@ -325,7 +326,7 @@ These sessions cover:
 
 If you have any questions or need help getting started, feel free to reply to this email.
 
-Let’s build smarter, faster, and more creatively with AI.
+Let's build smarter, faster, and more creatively with AI.
 
 Warm regards,  
 Team Cahn
@@ -354,10 +355,10 @@ Team Cahn
     </ul>
 
     <p>
-      If you have any questions or want to share your project ideas, just hit reply — we’d love to hear from you!
+      If you have any questions or want to share your project ideas, just hit reply — we'd love to hear from you!
     </p>
 
-    <p>Let’s build smarter, faster, and more creatively with AI.</p>
+    <p>Let's build smarter, faster, and more creatively with AI.</p>
 
     <p>Warm regards,<br><strong>Team Cahn</strong></p>
   </div>
