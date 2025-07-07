@@ -48,6 +48,41 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Trusted By Section */}
+      <section className="bg-gray-950 py-12">
+        <div className="max-w-4xl mx-auto">
+          <div className="flex flex-col items-center">
+            <div className="w-16 border-t-2 border-blue-500 mb-4"></div>
+            <h2 className="text-xl md:text-2xl font-semibold text-gray-300 mb-8 tracking-wide uppercase">
+              Trusted By
+            </h2>
+          </div>
+          <div className="flex flex-wrap justify-center items-center gap-10 md:gap-16">
+            {/* Google Gemini */}
+            <img
+              src="/google-gemini-icon.png"
+              alt="Google Gemini"
+              className="h-12 w-auto grayscale hover:grayscale-0 transition duration-300 drop-shadow-lg"
+              style={{ maxWidth: 100 }}
+            />
+            {/* Adobe */}
+            <img
+              src="/adobe-icon.png"
+              alt="Adobe"
+              className="h-12 w-auto grayscale hover:grayscale-0 transition duration-300 drop-shadow-lg"
+              style={{ maxWidth: 100 }}
+            />
+            {/* UpGrad */}
+            <img
+              src="/upgrad-icon.png"
+              alt="UpGrad"
+              className="h-12 w-auto grayscale hover:grayscale-0 transition duration-300 drop-shadow-lg"
+              style={{ maxWidth: 120 }}
+            />
+          </div>
+        </div>
+      </section>
+
       {/* Section 2: What We Do */}
       <section id="services" className="py-20 bg-gray-900">
         <div className="max-w-7xl mx-auto px-6">
