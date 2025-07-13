@@ -234,7 +234,7 @@ const CoursePaymentSelection = () => {
           </button>
 
           {/* Razorpay Button */}
-          <button
+          {/* <button
             onClick={handleRazorpayPayment}
             disabled={isProcessing}
             className={`w-full p-6 border-2 rounded-lg transition-all duration-200 ${
@@ -259,7 +259,7 @@ const CoursePaymentSelection = () => {
                 <span className="text-indigo-600 font-medium">Choose →</span>
               )}
             </div>
-          </button>
+          </button> */}
         </div>
 
         {/* Back Button */}
