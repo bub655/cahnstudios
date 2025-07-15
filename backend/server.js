@@ -314,10 +314,12 @@ Hi ${name || ''},
 Thank you for showing interest in our AI for Creators course! We're excited to help you accelerate your content creation and business workflows using powerful AI tools.
 
 🎥 Below are your private course recordings:
-1. Part 1: https://vimeo.com/your-link-1
-2. Part 2: https://vimeo.com/your-link-2
+1. Part 1: https://vimeo.com/1096707334?share=copy
+2. Part 2: https://vimeo.com/1096706519?share=copy
+3. Part 3: https://vimeo.com/1098040987?share=copy
+4. Part 4: https://vimeo.com/1098043611?share=copy
 
-🔐 Password to access all recordings: #
+🔐 Password to access all recordings: CahnWebinar2025!!
 
 These sessions cover:
 • The best tools for AI content creation (video, writing, design)
@@ -341,11 +343,13 @@ Team Cahn
 
     <p><strong>🎥 Your private course recordings:</strong></p>
     <ul>
-      <li><a href="https://vimeo.com/your-link-1" target="_blank">Part 1 Recording</a></li>
-      <li><a href="https://vimeo.com/your-link-2" target="_blank">Part 2 Recording</a></li>
+      <li><a href="https://vimeo.com/1096707334?share=copy" target="_blank">Part 1 Recording</a></li>
+      <li><a href="https://vimeo.com/1096706519?share=copy" target="_blank">Part 2 Recording</a></li>
+      <li><a href="https://vimeo.com/1098040987?share=copy" target="_blank">Part 3 Recording</a></li>
+      <li><a href="https://vimeo.com/1098043611?share=copy" target="_blank">Part 4 Recording</a></li>
     </ul>
 
-    <p><strong>🔐 Password to access all recordings:</strong> <code>#</code></p>
+    <p><strong>🔐 Password to access all recordings:</strong> <code>CahnWebinar2025!!</code></p>
 
     <p>This course covers:</p>
     <ul>
