@@ -1,3 +1,5 @@
+const fetch = require('node-fetch');
+
 /* 
  * Newsletter API Route
  * Fetches latest posts from Beehiiv API
