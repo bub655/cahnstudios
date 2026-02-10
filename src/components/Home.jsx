@@ -1,528 +1,405 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Home = () => {
-  const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  const [newsletter, setNewsletter] = useState(null);
+  const [loadingNewsletter, setLoadingNewsletter] = useState(true);
+
+  // Fetch latest newsletter on mount
+  useEffect(() => {
+    const fetchNewsletter = async () => {
+      try {
+        const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001';
+        const response = await fetch(`${backendUrl}/api/newsletter/latest`);
+        if (response.ok) {
+          const data = await response.json();
+          if (data.hasNewsletter) {
+            setNewsletter(data);
+          }
+        }
+      } catch (error) {
+        console.log('Newsletter fetch error:', error);
+      } finally {
+        setLoadingNewsletter(false);
+      }
+    };
+    fetchNewsletter();
+  }, []);
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white">
-      {/* Section: Trust */}
-      <section className="bg-gray-950 text-center py-3">
-        <p className="text-sm md:text-base text-gray-300 max-w-6xl mx-auto px-4">
-          Trusted by Gemini, Adobe, Upgrad, Blackbox, Dora, Lindy & many more.
+    <div className="min-h-screen bg-black text-white">
+      {/* 1. Sticky Newsletter Bar */}
+      <div className="fixed top-0 left-0 right-0 z-50 bg-black border-b border-white/10 py-4 px-6">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          <div className="flex items-center gap-2 text-sm">
+            <span className="font-semibold">Cahn Pulse</span>
+            <span className="text-white/50">—</span>
+            <span className="text-white/50 hidden sm:inline">Weekly AI × Creativity insights from the studio floor</span>
+          </div>
+          <a 
+            href="https://cahns-newsletter.beehiiv.com/subscribe"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-5 py-2.5 bg-[#e64726] text-white rounded-sm font-medium text-sm hover:bg-[#e64726]/90 transition-colors"
+          >
+            Join the Pulse
+          </a>
+        </div>
+      </div>
+
+      {/* Spacer for fixed header */}
+      <div className="h-16"></div>
+
+      {/* 2. Hero Section */}
+      <section className="min-h-[90vh] flex flex-col justify-center px-6 py-20 max-w-7xl mx-auto">
+        {/* Logo */}
+        <div className="mb-8">
+          <img src="/CAHN_Logo_Black_RGB.png" alt="Cahn Logo" className="h-20 filter invert brightness-0" />
+        </div>
+
+        {/* Main Headline */}
+        <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif leading-[1.1] mb-8">
+          We Build AI-Powered<br />
+          Stories,<br />
+          <em className="italic">Systems, and Learning</em><br />
+          for the Creative Age
+        </h1>
+
+        {/* Subheadline */}
+        <p className="text-lg md:text-xl text-white/60 max-w-2xl mb-10">
+          Cahn Studios helps brands, creators, and teams use AI to create films, scale content, and learn modern workflows — without the noise.
         </p>
+
+        {/* CTAs - Newsletter CTA in Hero */}
+        <div className="flex flex-wrap gap-4">
+          <a 
+            href="https://cahns-newsletter.beehiiv.com/subscribe"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-6 py-3 bg-[#e64726] text-white rounded-sm font-medium hover:bg-[#e64726]/90 transition-colors"
+          >
+            Join the Weekly Pulse
+          </a>
+          <a 
+            href="#contact"
+            className="px-6 py-3 text-white/70 font-medium hover:text-white transition-colors underline underline-offset-4"
+          >
+            Work with Us
+          </a>
+        </div>
       </section>
-      
-      {/* Section 1: Landing Page */}
-      <section id="home" className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-950 via-gray-900 to-gray-800">
-        <div className="absolute inset-0 bg-black/30"></div>
-        <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-            AI-Powered&nbsp;
-            <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-              Creativity &&nbsp;
-            </span>
-            Technology
-          </h1>
-          <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl mx-auto">
-            Empowering creators and businesses with cutting-edge AI solutions for content creation, automation, and growth.
+
+      {/* 3. Services Section */}
+      <section id="services" className="py-24 px-6 bg-black">
+        <div className="max-w-7xl mx-auto">
+          <span className="text-white/50 text-sm font-medium tracking-wider uppercase mb-6 block">
+            SERVICES
+          </span>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif mb-4">
+            What We Build at Cahn
+          </h2>
+          <p className="text-lg text-white/60 mb-16">
+            AI is the medium. <span className="text-white">Outcomes are the point.</span>
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button 
-              onClick={() => scrollToSection('services')}
-              className="px-8 py-4 border-2 border-blue-500 text-blue-400 rounded-full font-semibold text-lg hover:bg-blue-500 hover:text-white transition-all duration-300 transform hover:-translate-y-1"
-            >
-              Get Started
-            </button>
-            <button 
-              onClick={() => scrollToSection('about')}
-              className="px-8 py-4 border-2 border-gray-400 text-gray-300 rounded-full font-semibold text-lg hover:border-white hover:text-white transition-all duration-300"
-            >
-              Learn More
-            </button>
-          </div>
-        </div>
-      </section>
 
-      {/* Trusted By Section */}
-      <section className="bg-gray-950 py-12">
-        <div className="max-w-4xl mx-auto">
-          <div className="flex flex-col items-center">
-            <div className="w-16 border-t-2 border-blue-500 mb-4"></div>
-            <h2 className="text-xl md:text-2xl font-semibold text-gray-300 mb-8 tracking-wide uppercase">
-              Trusted By
-            </h2>
-          </div>
-          <div className="flex flex-wrap justify-center items-center gap-10 md:gap-16">
-            {/* Google Gemini */}
-            <img
-              src="/google-gemini-icon.png"
-              alt="Google Gemini"
-              className="h-12 w-auto grayscale hover:grayscale-0 transition duration-300 drop-shadow-lg"
-              style={{ maxWidth: 100 }}
-            />
-            {/* Adobe */}
-            <img
-              src="/adobe-icon.png"
-              alt="Adobe"
-              className="h-12 w-auto grayscale hover:grayscale-0 transition duration-300 drop-shadow-lg"
-              style={{ maxWidth: 100 }}
-            />
-            {/* UpGrad */}
-            <img
-              src="/upgrad-icon.png"
-              alt="UpGrad"
-              className="h-12 w-auto grayscale hover:grayscale-0 transition duration-300 drop-shadow-lg"
-              style={{ maxWidth: 120 }}
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Section 2: What We Do */}
-      <section id="services" className="py-20 bg-gray-900">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">What We Do</h2>
-            <p className="text-xl text-gray-300 max-w-4xl mx-auto">
-              We operate across three powerful pillars, delivering AI-powered solutions that spark imagination and deliver measurable impact.
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* AI Content Creation */}
-            <div className="border-2 border-gray-700 rounded-lg p-8 hover:border-blue-500 transition-all duration-300 bg-gray-800/50">
-              <div className="w-16 h-16 border-2 border-blue-500 rounded-lg flex items-center justify-center mb-6">
-                <svg className="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-semibold mb-4">AI Content Creation</h3>
-              <p className="text-gray-300 mb-6">
-                High-impact social videos, immersive commercials, and custom AI avatars crafted to elevate your brand voice.
+          {/* Services Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 border border-white/10 rounded-lg overflow-hidden">
+            {/* AI Films & Visual Stories */}
+            <div className="p-8 border-b md:border-b md:border-r border-white/10">
+              <h3 className="text-xl font-semibold mb-4">AI Films & Visual Stories</h3>
+              <p className="text-white/60 mb-4">
+                We craft cinematic AI-powered films and visual narratives that communicate ideas clearly, emotionally, and at scale — without traditional production overhead.
               </p>
-              <ul className="space-y-3 text-gray-300">
-                <li className="flex items-start">
-                  <span className="w-2 h-2 border border-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                  <span>Video production: social clips, commercials</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="w-2 h-2 border border-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                  <span>AI avatars and virtual hosts</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="w-2 h-2 border border-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                  <span>Automated editing and motion graphics</span>
-                </li>
-              </ul>
+              <p className="text-white/40 italic text-sm mb-6">
+                For brands, founders, and storytellers who need impact, not noise.
+              </p>
+              <a href="#work" className="text-[#e64726] font-medium inline-flex items-center gap-2 hover:gap-3 transition-all">
+                Explore Films <span>→</span>
+              </a>
             </div>
 
-            {/* LLM Deployment & Automation */}
-            <div className="border-2 border-gray-700 rounded-lg p-8 hover:border-blue-500 transition-all duration-300 bg-gray-800/50">
-              <div className="w-16 h-16 border-2 border-blue-500 rounded-lg flex items-center justify-center mb-6">
-                <svg className="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-semibold mb-4">LLM Deployment & Automation</h3>
-              <p className="text-gray-300 mb-6">
-                Tailored LLMs, AI agents, and custom automations integrated into your website, apps, and workflows for efficiency at scale.
+            {/* AI Content & Strategy Systems */}
+            <div className="p-8 border-b border-white/10">
+              <h3 className="text-xl font-semibold mb-4">AI Content & Strategy Systems</h3>
+              <p className="text-white/60 mb-4">
+                We design repeatable AI-driven content pipelines — from ideas to distribution — so your brand shows up consistently, intelligently, and without burning teams out.
               </p>
-              <ul className="space-y-3 text-gray-300">
-                <li className="flex items-start">
-                  <span className="w-2 h-2 border border-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                  <span>Custom chatbot & knowledge-base development</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="w-2 h-2 border border-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                  <span>Recommendation engines and personalization</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="w-2 h-2 border border-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                  <span>Workflow automation & AI agents</span>
-                </li>
-              </ul>
+              <p className="text-white/40 italic text-sm mb-6">
+                For teams that want clarity, consistency, and leverage.
+              </p>
+              <a href="#work" className="text-[#e64726] font-medium inline-flex items-center gap-2 hover:gap-3 transition-all">
+                See How It Works <span>→</span>
+              </a>
             </div>
 
-            {/* Distribution & Collaboration */}
-            <div className="border-2 border-gray-700 rounded-lg p-8 hover:border-blue-500 transition-all duration-300 bg-gray-800/50">
-              <div className="w-16 h-16 border-2 border-blue-500 rounded-lg flex items-center justify-center mb-6">
-                <svg className="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-semibold mb-4">Distribution & Collaboration</h3>
-              <p className="text-gray-300 mb-6">
-                Leveraging our 100K+ AI-enthusiast network to amplify partner brands through content syndication, co-branded events, and affiliate channels.
+            {/* AI Learning */}
+            <div className="p-8 md:border-r border-white/10">
+              <h3 className="text-xl font-semibold mb-4">AI Learning (By Doing, Not Watching)</h3>
+              <p className="text-white/60 mb-4">
+                A hands-on, game-based learning platform where new AI learners build real workflows, level up through practice, and gain confidence by shipping — not memorizing.
               </p>
-              <ul className="space-y-3 text-gray-300">
-                <li className="flex items-start">
-                  <span className="w-2 h-2 border border-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                  <span>Content syndication across 101K+ followers</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="w-2 h-2 border border-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                  <span>Co-branded webinars & workshops</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="w-2 h-2 border border-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                  <span>Affiliate marketing & revenue share programs</span>
-                </li>
-              </ul>
+              <p className="text-white/40 italic text-sm mb-6">
+                For creators, professionals, and curious beginners.
+              </p>
+              <a href="#learning" className="text-[#e64726] font-medium inline-flex items-center gap-2 hover:gap-3 transition-all">
+                Join the Beta <span>→</span>
+              </a>
+            </div>
+
+            {/* Research, Pulse & Experiments */}
+            <div className="p-8">
+              <h3 className="text-xl font-semibold mb-4">Research, Pulse & Experiments</h3>
+              <p className="text-white/60 mb-4">
+                We continuously test tools, workflows, and ideas inside the studio — documenting what works, what breaks, and what's worth paying attention to.
+              </p>
+              <p className="text-white/40 italic text-sm mb-6">
+                For builders who value signal over hype.
+              </p>
+              <a href="#pulse" className="text-[#e64726] font-medium inline-flex items-center gap-2 hover:gap-3 transition-all">
+                Read the Pulse <span>→</span>
+              </a>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Section 3: Feedo */}
-      <section id="feedo" className="py-20 bg-gray-950">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col lg:flex-row items-center gap-12">
-            <div className="lg:w-1/2">
-              <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                Introducing
-                <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent"> Feedo</span>
+      {/* 4. Newsletter / Pulse Section */}
+      <section id="pulse" className="py-24 px-6 bg-zinc-950">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+            {/* Left Column */}
+            <div>
+              <span className="text-[#e64726] text-sm font-medium tracking-wider uppercase mb-6 block">
+                CAHN PULSE
+              </span>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif leading-[1.1] mb-6">
+                A weekly dispatch<br />
+                from the<br />
+                intersection<br />
+                <em className="italic">of AI, creativity, and<br />
+                real studio work.</em>
               </h2>
-              <p className="text-xl text-gray-300 mb-8">
-                Our flagship AI platform that revolutionizes content creation and distribution across multiple channels.
+
+              {/* Trust indicators */}
+              <div className="flex items-center gap-2 text-sm mb-8 flex-wrap">
+                <span className="w-1 h-6 bg-[#e64726]"></span>
+                <span>Trusted by</span>
+                <span className="text-[#e64726]">500+ creators & founders</span>
+                <span className="text-white/50">·</span>
+                <span>36% average open rate</span>
+              </div>
+
+              <p className="text-white/60 text-lg mb-4 max-w-lg">
+                Every week, we test tools, break workflows, and document what actually works — across AI films, content systems, and learning experiments.
               </p>
-              <ul className="space-y-4 mb-8">
-                <li className="flex items-center">
-                  <div className="w-6 h-6 border-2 border-blue-400 rounded-full flex items-center justify-center mr-4">
-                    <svg className="w-3 h-3 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
-                  <span>Multi-platform content generation</span>
-                </li>
-                <li className="flex items-center">
-                  <div className="w-6 h-6 border-2 border-blue-400 rounded-full flex items-center justify-center mr-4">
-                    <svg className="w-3 h-3 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
-                  <span>Real-time performance analytics</span>
-                </li>
-                <li className="flex items-center">
-                  <div className="w-6 h-6 border-2 border-blue-400 rounded-full flex items-center justify-center mr-4">
-                    <svg className="w-3 h-3 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
-                  <span>Automated scheduling and posting</span>
-                </li>
-              </ul>
-              <a 
-                href="https://feedopro.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="inline-block px-8 py-4 border-2 border-blue-500 text-blue-400 rounded-full font-semibold text-lg hover:bg-blue-500 hover:text-white transition-all duration-300"
-              >
-                Try Feedo Now
-              </a>
+
+              <p className="text-white font-medium mb-8">
+                No hype. No recycled threads. Just signal.
+              </p>
+
+              {/* CTAs */}
+              <div className="flex flex-wrap gap-4 mb-6">
+                <a 
+                  href="https://cahns-newsletter.beehiiv.com/subscribe"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-6 py-3 bg-[#e64726] text-white rounded-sm font-medium hover:bg-[#e64726]/90 transition-colors inline-flex items-center gap-2"
+                >
+                  Join the Weekly Pulse
+                  <span>→</span>
+                </a>
+                <a 
+                  href="mailto:create@cahnstudios.com?subject=Contribute to The Pulse"
+                  className="px-6 py-3 bg-white/10 text-white rounded-sm font-medium hover:bg-white/20 transition-colors"
+                >
+                  Get Featured
+                </a>
+              </div>
+
+              <p className="text-white/40 text-sm">
+                For builders, creators, and educators working with AI.
+              </p>
             </div>
-            <div className="lg:w-1/2">
-              <div className="border-2 border-gray-700 rounded-lg p-8 bg-gray-800/50">
-                <div className="aspect-video border-2 border-gray-600 rounded-lg flex items-center justify-center">
-                  <svg className="w-16 h-16 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
+
+            {/* Right Column - Latest Issue Card (Dynamic) */}
+            <div className="bg-zinc-900/50 border border-white/10 rounded-sm p-8">
+              <span className="text-white/50 text-xs font-medium tracking-wider uppercase mb-4 block">
+                LATEST ISSUE
+              </span>
+              
+              {loadingNewsletter ? (
+                <div className="animate-pulse">
+                  <div className="h-8 bg-white/10 rounded w-3/4 mb-8"></div>
+                  <div className="space-y-4">
+                    <div className="h-4 bg-white/10 rounded w-full"></div>
+                    <div className="h-4 bg-white/10 rounded w-5/6"></div>
+                    <div className="h-4 bg-white/10 rounded w-4/6"></div>
+                  </div>
                 </div>
+              ) : newsletter ? (
+                <div className="flex flex-col h-full">
+                  <h3 className="text-2xl md:text-3xl font-serif mb-4">
+                    {newsletter.title}
+                  </h3>
+
+                  {/* Scrollable content area */}
+                  {newsletter.contentPreview && newsletter.contentPreview.length > 0 && (
+                    <div className="flex-1 overflow-y-auto max-h-80 pr-2 mb-6 scrollbar-thin">
+                      <div className="space-y-4">
+                        {newsletter.contentPreview.map((paragraph, index) => (
+                          <p key={index} className="text-white/70 leading-relaxed">
+                            {paragraph}
+                          </p>
+                        ))}
+                      </div>
+                      {/* Fade out gradient at bottom */}
+                      <div className="sticky bottom-0 h-8 bg-gradient-to-t from-zinc-900/90 to-transparent pointer-events-none"></div>
+                    </div>
+                  )}
+
+                  <a 
+                    href={newsletter.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-[#e64726] text-white rounded-sm font-medium hover:bg-[#e64726]/90 transition-colors w-full sm:w-auto"
+                  >
+                    Read full newsletter here <span>→</span>
+                  </a>
+                </div>
+              ) : (
+                <>
+                  <h3 className="text-2xl md:text-3xl font-serif mb-8">
+                    The Tools That Actually Ship
+                  </h3>
+                  <ul className="space-y-4">
+                    <li className="flex items-start gap-3">
+                      <span className="text-[#e64726] mt-1">→</span>
+                      <span className="text-white/70">Why most AI tools fail creative teams</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="text-[#e64726] mt-1">→</span>
+                      <span className="text-white/70">Our Sora workflow, documented</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="text-[#e64726] mt-1">→</span>
+                      <span className="text-white/70">3 prompts that changed our output</span>
+                    </li>
+                  </ul>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. Selected Work / Experiments Section */}
+      <section id="work" className="py-24 px-6 bg-black">
+        <div className="max-w-7xl mx-auto">
+          <span className="text-white/50 text-sm font-medium tracking-wider uppercase mb-6 block">
+            SELECTED WORK
+          </span>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif mb-16">
+            Experiments & <em className="italic text-[#e64726]">Outcomes</em>
+          </h2>
+
+          {/* Featured Image */}
+          <div className="aspect-[16/9] bg-gradient-to-br from-teal-900/50 to-teal-800/30 rounded-sm mb-8 overflow-hidden relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-teal-900 to-cyan-900 opacity-50"></div>
+          </div>
+
+          {/* Work Items */}
+          <div className="space-y-0">
+            {/* Item 1 */}
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 py-8 border-t border-white/10 items-start md:items-center">
+              <div className="md:col-span-2">
+                <span className="text-white/50 text-xs font-medium tracking-wider uppercase">AI FILM</span>
+              </div>
+              <div className="md:col-span-4">
+                <h3 className="text-2xl md:text-3xl font-serif text-[#e64726]">Echoes of Tomorrow</h3>
+              </div>
+              <div className="md:col-span-6">
+                <p className="text-white/60">A short film exploring memory and AI consciousness. Created entirely with generative tools.</p>
+              </div>
+            </div>
+
+            {/* Item 2 */}
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 py-8 border-t border-white/10 items-start md:items-center">
+              <div className="md:col-span-2">
+                <span className="text-white/50 text-xs font-medium tracking-wider uppercase">CONTENT STRATEGY</span>
+              </div>
+              <div className="md:col-span-4">
+                <h3 className="text-2xl md:text-3xl font-serif">Brand Voice Engine</h3>
+              </div>
+              <div className="md:col-span-6">
+                <p className="text-white/60">Scalable content system for a D2C brand. 10x output without losing authenticity.</p>
+              </div>
+            </div>
+
+            {/* Item 3 */}
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 py-8 border-t border-b border-white/10 items-start md:items-center">
+              <div className="md:col-span-2">
+                <span className="text-white/50 text-xs font-medium tracking-wider uppercase">RESEARCH</span>
+              </div>
+              <div className="md:col-span-4">
+                <h3 className="text-2xl md:text-3xl font-serif text-[#e64726]">The Learning Loop</h3>
+              </div>
+              <div className="md:col-span-6">
+                <p className="text-white/60">How creative teams actually adopt AI. 50 interviews, one framework.</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Section 4: Webinars & Events */}
-      <section id="webinars" className="py-20 bg-gray-900">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">Webinars & Events</h2>
-            <p className="text-xl text-gray-300">
-              Join our educational sessions and learn from industry experts.
-            </p>
+      {/* 6. Education / Game Teaser Section */}
+      <section id="learning" className="py-24 px-6 bg-zinc-950">
+        <div className="max-w-4xl mx-auto text-center">
+          {/* Icon */}
+          <div className="w-16 h-16 bg-[#31af9c] rounded-2xl flex items-center justify-center mx-auto mb-8">
+            <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+            </svg>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="border-2 border-gray-700 rounded-lg p-8 bg-gray-800/50">
-              <div className="mb-6">
-                <span className="border border-red-500 text-red-400 px-3 py-1 rounded-full text-sm font-medium">Done</span>
-              </div>
-              <h3 className="text-2xl font-semibold mb-4">AI for Creators Webinar</h3>
-              <p className="text-gray-300 mb-6">
-                Learn how to leverage AI tools for content creation, marketing, and business growth.
-              </p>
-              <div className="flex flex-col gap-2 mb-6">
-                <span className="text-sm text-gray-400">📅 June 21-22, 2025</span>
-                <span className="text-sm text-gray-400">🕒 7:30 PM - 9:30 PM IST</span>
-              </div>
-              <btn 
-                href="/course" 
-                className="px-6 py-3 border-2 border-gray-600 text-gray-400 rounded-lg font-semibold hover:border-gray-500 hover:text-gray-300 transition-colors"
-              >
-                Get Course
-              </btn>
-            </div>
-
-            <div className="border-2 border-gray-700 rounded-lg p-8 bg-gray-800/50">
-              <div className="mb-6">
-                <span className="border border-blue-500 text-blue-400 px-3 py-1 rounded-full text-sm font-medium">Coming Soon</span>
-              </div>
-              <h3 className="text-2xl font-semibold mb-4">Advanced AI Automation</h3>
-              <p className="text-gray-300 mb-6">
-                Deep dive into automation strategies that can transform your business operations.
-              </p>
-              <div className="flex flex-col gap-2 mb-6">
-                <span className="text-sm text-gray-400">📅 TBA</span>
-                <span className="text-sm text-gray-400">🕒 TBA</span>
-              </div>
-              <a href="https://cahns-newsletter.beehiiv.com/subscribe"
-                 className="inline-block px-6 py-3 border-2 border-blue-500 text-blue-400 rounded-lg font-semibold hover:bg-blue-500 hover:text-white transition-all duration-300">
-                Get Notified
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Section 5: About Us */}
-      <section id="about" className="py-20 bg-gray-950">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">About Us</h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              We are a team of passionate creators, technologists, and innovators dedicated to democratizing AI for everyone.
-            </p>
-          </div>
-
-          <div className="flex justify-center">
-            <div className="w-full max-w-3xl">
-              <div className="text-center">
-                <h3 className="text-3xl font-semibold mb-6">Our Mission</h3>
-                <p className="text-lg text-gray-300 mb-6">
-                  To empower creators and businesses with accessible AI tools that enhance creativity, productivity, and growth. 
-                  We believe that AI should amplify human potential, not replace it.
-                </p>
-              </div>
-              <div className="grid grid-cols-2 gap-8 mt-8">
-                <div className="text-center border border-gray-700 rounded-lg p-4">
-                  <div className="text-3xl font-bold text-blue-400 mb-2">500+</div>
-                  <div className="text-gray-300">Creators Empowered</div>
-                </div>
-                <div className="text-center border border-gray-700 rounded-lg p-4">
-                  <div className="text-3xl font-bold text-blue-400 mb-2">50+</div>
-                  <div className="text-gray-300">AI Tools Mastered</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h3 className="text-3xl font-semibold mb-6">Our Mission</h3>
-              <p className="text-lg text-gray-300 mb-6">
-                To empower creators and businesses with accessible AI tools that enhance creativity, productivity, and growth. 
-                We believe that AI should amplify human potential, not replace it.
-              </p>
-              <div className="grid grid-cols-2 gap-8">
-                <div className="text-center border border-gray-700 rounded-lg p-4">
-                  <div className="text-3xl font-bold text-blue-400 mb-2">500+</div>
-                  <div className="text-gray-300">Creators Empowered</div>
-                </div>
-                <div className="text-center border border-gray-700 rounded-lg p-4">
-                  <div className="text-3xl font-bold text-blue-400 mb-2">50+</div>
-                  <div className="text-gray-300">AI Tools Mastered</div>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div className="border-2 border-gray-700 rounded-lg p-8 bg-gray-800/50">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="aspect-square border-2 border-gray-600 rounded-lg flex items-center justify-center">
-                    <svg className="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-                    </svg>
-                  </div>
-                  <div className="aspect-square border-2 border-gray-600 rounded-lg flex items-center justify-center">
-                    <svg className="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                    </svg>
-                  </div>
-                  <div className="aspect-square border-2 border-gray-600 rounded-lg flex items-center justify-center">
-                    <svg className="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                  </div>
-                  <div className="aspect-square border-2 border-gray-600 rounded-lg flex items-center justify-center">
-                    <svg className="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> */}
-        </div>
-      </section>
-
-      {/* Section 6: Why We Do It */}
-      <section id="why" className="py-20 bg-gray-900">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">Why We Do It</h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Our passion drives us to bridge the gap between complex AI technology and practical creative applications.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="text-center border-2 border-gray-700 rounded-lg p-8 bg-gray-800/50 hover:border-blue-500 transition-colors duration-300">
-              <div className="w-24 h-24 border-2 border-blue-500 rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg className="w-10 h-10 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-semibold mb-4">Empower Creators</h3>
-              <p className="text-gray-300">
-                We believe every creator deserves access to powerful tools that amplify their unique voice and vision.
-              </p>
-            </div>
-
-            <div className="text-center border-2 border-gray-700 rounded-lg p-8 bg-gray-800/50 hover:border-blue-500 transition-colors duration-300">
-              <div className="w-24 h-24 border-2 border-blue-500 rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg className="w-10 h-10 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-semibold mb-4">Democratize AI</h3>
-              <p className="text-gray-300">
-                Making advanced AI technology accessible and understandable for creators of all skill levels.
-              </p>
-            </div>
-
-            <div className="text-center border-2 border-gray-700 rounded-lg p-8 bg-gray-800/50 hover:border-blue-500 transition-colors duration-300">
-              <div className="w-24 h-24 border-2 border-blue-500 rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg className="w-10 h-10 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-semibold mb-4">Foster Innovation</h3>
-              <p className="text-gray-300">
-                Encouraging creative experimentation and pushing the boundaries of what's possible with AI.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Section 7: How We Do It */}
-      <section id="how" className="py-20 bg-gray-950 text-center">
-        <div className="max-w-8xl mx-auto px-12">
-          <div className="mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">How We Do It</h2>
-            <p className="text-xl text-gray-300 max-w-8xl mx-auto">
-              In an era where AI raises as many questions as it answers, our approach centers on building trust through transparency, expertise, and human-centered design.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <div className="border-2 border-gray-700 rounded-lg p-8">
-              <div className="mb-6">
-                <svg className="w-12 h-12 text-blue-400 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5-6v6a7 7 0 11-14 0V6a7 7 0 1114 0z" />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-semibold mb-4">Trust & Safety by Design</h3>
-              <p className="text-gray-300">
-                Every solution we build integrates ethical guardrails and safety protocols from inception, not as afterthoughts. Your data, brand voice, and audiences are protected at every step.
-              </p>
-            </div>
-
-            <div className="border-2 border-gray-700 rounded-lg p-8">
-              <div className="mb-6">
-                <svg className="w-12 h-12 text-blue-400 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-semibold mb-4">Responsible AI Development</h3>
-              <p className="text-gray-300">
-                Our neuroscience background informs our ethical approach to AI—we rigorously test against biases, ensure data privacy, and maintain human oversight where it matters most.
-              </p>
-            </div>
-
-            <div className="border-2 border-gray-700 rounded-lg p-8">
-              <div className="mb-6">
-                <svg className="w-12 h-12 text-blue-400 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-semibold mb-4">Transparent Partnership</h3>
-              <p className="text-gray-300">
-                We demystify AI by involving you in every stage—explaining our processes, providing education, and ensuring you maintain control and ownership of your creative vision.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Section 8: Get In Touch */}
-      <section id="contact" className="py-20 bg-gray-900">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">Get In Touch</h2>
-          <p className="text-xl text-gray-300 mb-12">
-            Ready to transform your creative process with AI? Let's start the conversation.
+          <span className="text-[#31af9c] text-sm font-medium tracking-wider uppercase mb-4 block">
+            COMING SOON
+          </span>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif mb-6">
+            Learn AI the <em className="italic">playful</em> way
+          </h2>
+          <p className="text-white/60 text-lg mb-10 max-w-2xl mx-auto">
+            A gamified learning platform that makes AI accessible. Short challenges. Real outcomes. Built for creative minds who want to ship, not study.
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-            <div className="text-center border-2 border-gray-700 rounded-lg p-6 bg-gray-800/50">
-              <div className="w-16 h-16 border-2 border-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Email Us</h3>
-              <p className="text-gray-300">hello@cahnstudios.com</p>
-            </div>
-
-            <div className="text-center border-2 border-gray-700 rounded-lg p-6 bg-gray-800/50">
-              <div className="w-16 h-16 border-2 border-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Chat With Us</h3>
-              <p className="text-gray-300">Live support available</p>
-            </div>
-
-            <div className="text-center border-2 border-gray-700 rounded-lg p-6 bg-gray-800/50">
-              <div className="w-16 h-16 border-2 border-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2M7 4h10l-1 16H8L7 4zM10 7v8m4-8v8" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Follow Us</h3>
-              <p className="text-gray-300">@cahnstudios</p>
-            </div>
+          {/* CTAs */}
+          <div className="flex flex-wrap gap-4 justify-center mb-12">
+            <a 
+              href="/course"
+              className="px-8 py-4 bg-[#31af9c] text-white rounded-sm font-medium hover:bg-[#31af9c]/90 transition-colors"
+            >
+              Join the Beta
+            </a>
+            <a 
+              href="#"
+              className="px-8 py-4 bg-white/10 text-white rounded-sm font-medium hover:bg-white/20 transition-colors"
+            >
+              Explore Learning
+            </a>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a 
-              href="/contact" 
-              className="px-8 py-4 border-2 border-blue-500 text-blue-400 rounded-full font-semibold text-lg hover:bg-blue-500 hover:text-white transition-all duration-300"
-            >
-              Prompt Us
-            </a>
-            {/* <a 
-              href="/webinar" 
-              className="px-8 py-4 border-2 border-gray-400 text-gray-300 rounded-full font-semibold text-lg hover:border-white hover:text-white transition-all duration-300"
-            >
-              Join Our Webinar
-            </a> */}
+          {/* Stats */}
+          <div className="flex justify-center gap-12 md:gap-16 pt-8 border-t border-white/10">
+            <div className="text-center">
+              <div className="text-3xl font-serif mb-1">12</div>
+              <div className="text-white/50 text-sm">learning tracks</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-serif mb-1">50+</div>
+              <div className="text-white/50 text-sm">challenges</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-serif mb-1">Beta</div>
+              <div className="text-white/50 text-sm">Q1 2025</div>
+            </div>
           </div>
         </div>
       </section>
@@ -530,4 +407,4 @@ const Home = () => {
   );
 };
 
-export default Home; 
+export default Home;

@@ -1,29 +1,9 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import SellCourseForm from "./SellCourseForm";
 
 const Course = () => {
   const [openFAQ, setOpenFAQ] = useState(null);
   const faqRefs = useRef([]);
-
-  /* Make the “Continue to Payment” button inside SellCourseForm dark‑blue gradient */
-  useEffect(() => {
-    // Slight delay to ensure SellCourseForm has rendered
-    const id = setTimeout(() => {
-      const btn = document.querySelector("button[type='submit']");
-      if (btn) {
-        btn.classList.add(
-          "bg-gradient-to-r",
-          "from-blue-700",
-          "to-indigo-800",
-          "text-white",
-          "hover:from-blue-600",
-          "hover:to-indigo-700",
-          "border-0"
-        );
-      }
-    }, 100);
-    return () => clearTimeout(id);
-  }, []);
 
   const scrollToSection = (id) => {
     const el = document.getElementById(id);
@@ -39,7 +19,7 @@ const Course = () => {
     },
     {
       title: "Prompt Engineering Secrets",
-      copy: "Steal proven prompt frameworks that unlock jaw‑dropping results — even if you’re new to generative AI.",
+      copy: "Steal proven prompt frameworks that unlock jaw‑dropping results — even if you're new to generative AI.",
     },
     {
       title: "Scale & Monetize Fast",
@@ -63,34 +43,44 @@ const Course = () => {
   ];
 
   return (
-    <>
-      {/* Showcase – full screen */}
+    <div className="min-h-screen bg-black text-white">
+      {/* Hero Section */}
       <section
         id="home"
-        className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-950 via-gray-900 to-gray-800"
+        className="relative min-h-screen flex items-center justify-center bg-black"
       >
-        <div className="absolute inset-0 bg-black/40"></div>
-        <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight text-white">
+        <div className="relative z-10 text-center max-w-4xl mx-auto px-6 py-20">
+          {/* Icon */}
+          <div className="w-16 h-16 bg-[#31af9c] rounded-2xl flex items-center justify-center mx-auto mb-8">
+            <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+            </svg>
+          </div>
+
+          <span className="text-[#31af9c] text-sm font-medium tracking-wider uppercase mb-4 block">
+            AI CONTENT COURSE
+          </span>
+
+          <h1 className="text-5xl md:text-7xl font-serif mb-6 leading-tight">
             AI‑Powered{' '}
-            <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-              Content Creation{' '}
-            </span>
+            <em className="italic">Content Creation</em>{' '}
             Course
           </h1>
-          <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl mx-auto">
-            Get the <strong>full recordings</strong> of our sold‑out webinars and learn proven AI workflows to level‑up your content and business growth.
+
+          <p className="text-xl md:text-2xl text-white/60 mb-10 max-w-2xl mx-auto">
+            Get the <span className="text-white">full recordings</span> of our sold‑out webinars and learn proven AI workflows to level‑up your content and business growth.
           </p>
+
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
               onClick={() => scrollToSection('learn')}
-              className="px-8 py-4 border-2 border-gray-400 text-gray-300 rounded-full font-semibold text-lg hover:border-white hover:text-white transition-all"
+              className="px-8 py-4 bg-white/10 text-white rounded-sm font-medium hover:bg-white/20 transition-colors"
             >
               What You'll Learn
             </button>
             <button
               onClick={() => scrollToSection('buy')}
-              className="px-8 py-4 border-2 border-blue-500 text-blue-400 rounded-full font-semibold text-lg hover:bg-blue-500 hover:text-white transition-all hover:-translate-y-1"
+              className="px-8 py-4 bg-[#e64726] text-white rounded-sm font-medium hover:bg-[#e64726]/90 transition-colors"
             >
               Buy Recordings
             </button>
@@ -98,60 +88,75 @@ const Course = () => {
         </div>
       </section>
 
-      {/* Learn – bigger fancy cards */}
-      <section id="learn" className="bg-white min-h-screen flex items-center py-20">
-        <div className="max-w-6xl mx-auto px-6 w-full">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-14 text-center">
+      {/* What You'll Learn Section */}
+      <section id="learn" className="bg-zinc-950 py-24 px-6">
+        <div className="max-w-7xl mx-auto">
+          <span className="text-white/50 text-sm font-medium tracking-wider uppercase mb-6 block">
+            CURRICULUM
+          </span>
+          <h2 className="text-4xl md:text-5xl font-serif mb-16">
             What You'll Learn
           </h2>
+
           <div className="grid gap-8 md:grid-cols-3">
             {features.map((f, i) => (
               <div
                 key={i}
-                className="relative p-8 md:p-10 bg-gradient-to-br from-blue-50 to-white rounded-3xl shadow-xl border border-blue-100 hover:shadow-2xl transition-all"
+                className="p-8 bg-white/5 border border-white/10 rounded-sm hover:border-white/20 transition-all"
               >
-                <h3 className="text-2xl font-semibold text-gray-800 mb-4">
+                <h3 className="text-xl font-semibold mb-4">
                   {f.title}
                 </h3>
-                <p className="text-gray-700 leading-relaxed">
+                <p className="text-white/60 leading-relaxed">
                   {f.copy}
                 </p>
-                <span className="absolute -top-4 -right-4 w-14 h-14 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full opacity-20"></span>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Buy – price callout */}
-      <section id="buy" className="bg-gray-100 py-20">
-        <div className="max-w-3xl mx-auto px-6 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+      {/* Buy Section */}
+      <section id="buy" className="bg-black py-24 px-6 border-t border-white/10">
+        <div className="max-w-3xl mx-auto text-center mb-12">
+          <span className="text-[#e64726] text-sm font-medium tracking-wider uppercase mb-6 block">
+            GET STARTED
+          </span>
+          <h2 className="text-4xl md:text-5xl font-serif mb-4">
             Get Instant Access
           </h2>
-          <p className="text-lg text-gray-600">
+          <p className="text-lg text-white/60">
             One‑time payment • No subscription fees
           </p>
         </div>
-        <SellCourseForm />
+        <div className="max-w-xl mx-auto">
+          <SellCourseForm />
+        </div>
       </section>
 
-      {/* FAQ */}
-      <section id="faq" className="bg-white py-20">
-        <div className="max-w-4xl mx-auto px-6">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-10 text-center">
+      {/* FAQ Section */}
+      <section id="faq" className="bg-zinc-950 py-24 px-6">
+        <div className="max-w-3xl mx-auto">
+          <span className="text-white/50 text-sm font-medium tracking-wider uppercase mb-6 block">
+            FAQ
+          </span>
+          <h2 className="text-4xl md:text-5xl font-serif mb-12">
             Frequently Asked Questions
           </h2>
+
           <div className="space-y-4">
             {faqs.map((f, idx) => (
-              <div key={idx} className="border rounded-lg">
+              <div 
+                key={idx} 
+                className="border border-white/10 rounded-sm overflow-hidden"
+              >
                 <button
-                  className="w-full flex justify-between items-center p-5 text-left"
+                  className="w-full flex justify-between items-center p-6 text-left hover:bg-white/5 transition-colors"
                   onClick={() => toggleFAQ(idx)}
                 >
-                  <span className="font-medium text-gray-800 text-lg">{f.q}</span>
+                  <span className="font-medium text-lg">{f.q}</span>
                   <svg
-                    className={`w-6 h-6 transform transition-transform ${openFAQ === idx ? 'rotate-180' : ''}`}
+                    className={`w-5 h-5 text-white/50 transform transition-transform ${openFAQ === idx ? 'rotate-180' : ''}`}
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -165,16 +170,16 @@ const Course = () => {
                     maxHeight:
                       openFAQ === idx ? faqRefs.current[idx]?.scrollHeight + 'px' : '0px',
                   }}
-                  className="overflow-hidden transition-all duration-300 px-5 text-gray-700"
+                  className="overflow-hidden transition-all duration-300"
                 >
-                  <p className="py-5 leading-relaxed">{f.a}</p>
+                  <p className="px-6 pb-6 text-white/60 leading-relaxed">{f.a}</p>
                 </div>
               </div>
             ))}
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 };
 

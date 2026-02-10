@@ -6,6 +6,8 @@ const cors = require('cors');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const nodemailer = require('nodemailer');
 const Razorpay = require("razorpay");
+const newsletterRoutes = require('./routes/newsletterRoutes');
+const consultationRoutes = require('./routes/consultationRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -134,6 +136,8 @@ app.post(
 
 /* Apply JSON parsing AFTER the webhook endpoint */
 app.use(express.json());
+app.use('/api/newsletter', newsletterRoutes);
+app.use('/api/consultation', consultationRoutes);
 
 /* Nodemailer transporter (Gmail) */
 const transporter = nodemailer.createTransport({
